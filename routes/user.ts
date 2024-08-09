@@ -1,49 +1,19 @@
-var express = require("express");
+import express from "express";
 var router = express.Router();
-// const { v4: uuidv4 } = require('uuid');
+import userRegister from "../controllers/user/userRegister";
 
-type User = {
-  name: string,
-  email: string,
-  phoneNo: string,
-  password: string
-}
-var usersDB : Array<User> = [];
-
-
+///////
 
 /* GET users listing. */
-router.get("/", function (req, res, next) {
-  console.log("hello user/");
-  res.json(usersDB);
+router.get("/", async function (req: any, res: any, next: any) {
+  res.json({ message: "hello" });
 });
-
 
 //update user profile data name, phoneNo
 
-
 //register user
-router.put("/userRegister", (req, res) => {
-  const { name, email, phoneNo, password } = req.body;
-
-  
-
-  if (!name || !email || !phoneNo || !password) {
-    res.status(400);
-    res.json({ message: "BAD request" });
-  } else {
-    const user: User = {
-      email: email,
-      phoneNo: phoneNo,
-      name: name,
-      password: password
-    }
-    
-
-
-    usersDB.push(user);
-    res.json({ message: `User created with email ${email}` });
-  }
+router.put("/userRegister", async (req: any, res: any) => {
+  await userRegister(req, res);
 });
 
 module.exports = router;

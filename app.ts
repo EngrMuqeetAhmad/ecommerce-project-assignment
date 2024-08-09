@@ -51,7 +51,7 @@ app.use("/user", usersRouter);
 
 
 
-app.listen(PORT, (err) => {
+app.listen(PORT, (err: any) => {
   if (err) {
     console.log(`there is an error ${err.message}`);
   } else {
