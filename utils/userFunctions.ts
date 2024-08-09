@@ -1,10 +1,23 @@
-import sql from "mssql";
+type QueryResult = {
+  success: boolean;
+  data: {
+    rowsAffected: number;
+    recordSet: any;
+  };
+};
 
 async function queryInDatabase(
   query: string,
   params: any | object,
   dbConnectionPool: any | undefined
-) {
+): Promise<QueryResult> {
+  let result: QueryResult = {
+    success: false,
+    data: {
+      rowsAffected: 0,
+      recordSet: undefined,
+    },
+  };
   try {
     const request: any = await dbConnectionPool?.request();
 
@@ -15,13 +28,21 @@ async function queryInDatabase(
 
     const queryResult: any = await request?.query(query);
 
-    console.log(`create Query Result ${queryResult?.recordSet}`);
-    return true;
+    result = {
+      success: true,
+      data: {
+        rowsAffected: queryResult?.rowsAffected,
+        recordSet: queryResult?.recordset,
+      },
+    };
+
+    console.log("result: ", result);
+    return result;
   } catch (error) {
     console.log(`Error create query the database ${error}`);
-    return false;
+    console.log("result: ", result);
+    return result;
   }
 }
 
-
-export { queryInDatabase };
+export { queryInDatabase, QueryResult };
