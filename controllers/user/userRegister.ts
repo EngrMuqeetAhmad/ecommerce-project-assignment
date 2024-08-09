@@ -1,6 +1,6 @@
 import { connectToDatabase } from "../../config/dbConnection";
 import { v4 as uuid } from "uuid";
-import { queryInDatabase, QueryResult } from "../../utils/userFunctions";
+import { queryInDatabase, QueryResult } from "../../utils/queryInDatabase";
 import { hashString } from "../../utils/passwordHashednSalated";
 import sql from "mssql";
 import userExists from "./validations/userExists";
@@ -46,7 +46,7 @@ async function userRegister(req: any, res: any) {
     const emailRegistered: QueryResult = await userExists(email);
     if (emailRegistered?.data.rowsAffected != 0 ? true : false) {
       res.json({ message: "user already exists with given email ID" });
-      return
+      return;
     }
     /////
     const UserID: string = uuid();
@@ -105,10 +105,9 @@ async function userRegister(req: any, res: any) {
   first it will create in database the given phoneNumber of user then creates the user table - it is because user has separate table to store it phone Number details
   if there is an error in creation of user information table in DB then it will remove the phone Number created so No data redundancy remains in DB
 */
+    const pool: object | undefined | any = await connectToDatabase();
 
     try {
-      const pool: object | undefined = await connectToDatabase();
-
       const queryCreatePhoneNo = `INSERT INTO userPhoneNumber (ID, userID, countryCode, phoneNumber) VALUES (@ID, @userID, @countryCode, @phoneNo)`;
 
       const createUserPhoneNoResult: QueryResult = await queryInDatabase(
@@ -131,16 +130,19 @@ async function userRegister(req: any, res: any) {
             res.json({
               message: `user creation failed`,
             });
-            return
+            await pool?.close();
+            return;
           }
 
           res.json({
             message: `user created with email ${createUserPhoneNoResult}`,
           });
-          return
+          await pool?.close();
+          return;
         } catch (error) {
           res.json({ message: `user creation failed` });
-          return
+          await pool?.close();
+          return;
         }
       } else {
         try {
@@ -172,21 +174,25 @@ async function userRegister(req: any, res: any) {
             res.json({
               message: `phoneNumber deletion failed`,
             });
-            return
+            await pool?.close();
+            return;
           }
 
           res.json({
             message: `phoneNumber delted ${deletePhoneNoResult}`,
           });
-          return
+          await pool?.close();
+          return;
         } catch (error) {
           res.json({ message: `phoneNumber deletion failed` });
-          return
+          await pool?.close();
+          return;
         }
       }
     } catch (error) {
       res.json({ message: `userPhoneNumber creation failed` });
-      return
+      await pool?.close();
+      return;
     }
   }
 }
