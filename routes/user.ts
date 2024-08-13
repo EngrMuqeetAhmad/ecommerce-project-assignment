@@ -9,11 +9,16 @@ import { getUser } from "../controllers/user/getUser";
 import { getUserPhoneInfo } from "../controllers/user/getUserPhoneInfo";
 import { emailForVerification } from "../controllers/user/validations/emailForVerification";
 import { validateEmail } from "../controllers/user/validations/verifyEmailFnc";
+import userPasswordUpdate from "../controllers/user/resetPassword";
 ///////
 
-//forget password, email verification , shippind address add/update/delete,, payment method add/update/delete
+//forget password,  shippind address add/update/delete,, payment method add/update/delete
+router.post("/resetPassword", async (req: any, res: any) => {
+  await userPasswordUpdate(req, res);
+});
 
 /* GET users listing. */
+
 router.get("/protected/getUser", validateToken, async (req: any, res: any) => {
   await getUser(req, res);
 });
@@ -63,7 +68,7 @@ router.put(
   }
 );
 
-router.get("verify-email", async (req: any, res: any) => {
+router.get("/verify-email", async (req: any, res: any) => {
   await validateEmail(req, res);
 });
 

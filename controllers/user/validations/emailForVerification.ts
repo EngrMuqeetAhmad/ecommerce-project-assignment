@@ -11,10 +11,8 @@ async function emailForVerification(req: any, res: any) {
     { email: email, password: password }, // Payload
     "MuqeetAhmad" // Secret key
   );
+  console.log(token);
 
-  console.log(process.env.EMAIL, process.env.EMAIL_PASS);
-
-  // Send the verification email
   const transporter = nodemailer.createTransport({
     service: "Gmail",
     port: 465, // or 465 for SSL
@@ -41,6 +39,7 @@ async function emailForVerification(req: any, res: any) {
     await transporter.sendMail(mailOptions);
     console.log("verification email sent");
     res.status(200).json({ message: "Verification email sent!" });
+
     return;
   } catch (error) {
     console.log("verification email error", error);
