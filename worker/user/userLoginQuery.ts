@@ -27,6 +27,7 @@ async function queryLoginInDatabase(
 
     const queryResult: any = await request?.query(query);
 
+   
     let token: string;
 
     try {
@@ -34,8 +35,8 @@ async function queryLoginInDatabase(
 
       token = jwt.sign(
         {
-          ID: queryResult?.recordset.ID,
-          userEmail: queryResult?.recordset.userEmail,
+          ID: queryResult?.recordset[0].ID,
+          email: queryResult?.recordset[0].userEmail,
         },
         SECRET
       );

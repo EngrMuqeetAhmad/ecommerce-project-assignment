@@ -5,19 +5,17 @@ import userExists from "../controllers/user/validations/userExists";
 import userLogin from "../controllers/user/userLogin";
 import jwt from "jsonwebtoken";
 import { validateToken } from "../utils/validateToken";
+import { getUser } from "../controllers/user/getUser";
 ///////
 
 /* GET users listing. */
-router.get("/getUser", async function (req: any, res: any, next: any) {
-
-
-  const isTokenValid = validateToken(req.headers.authorization?.split(" ")[1]);
-
-  res.status(200).json({
-    message: isTokenValid,
-    data: { userId: "id", email: "email" },
-  });
-});
+router.get(
+  "/protected/getUser",
+  validateToken,
+  async  (req: any, res: any) => {
+    await getUser(req, res);
+  }
+);
 
 //login User
 

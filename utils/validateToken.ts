@@ -1,23 +1,20 @@
 import jwt from "jsonwebtoken";
 
-function validateToken(token: string): string {
+function validateToken(req: any, res: any, next: any) {
+  const token = req.header("Authorization");
+
   if (!token) {
-    return "No token provided";
+    return res.status(401).json({ error: "Unauthorized" });
   }
-  //Decoding the toke;n
 
-  try {
-    jwt.verify(token, "MuqeetAhmad");
+  jwt.verify(token.split(" ")[1], "MuqeetAhmad", (err: any, user: any) => {
+    if (err) {
+      return res.status(403).json({ error: "Forbidden" });
+    }
 
-    console.log("token verified");
-    return "true";
-  } catch (error) {
-    console.log("error verifying token");
-    return "false";
-  }
+    req.user = user;
+    next();
+  });
 }
 
-
-export {
-    validateToken
-}
+export { validateToken };
