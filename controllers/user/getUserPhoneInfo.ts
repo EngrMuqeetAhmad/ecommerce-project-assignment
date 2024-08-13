@@ -3,9 +3,9 @@ import { connectToDatabase } from "../../config/dbConnection";
 
 import { queryInDatabase, QueryResult } from "../../utils/queryInDatabase";
 
-async function getUser(req: any, res: any) {
+async function getUserPhoneInfo(req: any, res: any) {
   const { email, ID } = req.user;
-  console.log("get user req",req.user);
+  console.log("get user req", req.user);
 
   //validation:
   if (!email || !ID) {
@@ -14,29 +14,28 @@ async function getUser(req: any, res: any) {
   } else {
     const pool: object | undefined | any = await connectToDatabase();
 
-    const queryGetUser =
-      "SELECT ID, userFirstName, userSecondName, userEmail, userPhoneNoID FROM userTable WHERE userEmail = @userEmail AND ID = @ID";
+    const queryGetUserPhoneNo =
+      "SELECT ID, countryCode, phoneNumber FROM userPhoneNumber WHERE userID = @userID";
 
     const params = {
       userEmail: { value: email, type: sql.NVarChar },
-      ID: { value: ID, type: sql.Char },
     };
-    const resultQueryUser: QueryResult = await queryInDatabase(
-      queryGetUser,
+    const resultQueryGetUserPhoneNo: QueryResult = await queryInDatabase(
+      queryGetUserPhoneNo,
       params,
       pool
     );
 
-    if (resultQueryUser.data.rowsAffected == 0) {
+    if (resultQueryGetUserPhoneNo.data.rowsAffected == 0) {
       res.status(404).json({ message: "Failed", data: undefined });
       await pool?.close();
       return;
     }
 
-    res.status(200).json({ message: "OK", data: resultQueryUser });
+    res.status(200).json({ message: "OK", data: resultQueryGetUserPhoneNo });
     await pool?.close();
     return;
   }
 }
 
-export { getUser };
+export { getUserPhoneInfo };
