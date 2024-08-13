@@ -10,9 +10,35 @@ import { getUserPhoneInfo } from "../controllers/user/getUserPhoneInfo";
 import { emailForVerification } from "../controllers/user/validations/emailForVerification";
 import { validateEmail } from "../controllers/user/validations/verifyEmailFnc";
 import userPasswordUpdate from "../controllers/user/resetPassword";
+import { userAddShippingAddress } from "../controllers/user/addShippingAddress";
+import { userDeleteShippingAddress } from "../controllers/user/deleteShippingAddress";
 ///////
 
-//forget password,  shippind address add/update/delete,, payment method add/update/delete
+//  shippind address add/update/delete,, payment method add/update/delete, wish list add/delete
+
+router.put(
+  "/protected/addShippingAddress",
+  validateToken,
+  async (req: any, res: any) => {
+    await userAddShippingAddress(req, res);
+  }
+);
+
+router.post(
+  "/protected/updateShippingAddress",
+  validateToken,
+  async (req: any, res: any) => {
+    await userAddShippingAddress(req, res);
+  }
+);
+router.post(
+  "/protected/deleteShippingAddress",
+  validateToken,
+  async (req: any, res: any) => {
+    await userDeleteShippingAddress(req, res);
+  }
+);
+
 router.post("/resetPassword", async (req: any, res: any) => {
   await userPasswordUpdate(req, res);
 });
