@@ -1,7 +1,9 @@
 import { connectToDatabase } from "../../config/dbConnection";
+import { QueryResultLogin } from "../../types/userTypes";
 import { hashString } from "../../utils/passwordHashednSalated";
-import { queryInDatabase, QueryResult } from "../../utils/queryInDatabase";
 import sql from "mssql";
+import { queryLoginInDatabase } from "../../worker/user/userLoginQuery";
+
 async function userLogin(req: any, res: any) {
   const { email, password } = req.body;
 
@@ -20,13 +22,13 @@ async function userLogin(req: any, res: any) {
       userEmail: { value: email, type: sql.NVarChar },
       userPassword: { value: hashedPassword, type: sql.Char },
     };
-    const resultQueryUserLogin: QueryResult = await queryInDatabase(
+    const resultQueryUserLogin: QueryResultLogin = await queryLoginInDatabase(
       queryUserLogin,
       params,
       pool
     );
 
-    if (resultQueryUserLogin.success == false) {
+    if (resultQueryUserLogin.data.rowsAffected == 0) {
       res.status(404).json({ message: "Failed", data: undefined });
       await pool?.close();
       return;

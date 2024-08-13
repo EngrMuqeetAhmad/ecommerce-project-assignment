@@ -4,27 +4,9 @@ import { queryInDatabase, QueryResult } from "../../utils/queryInDatabase";
 import { hashString } from "../../utils/passwordHashednSalated";
 import sql from "mssql";
 import userExists from "./validations/userExists";
+import { Parameter, User, UserPhoneNO } from "../../types/userTypes";
 
-///defining types for incoming data
-type Parameter = {
-  value: string | number | boolean;
-  type: any;
-};
-type User = {
-  ID: Parameter;
-  userFirstName: Parameter;
-  userSecondName: Parameter;
-  userEmail: Parameter;
-  userPhoneNoID: Parameter;
-  userPassword: Parameter;
-};
 
-type UserPhoneNO = {
-  ID: Parameter;
-  userID: Parameter;
-  countryCode: Parameter;
-  phoneNo: Parameter;
-};
 
 async function userRegister(req: any, res: any) {
   const { firstName, secondName, email, countryCode, phoneNo, password } =

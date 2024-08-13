@@ -3,6 +3,7 @@ type QueryResult = {
   data: {
     rowsAffected: number;
     recordSet: any;
+   
   };
 };
 
@@ -16,6 +17,7 @@ async function queryInDatabase(
     data: {
       rowsAffected: 0,
       recordSet: undefined,
+      
     },
   };
   try {
@@ -33,6 +35,7 @@ async function queryInDatabase(
       data: {
         rowsAffected: queryResult?.rowsAffected,
         recordSet: queryResult?.recordset,
+        
       },
     };
 
