@@ -1,6 +1,6 @@
-import { connectToDatabase } from "../../config/dbConnection";
-import encryptSensitiveData from "../../utils/encryptSensitiveData";
-import { queryInDatabase, QueryResult } from "../../utils/queryInDatabase";
+import { connectToDatabase } from "../../../config/dbConnection";
+import encryptSensitiveData from "../../../utils/encryptSensitiveData";
+import { queryInDatabase, QueryResult } from "../../../utils/queryInDatabase";
 import jwt from "jsonwebtoken";
 import sql from "mssql";
 

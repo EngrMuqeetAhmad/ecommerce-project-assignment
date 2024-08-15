@@ -1,9 +1,9 @@
-import { connectToDatabase } from "../../config/dbConnection";
+import { connectToDatabase } from "../../../config/dbConnection";
 import { v4 as uuid } from "uuid";
-import { queryInDatabase, QueryResult } from "../../utils/queryInDatabase";
+import { queryInDatabase, QueryResult } from "../../../utils/queryInDatabase";
 import jwt from "jsonwebtoken";
 import sql from "mssql";
-import encryptSensitiveData from "../../utils/encryptSensitiveData";
+import encryptSensitiveData from "../../../utils/encryptSensitiveData";
 
 async function userAddPaymentInfo(req: any, res: any) {
   const { ID } = req.user;

@@ -1,6 +1,6 @@
-import { connectToDatabase } from "../../config/dbConnection";
+import { connectToDatabase } from "../../../config/dbConnection";
 import { v4 as uuid } from "uuid";
-import { queryInDatabase, QueryResult } from "../../utils/queryInDatabase";
+import { queryInDatabase, QueryResult } from "../../../utils/queryInDatabase";
 
 import sql from "mssql";
 

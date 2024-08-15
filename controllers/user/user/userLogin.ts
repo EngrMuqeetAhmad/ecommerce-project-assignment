@@ -1,8 +1,8 @@
-import { connectToDatabase } from "../../config/dbConnection";
-import { QueryResultLogin } from "../../types/userTypes";
-import { hashString } from "../../utils/passwordHashednSalated";
+import { connectToDatabase } from "../../../config/dbConnection";
+import { QueryResultLogin } from "../../../types/userTypes";
+import { hashString } from "../../../utils/passwordHashednSalated";
 import sql from "mssql";
-import { queryLoginInDatabase } from "../../worker/user/userLoginQuery";
+import { queryLoginInDatabase } from "../../../worker/user/userLoginQuery";
 
 async function userLogin(req: any, res: any) {
   const { email, password } = req.body;

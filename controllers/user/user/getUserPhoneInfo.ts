@@ -1,7 +1,7 @@
 import sql from "mssql";
-import { connectToDatabase } from "../../config/dbConnection";
+import { connectToDatabase } from "../../../config/dbConnection";
 
-import { queryInDatabase, QueryResult } from "../../utils/queryInDatabase";
+import { queryInDatabase, QueryResult } from "../../../utils/queryInDatabase";
 
 async function getUserPhoneInfo(req: any, res: any) {
   const { email, ID } = req.user;

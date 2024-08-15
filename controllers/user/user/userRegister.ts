@@ -1,10 +1,10 @@
-import { connectToDatabase } from "../../config/dbConnection";
+import { connectToDatabase } from "../../../config/dbConnection";
 import { v4 as uuid } from "uuid";
-import { queryInDatabase, QueryResult } from "../../utils/queryInDatabase";
-import { hashString } from "../../utils/passwordHashednSalated";
+import { queryInDatabase, QueryResult } from "../../../utils/queryInDatabase";
+import { hashString } from "../../../utils/passwordHashednSalated";
 import sql from "mssql";
-import userExists from "./validations/userExists";
-import { Parameter, User, UserPhoneNO } from "../../types/userTypes";
+import userExists from "./../validations/userExists";
+import { Parameter, User, UserPhoneNO } from "../../../types/userTypes";
 
 
 
