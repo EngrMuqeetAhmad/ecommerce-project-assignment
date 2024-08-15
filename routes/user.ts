@@ -20,10 +20,37 @@ import { getUserAllPaymentCardInfo } from "../controllers/user/paymentInfo/getAl
 import { userAddPaymentInfo } from "../controllers/user/paymentInfo/addPaymentInfo";
 import { userUpdatePaymentInfo } from "../controllers/user/paymentInfo/updatePaymentInfo";
 import { userDeletePaymentInfo } from "../controllers/user/paymentInfo/deletePaymentInfo";
+import { addWishProduct } from "../controllers/user/wishList/addUserWish";
+import { deleteWishProduct } from "../controllers/user/wishList/deleteUserWish";
+import { getAllWishProducts } from "../controllers/user/wishList/getAllWishProducts";
 ///////
 
 //  wish list add/delete
+router.post(
+  "/protected/deleteWish/:productID",
+  validateToken,
+  async (req: any, res: any) => {
+    await deleteWishProduct(req, res);
+  }
+);
 
+router.get(
+  "/protected/getAllWishProducts",
+  validateToken,
+  async (req: any, res: any) => {
+    await getAllWishProducts(req, res);
+  }
+);
+
+router.put(
+  "/protected/addWish/:productID",
+  validateToken,
+  async (req: any, res: any) => {
+    await addWishProduct(req, res);
+  }
+);
+
+///
 router.get(
   "/protected/getPaymentCardInfo/:paymentCardID",
   validateToken,

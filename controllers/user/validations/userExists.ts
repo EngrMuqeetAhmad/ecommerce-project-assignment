@@ -1,4 +1,4 @@
-import { NVarChar } from "mssql";
+import sql from "mssql";
 import { connectToDatabase } from "../../../config/dbConnection";
 import { queryInDatabase, QueryResult } from "../../../utils/queryInDatabase";
 
@@ -10,7 +10,7 @@ async function userExists(email: string): Promise<QueryResult> {
 
   const emailExistsResult: QueryResult = await queryInDatabase(
     queryReadEmail,
-    { userEmail: { value: email, type: NVarChar } },
+    { userEmail: { value: email, type: sql.NVarChar } },
     pool
   );
   await pool?.close()
