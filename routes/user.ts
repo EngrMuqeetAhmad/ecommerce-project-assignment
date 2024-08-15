@@ -12,9 +12,73 @@ import { validateEmail } from "../controllers/user/validations/verifyEmailFnc";
 import userPasswordUpdate from "../controllers/user/resetPassword";
 import { userAddShippingAddress } from "../controllers/user/addShippingAddress";
 import { userDeleteShippingAddress } from "../controllers/user/deleteShippingAddress";
+import { userUpdateShippingAddress } from "../controllers/user/updateShippingAddress";
+import { getUserShippingAddress } from "../controllers/user/getShippingAddress";
+import { getUserAllShippingAddress } from "../controllers/user/getAllShippingAddress";
+import { getUserPaymentCardInfo } from "../controllers/user/getPaymentInfo";
+import { getUserAllPaymentCardInfo } from "../controllers/user/getAllPaymentCardsInfo";
+import { userAddPaymentInfo } from "../controllers/user/addPaymentInfo";
+import { userUpdatePaymentInfo } from "../controllers/user/updatePaymentInfo";
+import { userDeletePaymentInfo } from "../controllers/user/deletePaymentInfo";
 ///////
 
-//  shippind address add/update/delete,, payment method add/update/delete, wish list add/delete
+//  wish list add/delete
+
+router.get(
+  "/protected/getPaymentCardInfo/:paymentCardID",
+  validateToken,
+  async (req: any, res: any) => {
+    await getUserPaymentCardInfo(req, res);
+  }
+);
+
+router.get(
+  "/protected/getUserAllPaymentCardsInfo/",
+  validateToken,
+  async (req: any, res: any) => {
+    await getUserAllPaymentCardInfo(req, res);
+  }
+);
+
+router.put(
+  "/protected/addPaymentInfo",
+  validateToken,
+  async (req: any, res: any) => {
+    await userAddPaymentInfo(req, res);
+  }
+);
+
+router.post(
+  "/protected/updatePaymentInfo",
+  validateToken,
+  async (req: any, res: any) => {
+    await userUpdatePaymentInfo(req, res);
+  }
+);
+router.post(
+  "/protected/deletePaymentInfo",
+  validateToken,
+  async (req: any, res: any) => {
+    await userDeletePaymentInfo(req, res);
+  }
+);
+///////
+
+router.get(
+  "/protected/getShippingAddress/:id",
+  validateToken,
+  async (req: any, res: any) => {
+    await getUserShippingAddress(req, res);
+  }
+);
+
+router.get(
+  "/protected/getUserAllShippingAddress/",
+  validateToken,
+  async (req: any, res: any) => {
+    await getUserAllShippingAddress(req, res);
+  }
+);
 
 router.put(
   "/protected/addShippingAddress",
@@ -28,7 +92,7 @@ router.post(
   "/protected/updateShippingAddress",
   validateToken,
   async (req: any, res: any) => {
-    await userAddShippingAddress(req, res);
+    await userUpdateShippingAddress(req, res);
   }
 );
 router.post(
@@ -38,6 +102,8 @@ router.post(
     await userDeleteShippingAddress(req, res);
   }
 );
+
+///
 
 router.post("/resetPassword", async (req: any, res: any) => {
   await userPasswordUpdate(req, res);

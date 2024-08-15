@@ -17,6 +17,7 @@ async function userUpdateShippingAddress(req: any, res: any) {
 
   //validation:
   if (
+    !addressID ||
     !newAddressLine1 ||
     !newAddressLine2 ||
     !newRegion ||
@@ -64,7 +65,7 @@ async function userUpdateShippingAddress(req: any, res: any) {
     const pool: object | undefined | any = await connectToDatabase();
 
     try {
-      const queryAddShippingAddress = `UPDATE userShippingAddress SET addressLine1 = @addressLine1, addressLine2 =@addressLine2, region = @region, postalCode = @postalCode, country = @country) WHERE ID = @ID AND userID = @userID`;
+      const queryAddShippingAddress = `UPDATE userShippingAddress SET addressLine1 = @addressLine1, addressLine2 =@addressLine2, region = @region, postalCode = @postalCode, country = @country WHERE ID = @ID AND userID = @userID`;
 
       const resultAddShippingAddress: QueryResult = await queryInDatabase(
         queryAddShippingAddress,

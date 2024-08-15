@@ -51,7 +51,7 @@ async function userAddShippingAddress(req: any, res: any) {
     const pool: object | undefined | any = await connectToDatabase();
 
     try {
-      const queryAddShippingAddress = `INSERT INTO userShippingAddress (ID, userID, addressLine1, addressLine2, region, postalCode, country) VALUES (@ID, @userID, @addressLine1, @addressLine2, @region, @postalCode, @countr)`;
+      const queryAddShippingAddress = `INSERT INTO userShippingAddress (ID, userID, addressLine1, addressLine2, region, postalCode, country) VALUES (@ID, @userID, @addressLine1, @addressLine2, @region, @postalCode, @country)`;
 
       const resultAddShippingAddress: QueryResult = await queryInDatabase(
         queryAddShippingAddress,
