@@ -1,8 +1,8 @@
 import sql from "mssql";
-import { connectToDatabase } from "../../../config/dbConnection";
+import { connectToDatabase } from "../../config/dbConnection";
 
-import { queryInDatabase, QueryResult } from "../../../utils/queryInDatabase";
-import { extractSensitiveData } from "../../../utils/extractSensitiveData";
+import { queryInDatabase, QueryResult } from "../../utils/queryInDatabase";
+import { extractSensitiveData } from "../../utils/extractSensitiveData";
 
 async function getUserAllPaymentCardInfo(req: any, res: any) {
   const { ID } = req.user; //user ID

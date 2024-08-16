@@ -10,6 +10,8 @@ type Parameter = {
     userEmail: Parameter;
     userPhoneNoID: Parameter;
     userPassword: Parameter;
+    isVerified: Parameter,
+    role: Parameter
   };
   
   type UserPhoneNO = {

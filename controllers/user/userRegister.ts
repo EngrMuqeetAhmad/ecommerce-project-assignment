@@ -1,12 +1,10 @@
-import { connectToDatabase } from "../../../config/dbConnection";
+import { connectToDatabase } from "../../config/dbConnection";
 import { v4 as uuid } from "uuid";
-import { queryInDatabase, QueryResult } from "../../../utils/queryInDatabase";
-import { hashString } from "../../../utils/passwordHashednSalated";
+import { queryInDatabase, QueryResult } from "../../utils/queryInDatabase";
+import { hashString } from "../../utils/passwordHashednSalated";
 import sql from "mssql";
-import userExists from "./../validations/userExists";
-import { Parameter, User, UserPhoneNO } from "../../../types/userTypes";
-
-
+import userExists from "./validations/userExists";
+import { Parameter, User, UserPhoneNO } from "../../types/userTypes";
 
 async function userRegister(req: any, res: any) {
   const { firstName, secondName, email, countryCode, phoneNo, password } =
@@ -76,6 +74,14 @@ async function userRegister(req: any, res: any) {
         value: UserPhoneNoID,
         type: sql.Char,
       },
+      isVerified: {
+        value: "0",
+        type: sql.Char,
+      },
+      role: {
+        value: "user",
+        type: sql.NVarChar,
+      },
       //hashed and salted password
       userPassword: {
         value: hashedPassword,
@@ -100,7 +106,7 @@ async function userRegister(req: any, res: any) {
 
       if (createUserPhoneNoResult.success) {
         try {
-          const queryUser = `INSERT INTO userTable (ID, userFirstName, userSecondName, userEmail, userPhoneNoID, userPassword) VALUES (@ID, @userFirstName, @userSecondName, @userEmail, @userPhoneNoID, @userPassword)`;
+          const queryUser = `INSERT INTO userTable (ID, userFirstName, userSecondName, userEmail, userPhoneNoID,isVerified, role, userPassword) VALUES (@ID, @userFirstName, @userSecondName, @userEmail, @userPhoneNoID,@isVerified, @user, @userPassword)`;
 
           const createUserResult: QueryResult = await queryInDatabase(
             queryUser,

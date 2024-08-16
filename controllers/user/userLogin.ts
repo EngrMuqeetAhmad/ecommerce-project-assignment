@@ -1,8 +1,8 @@
-import { connectToDatabase } from "../../../config/dbConnection";
-import { QueryResultLogin } from "../../../types/userTypes";
-import { hashString } from "../../../utils/passwordHashednSalated";
+import { connectToDatabase } from "../../config/dbConnection";
+import { QueryResultLogin } from "../../types/userTypes";
+import { hashString } from "../../utils/passwordHashednSalated";
 import sql from "mssql";
-import { queryLoginInDatabase } from "../../../worker/user/userLoginQuery";
+import { queryLoginInDatabase } from "../../worker/user/userLoginQuery";
 
 async function userLogin(req: any, res: any) {
   const { email, password } = req.body;
@@ -16,7 +16,7 @@ async function userLogin(req: any, res: any) {
 
     const hashedPassword: string = hashString(password);
     const queryUserLogin =
-      "SELECT ID, userEmail FROM userTable WHERE userEmail = @userEmail AND userPassword = @userPassword";
+      "SELECT ID, userEmail, isVerified FROM userTable WHERE userEmail = @userEmail AND userPassword = @userPassword";
 
     const params = {
       userEmail: { value: email, type: sql.NVarChar },
@@ -30,6 +30,12 @@ async function userLogin(req: any, res: any) {
 
     if (resultQueryUserLogin.data.rowsAffected == 0) {
       res.status(404).json({ message: "Failed", data: undefined });
+      await pool?.close();
+      return;
+    }
+
+    if (resultQueryUserLogin.data.recordSet?.isVerified == "0") {
+      res.json({ message: "Please, verify your email to continue" });
       await pool?.close();
       return;
     }

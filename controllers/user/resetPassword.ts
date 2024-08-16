@@ -1,9 +1,9 @@
-import { connectToDatabase } from "../../../config/dbConnection";
+import { connectToDatabase } from "../../config/dbConnection";
 
-import { queryInDatabase, QueryResult } from "../../../utils/queryInDatabase";
-import { hashString } from "../../../utils/passwordHashednSalated";
+import { queryInDatabase, QueryResult } from "../../utils/queryInDatabase";
+import { hashString } from "../../utils/passwordHashednSalated";
 import sql from "mssql";
-import userExists from "./../validations/userExists";
+import userExists from "./validations/userExists";
 
 async function userPasswordUpdate(req: any, res: any) {
   const { email, newPassword } = req.body;

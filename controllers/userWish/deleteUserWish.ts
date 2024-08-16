@@ -1,6 +1,6 @@
-import { connectToDatabase } from "../../../config/dbConnection";
+import { connectToDatabase } from "../../config/dbConnection";
 
-import { queryInDatabase, QueryResult } from "../../../utils/queryInDatabase";
+import { queryInDatabase, QueryResult } from "../../utils/queryInDatabase";
 
 import sql from "mssql";
 

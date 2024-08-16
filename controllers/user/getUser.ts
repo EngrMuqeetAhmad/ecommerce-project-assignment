@@ -1,7 +1,7 @@
 import sql from "mssql";
-import { connectToDatabase } from "../../../config/dbConnection";
+import { connectToDatabase } from "../../config/dbConnection";
 
-import { queryInDatabase, QueryResult } from "../../../utils/queryInDatabase";
+import { queryInDatabase, QueryResult } from "../../utils/queryInDatabase";
 
 async function getUser(req: any, res: any) {
   const { email, ID } = req.user;
@@ -15,7 +15,7 @@ async function getUser(req: any, res: any) {
     const pool: object | undefined | any = await connectToDatabase();
 
     const queryGetUser =
-      "SELECT ID, userFirstName, userSecondName, userEmail, userPhoneNoID FROM userTable WHERE userEmail = @userEmail AND ID = @ID";
+      "SELECT ID, userFirstName, userSecondName, userEmail, userPhoneNoID, isVerified, role FROM userTable WHERE userEmail = @userEmail AND ID = @ID";
 
     const params = {
       userEmail: { value: email, type: sql.NVarChar },
