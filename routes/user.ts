@@ -55,8 +55,7 @@ router.get("/userLogin", async (req: any, res: any) => {
 router.put(
   "/userRegister",
   async (req: any, res: any, next: any) => {
-    await userRegister(req, res);
-    next();
+    await userRegister(req, res, next);
   },
   async (req: any, res: any) => {
     await emailForVerification(req, res);

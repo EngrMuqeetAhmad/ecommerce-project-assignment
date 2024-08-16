@@ -1,8 +1,3 @@
-
-
-
-
-
 var createError = require("http-errors");
 var express = require("express");
 var path = require("path");
@@ -11,9 +6,10 @@ var logger = require("morgan");
 ///
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/user");
-var paymentInfoRouter = require("./routes/paymentInfo")
+var paymentInfoRouter = require("./routes/paymentInfo");
 var shippingAddressRouter = require("./routes/shippingAddress");
-var userWishRouter = require("./routes/userWish")
+var userWishRouter = require("./routes/userWish");
+var userOrder = require("./routes/userOrder");
 ////
 const PORT = 3000;
 var app = express();
@@ -35,16 +31,12 @@ app.use("/user", usersRouter);
 app.use("/paymentInfo", paymentInfoRouter);
 app.use("/shippingAddress", shippingAddressRouter);
 app.use("/userWish", userWishRouter);
-
-
-
-
+app.use("/order", userOrder);
 
 // // catch 404 and forward to error handler
 // app.use(function (req, res, next) {
 //   next(createError(404));
 // });
-
 
 // // error handler
 // app.use(function (err, req, res, next) {
@@ -56,8 +48,6 @@ app.use("/userWish", userWishRouter);
 //   res.status(err.status || 500);
 //   res.render("error");
 // });
-
-
 
 app.listen(PORT, (err: any) => {
   if (err) {

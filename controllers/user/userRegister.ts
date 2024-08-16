@@ -6,7 +6,7 @@ import sql from "mssql";
 import userExists from "./validations/userExists";
 import { Parameter, User, UserPhoneNO } from "../../types/userTypes";
 
-async function userRegister(req: any, res: any) {
+async function userRegister(req: any, res: any, next: any) {
   const { firstName, secondName, email, countryCode, phoneNo, password } =
     req.body;
 
@@ -104,9 +104,9 @@ async function userRegister(req: any, res: any) {
         pool
       );
 
-      if (createUserPhoneNoResult.success) {
+      if (createUserPhoneNoResult.data.rowsAffected != 0) {
         try {
-          const queryUser = `INSERT INTO userTable (ID, userFirstName, userSecondName, userEmail, userPhoneNoID,isVerified, role, userPassword) VALUES (@ID, @userFirstName, @userSecondName, @userEmail, @userPhoneNoID,@isVerified, @user, @userPassword)`;
+          const queryUser = `INSERT INTO userTable (ID, userFirstName, userSecondName, userEmail, userPhoneNoID, isVerified, role, userPassword) VALUES (@ID, @userFirstName, @userSecondName, @userEmail, @userPhoneNoID, @isVerified, @role, @userPassword)`;
 
           const createUserResult: QueryResult = await queryInDatabase(
             queryUser,
@@ -114,21 +114,23 @@ async function userRegister(req: any, res: any) {
             pool
           );
 
-          if (createUserResult.success == false) {
+          if (createUserResult.data.rowsAffected == 0) {
             res.json({
-              message: `user creation failed`,
+              message: `user is not created`,
             });
             await pool?.close();
             return;
           }
 
           res.json({
-            message: `user created with email ${createUserPhoneNoResult}`,
+            message: `user created with email ${email}`,
           });
           await pool?.close();
+          next();
           return;
         } catch (error) {
-          res.json({ message: `user creation failed` });
+          res.json({ message: `creation failed` });
+          console.log(error);
           await pool?.close();
           return;
         }

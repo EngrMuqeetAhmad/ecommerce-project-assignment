@@ -39,11 +39,11 @@ async function queryInDatabase(
       },
     };
 
-    console.log("result: ", result);
+   
     return result;
   } catch (error) {
     console.log(`Error create query the database ${error}`);
-    console.log("result: ", result);
+  
     return result;
   }
 }
