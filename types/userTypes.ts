@@ -31,9 +31,15 @@ type Parameter = {
   };
   
 
+  enum Role {
+    ADMIN = "admin",
+    USER = "user"
+  }
+
   export {
     Parameter,
     User,
     UserPhoneNO,
-    QueryResultLogin
+    QueryResultLogin,
+    Role
   }

@@ -4,12 +4,13 @@ import userRegister from "../controllers/user/userRegister";
 
 import userLogin from "../controllers/user/userLogin";
 
-import { validateToken } from "../utils/validateToken";
+import { authorizeRole, validateToken } from "../utils/validateToken";
 import { getUser } from "../controllers/user/getUser";
 import { getUserPhoneInfo } from "../controllers/user/getUserPhoneInfo";
 import { emailForVerification } from "../controllers/user/validations/emailForVerification";
 import { validateEmail } from "../controllers/user/validations/verifyEmailFnc";
 import userPasswordUpdate from "../controllers/user/resetPassword";
+import { Role } from "../types/userTypes";
 
 ///////
 
@@ -23,13 +24,19 @@ router.post("/resetPassword", async (req: any, res: any) => {
 
 /* GET users listing. */
 
-router.get("/protected/getUser", validateToken, async (req: any, res: any) => {
-  await getUser(req, res);
-});
+router.get(
+  "/protected/getUser",
+  validateToken,
+  authorizeRole([Role.ADMIN, Role.USER]),
+  async (req: any, res: any) => {
+    await getUser(req, res);
+  }
+);
 
 router.get(
   "/protected/getUserPhoneInfo",
   validateToken,
+  authorizeRole([Role.ADMIN, Role.USER]),
   async (req: any, res: any) => {
     await getUserPhoneInfo(req, res);
   }
@@ -38,6 +45,7 @@ router.get(
 router.put(
   "/protected/getUserPhoneInfo",
   validateToken,
+  authorizeRole([Role.ADMIN, Role.USER]),
   async (req: any, res: any) => {
     await getUserPhoneInfo(req, res);
   }

@@ -3,9 +3,20 @@ import { connectToDatabase } from "../../config/dbConnection";
 
 import { queryInDatabase, QueryResult } from "../../utils/queryInDatabase";
 import { extractSensitiveData } from "../../utils/extractSensitiveData";
+import { Role } from "../../types/userTypes";
 
 async function getUserAllPaymentCardInfo(req: any, res: any) {
-  const { ID } = req.user; //user ID
+  let { ID, role } = req.user; //user ID
+
+  ////////
+  if (role == Role.ADMIN) {
+    const { userID } = req.body;
+    if (!userID) {
+      res.json({ message: "Admin error - no userID" });
+    }
+    ID = userID;
+  }
+  ////////
 
   //validation:
   if (!ID) {

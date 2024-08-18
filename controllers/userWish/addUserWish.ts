@@ -54,10 +54,12 @@ async function addWishProduct(req: any, res: any) {
 
       if (resultAddWishProduct.data.rowsAffected == 0) {
         res.json({ message: "error adding wish product" });
+        await pool?.close();
         return;
       }
 
       res.json({ message: "Success Adding wish product" });
+      await pool?.close();
       return;
     } catch (error) {
       res.json({ message: `creation failed` });
