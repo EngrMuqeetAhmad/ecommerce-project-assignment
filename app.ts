@@ -1,8 +1,10 @@
-var createError = require("http-errors");
-var express = require("express");
-var path = require("path");
-var cookieParser = require("cookie-parser");
-var logger = require("morgan");
+// var createError = require("http-errors");
+import createError from 'http-errors'
+import express from 'express'
+import path from 'path'
+import cookieParser from 'cookie-parser'
+import logger from 'morgan'
+
 ///
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/user");
@@ -10,6 +12,7 @@ var paymentInfoRouter = require("./routes/paymentInfo");
 var shippingAddressRouter = require("./routes/shippingAddress");
 var userWishRouter = require("./routes/userWish");
 var userOrder = require("./routes/userOrder");
+var productManagement = require("./routes/productManagement");
 ////
 const PORT = 3000;
 var app = express();
@@ -32,6 +35,7 @@ app.use("/paymentInfo", paymentInfoRouter);
 app.use("/shippingAddress", shippingAddressRouter);
 app.use("/userWish", userWishRouter);
 app.use("/order", userOrder);
+app.use("/productManagement", productManagement);
 
 // // catch 404 and forward to error handler
 // app.use(function (req, res, next) {

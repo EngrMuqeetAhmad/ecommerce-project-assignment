@@ -79,7 +79,7 @@ async function userRegister(req: any, res: any, next: any) {
         type: sql.Char,
       },
       role: {
-        value: "user",
+        value: "admin",
         type: sql.NVarChar,
       },
       //hashed and salted password
@@ -96,6 +96,22 @@ async function userRegister(req: any, res: any, next: any) {
     const pool: object | undefined | any = await connectToDatabase();
 
     try {
+      const queryUser = `INSERT INTO userTable (ID, userFirstName, userSecondName, userEmail, userPhoneNoID, isVerified, role, userPassword) VALUES (@ID, @userFirstName, @userSecondName, @userEmail, @userPhoneNoID, @isVerified, @role, @userPassword)`;
+
+      const createUserResult: QueryResult = await queryInDatabase(
+        queryUser,
+        user,
+        pool
+      );
+
+      if (createUserResult.data.rowsAffected == 0) {
+        res.json({
+          message: `user is not created`,
+        });
+        await pool?.close();
+        return;
+      }
+
       const queryCreatePhoneNo = `INSERT INTO userPhoneNumber (ID, userID, countryCode, phoneNumber) VALUES (@ID, @userID, @countryCode, @phoneNo)`;
 
       const createUserPhoneNoResult: QueryResult = await queryInDatabase(
@@ -104,83 +120,16 @@ async function userRegister(req: any, res: any, next: any) {
         pool
       );
 
-      if (createUserPhoneNoResult.data.rowsAffected != 0) {
-        try {
-          const queryUser = `INSERT INTO userTable (ID, userFirstName, userSecondName, userEmail, userPhoneNoID, isVerified, role, userPassword) VALUES (@ID, @userFirstName, @userSecondName, @userEmail, @userPhoneNoID, @isVerified, @role, @userPassword)`;
 
-          const createUserResult: QueryResult = await queryInDatabase(
-            queryUser,
-            user,
-            pool
-          );
-
-          if (createUserResult.data.rowsAffected == 0) {
-            res.json({
-              message: `user is not created`,
-            });
-            await pool?.close();
-            return;
-          }
-
-          res.json({
-            message: `user created with email ${email}`,
-          });
-          await pool?.close();
-          next();
-          return;
-        } catch (error) {
-          res.json({ message: `creation failed` });
-          console.log(error);
-          await pool?.close();
-          return;
-        }
-      } else {
-        try {
-          type deleteUserPhoneNo = {
-            ID: Parameter;
-            userID: Parameter;
-          };
-
-          const params: deleteUserPhoneNo = {
-            ID: {
-              value: UserPhoneNoID,
-              type: sql.Char,
-            },
-            userID: {
-              value: UserID,
-              type: sql.Char,
-            },
-          };
-
-          const queryDeletePhoneNo = `DELETE FROM userPhoneNumber WHERE ID = @ID AND userID = @UserID`;
-
-          const deletePhoneNoResult: QueryResult = await queryInDatabase(
-            queryDeletePhoneNo,
-            params,
-            pool
-          );
-
-          if (deletePhoneNoResult.success == false) {
-            res.json({
-              message: `phoneNumber deletion failed`,
-            });
-            await pool?.close();
-            return;
-          }
-
-          res.json({
-            message: `phoneNumber delted ${deletePhoneNoResult}`,
-          });
-          await pool?.close();
-          return;
-        } catch (error) {
-          res.json({ message: `phoneNumber deletion failed` });
-          await pool?.close();
-          return;
-        }
-      }
+      res.json({
+        message: `user created with email ${email}`,
+      });
+      await pool?.close();
+      next();
+      return;
     } catch (error) {
-      res.json({ message: `userPhoneNumber creation failed` });
+      res.json({ message: `creation failed` });
+      console.log(error);
       await pool?.close();
       return;
     }

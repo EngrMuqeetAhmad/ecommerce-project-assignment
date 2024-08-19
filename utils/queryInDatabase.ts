@@ -3,7 +3,6 @@ type QueryResult = {
   data: {
     rowsAffected: number;
     recordSet: any;
-   
   };
 };
 
@@ -17,7 +16,6 @@ async function queryInDatabase(
     data: {
       rowsAffected: 0,
       recordSet: undefined,
-      
     },
   };
   try {
@@ -29,21 +27,19 @@ async function queryInDatabase(
     }
 
     const queryResult: any = await request?.query(query);
-
+    console.log("quert database",queryResult);
     result = {
       success: true,
       data: {
         rowsAffected: queryResult?.rowsAffected,
         recordSet: queryResult?.recordset,
-        
       },
     };
 
-   
     return result;
   } catch (error) {
     console.log(`Error create query the database ${error}`);
-  
+
     return result;
   }
 }

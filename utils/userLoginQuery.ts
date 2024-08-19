@@ -28,11 +28,12 @@ async function queryLoginInDatabase(
 
     const queryResult: any = await request?.query(query);
 
-    if (queryResult?.recordSet?.rowsAffected == 0) {
+    if (queryResult?.rowsAffected == 0) {
       res.status(404).json({ message: "No user found", data: undefined });
+      return;
     }
 
-    if (queryResult?.recordSet?.isVerified == "0") {
+    if (queryResult?.recordset[0]?.isVerified != "1") {
       res.json({
         message: "Please, verify your email to continue",
         data: undefined,
@@ -49,7 +50,7 @@ async function queryLoginInDatabase(
         {
           ID: queryResult?.recordset[0].ID,
           email: queryResult?.recordset[0].userEmail,
-          role: queryResult?.recordSet[0].role,
+          role: queryResult?.recordset[0].role,
         },
         SECRET
       );
@@ -68,8 +69,8 @@ async function queryLoginInDatabase(
     } catch (error) {
       res.json({ message: "An error occured - try again", data: result });
       console.log("error creating json web token", error);
+      return;
     }
-    return;
   } catch (error) {
     res.json({ message: "An error occured - try again", data: result });
     console.log(`Error create query the database ${error}`);
