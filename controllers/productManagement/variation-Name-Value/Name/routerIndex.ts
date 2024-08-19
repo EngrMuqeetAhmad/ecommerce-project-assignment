@@ -5,6 +5,7 @@ import { getVariationName } from "./getVariationName";
 import { deleteVariationType } from "./deleteVariationName";
 import { updateVairationName } from "./updateVariationName";
 import { addProductVariationName } from "./addVariationName";
+import { getAllVariationName } from "./getAllVariationName";
 
 var router = express.Router();
 
@@ -40,6 +41,14 @@ router.get(
   authorizeRole([Role.ADMIN]),
   async (req: any, res: any) => {
     await getVariationName(req, res);
+  }
+);
+router.get(
+  "/product/variation/getAllName",
+  validateToken,
+  authorizeRole([Role.ADMIN]),
+  async (req: any, res: any) => {
+    await getAllVariationName(req, res);
   }
 );
 

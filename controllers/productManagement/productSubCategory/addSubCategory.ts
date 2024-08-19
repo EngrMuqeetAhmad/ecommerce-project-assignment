@@ -6,38 +6,30 @@ import sql from "mssql";
 import { INSERTQueryString } from "../../../utils/buildSQLqueryString";
 import { ControllerFunctionTemplate } from "../../../utils/controllerFunctionTemplate";
 
-async function addProductVariation(req: any, res: any) {
+async function addSubCategory(req: any, res: any) {
   const { ID, role } = req.user;
-  const { productID, stockQuantity, additionalPrice } = req.body;
+  const { subCategoryName } = req.body;
 
   //validation:
-  if (!productID || !stockQuantity || !additionalPrice) {
+  if (!subCategoryName) {
     res.status(400).json({ message: "BAD request" });
   } else {
     /////
-    const productVariationID = uuid();
+    const subCategoryID = uuid();
     ///creating objects/query params
 
     const params: object = {
       ID: {
-        value: productVariationID,
+        value: subCategoryID,
         type: sql.Char,
       },
-      productID: {
-        value: productID, //this is userID
+      subCategoryName: {
+        value: subCategoryName, //this is userID
         type: sql.Char,
-      },
-      stockQuantity: {
-        value: stockQuantity,
-        type: sql.Decimal,
-      },
-      additionalPrice: {
-        value: additionalPrice,
-        type: sql.Decimal,
-      },
+      },      
     };
 
-    const tableName: string = "ProductVariation";
+    const tableName: string = "SubCategory";
     const query: string = INSERTQueryString(tableName, Object.keys(params));
 
     const messages: object = {
@@ -50,4 +42,4 @@ async function addProductVariation(req: any, res: any) {
   }
 }
 
-export { addProductVariation };
+export { addSubCategory };

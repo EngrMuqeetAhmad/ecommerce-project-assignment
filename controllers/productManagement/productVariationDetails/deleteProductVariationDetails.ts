@@ -5,12 +5,12 @@ import { queryInDatabase, QueryResult } from "../../../utils/queryInDatabase";
 
 import sql from "mssql";
 
-async function deleteProduct(req: any, res: any) {
+async function deleteProductVariationDetails(req: any, res: any) {
   const { ID, role } = req.user;
-  const { baseProductID } = req.body;
+  const { productVariationDetailsID } = req.body;
 
   //validation:
-  if (!baseProductID) {
+  if (!productVariationDetailsID) {
     res.status(400).json({ message: "BAD request" });
   } else {
     /////
@@ -19,25 +19,20 @@ async function deleteProduct(req: any, res: any) {
 
     const params: object = {
       ID: {
-        value: baseProductID,
+        value: productVariationDetailsID,
         type: sql.Char,
       },
     };
-    const queryDeleteBaseProduct = `DELETE FROM Product WHERE ID = @ID`;
+    const query = `DELETE FROM ProductVariationDetails WHERE ID = @ID`;
 
     const messages: object = {
-      errorMessage: `Failed deleting Base Product`,
-      successMessage: `success deleting base product`,
+      errorMessage: `Failed deleting  Product variation detail`,
+      successMessage: `success deleting  product variation detail`,
     };
-    await ControllerFunctionTemplate(
-      params,
-      queryDeleteBaseProduct,
-      messages,
-      res
-    );
+    await ControllerFunctionTemplate(params, query, messages, res);
 
     return;
   }
 }
 
-export { deleteProduct };
+export { deleteProductVariationDetails };

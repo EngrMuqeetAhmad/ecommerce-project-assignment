@@ -27,7 +27,6 @@ async function queryInDatabase(
     }
 
     const queryResult: any = await request?.query(query);
-    console.log("quert database",queryResult);
     result = {
       success: true,
       data: {

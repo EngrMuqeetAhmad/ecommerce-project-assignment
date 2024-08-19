@@ -9,7 +9,7 @@ async function addProductVariationValue(req: any, res: any) {
   const { productVariationTypeValue, productVariationTypeID } = req.body;
 
   //validation:
-  if (!productVariationTypeValue || productVariationTypeID) {
+  if (!productVariationTypeValue || !productVariationTypeID) {
     res.status(400).json({ message: "BAD request" });
   } else {
     /////

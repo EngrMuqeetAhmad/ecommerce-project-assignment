@@ -5,6 +5,7 @@ import { getVariationTypeValue } from "./getVariationValue";
 import { deleteVariationValue } from "./deleteVariationValue";
 import { updateVariationValue } from "./updateVariationValue";
 import { addProductVariationValue } from "./addVariationValue";
+import { getAllVariationTypeValues } from "./getAllVariationValues";
 
 var router = express.Router();
 
@@ -40,6 +41,14 @@ router.get(
   authorizeRole([Role.ADMIN]),
   async (req: any, res: any) => {
     await getVariationTypeValue(req, res);
+  }
+);
+router.get(
+  "/product/variation/getAllTypeValues",
+  validateToken,
+  authorizeRole([Role.ADMIN]),
+  async (req: any, res: any) => {
+    await getAllVariationTypeValues(req, res);
   }
 );
 

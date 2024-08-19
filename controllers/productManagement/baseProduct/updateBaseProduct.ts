@@ -3,6 +3,8 @@ import { v4 as uuid } from "uuid";
 import { queryInDatabase, QueryResult } from "../../../utils/queryInDatabase";
 
 import sql from "mssql";
+import { UPDATEQueryString } from "../../../utils/buildSQLqueryString";
+import { ControllerFunctionTemplate } from "../../../utils/controllerFunctionTemplate";
 
 async function updateBaseProduct(req: any, res: any) {
   const { ID, userEmail } = req.user;
@@ -56,29 +58,17 @@ async function updateBaseProduct(req: any, res: any) {
       },
     };
 
-    const pool: object | undefined | any = await connectToDatabase();
+    const tableName: string = "Product";
 
-    try {
-      const queryUpdateBaseProduct = `UPDATE Product SET productTitle = @productTitle, productDescription = @productDescription, basePrice = @basePrice, categoryID = @categoryID, subCategoryID = @subCategoryID WHERE ID = @ID`;
+    const query: string =
+      UPDATEQueryString(tableName, Object.keys(params)) + "WHERE ID = @ID";
 
-      const resultUpdateBaeProduct: QueryResult = await queryInDatabase(
-        queryUpdateBaseProduct,
-        params,
-        pool
-      );
+    const messages: object = {
+      errorMessage: `Error updating into ${tableName}`,
+      successMessage: `Success updating into ${tableName}`,
+    };
 
-      if (resultUpdateBaeProduct.data.rowsAffected == 0) {
-        res.json({ message: "error updating base product" });
-        return;
-      }
-
-      res.json({ message: "Success- updating bbase product" });
-      return;
-    } catch (error) {
-      res.json({ message: `updating failed` });
-      await pool?.close();
-      return;
-    }
+    await ControllerFunctionTemplate(params, query, messages, res);
   }
 }
 

@@ -6,38 +6,36 @@ import sql from "mssql";
 import { INSERTQueryString } from "../../../utils/buildSQLqueryString";
 import { ControllerFunctionTemplate } from "../../../utils/controllerFunctionTemplate";
 
-async function addProductVariation(req: any, res: any) {
+async function addProductVariationDetails(req: any, res: any) {
   const { ID, role } = req.user;
-  const { productID, stockQuantity, additionalPrice } = req.body;
+  const { productVariationID, productVariationTypeValueID } = req.body;
 
   //validation:
-  if (!productID || !stockQuantity || !additionalPrice) {
+  if (!productVariationID || !productVariationTypeValueID) {
     res.status(400).json({ message: "BAD request" });
   } else {
     /////
-    const productVariationID = uuid();
+    const productVariationDetailsID = uuid();
     ///creating objects/query params
 
     const params: object = {
       ID: {
-        value: productVariationID,
+        value: productVariationDetailsID,
         type: sql.Char,
       },
-      productID: {
-        value: productID, //this is userID
+      productVariationTypeValueID: {
+        value: productVariationTypeValueID,
         type: sql.Char,
       },
-      stockQuantity: {
-        value: stockQuantity,
-        type: sql.Decimal,
+      productVariationID: {
+        value: productVariationID, 
+        type: sql.Char,
       },
-      additionalPrice: {
-        value: additionalPrice,
-        type: sql.Decimal,
-      },
+     
+      
     };
 
-    const tableName: string = "ProductVariation";
+    const tableName: string = "ProductVariationDetails";
     const query: string = INSERTQueryString(tableName, Object.keys(params));
 
     const messages: object = {
@@ -50,4 +48,4 @@ async function addProductVariation(req: any, res: any) {
   }
 }
 
-export { addProductVariation };
+export { addProductVariationDetails };

@@ -3,6 +3,7 @@ import { connectToDatabase } from "../../../config/dbConnection";
 
 import { queryInDatabase, QueryResult } from "../../../utils/queryInDatabase";
 import { Role } from "../../../types/userTypes";
+import { ControllerFunctionTemplate } from "../../../utils/controllerFunctionTemplate";
 
 async function getBaseProduct(req: any, res: any) {
   let { ID, role } = req.user; //user ID
@@ -21,20 +22,16 @@ async function getBaseProduct(req: any, res: any) {
     const params = {
       ID: { value: productID, type: sql.Char },
     };
-    const resultQueryGetBaseProduct: QueryResult = await queryInDatabase(
-      queryGetBaseProduct,
+    const messages: object = {
+      errorMessage: `Not Found`,
+      successMessage: `OK`,
+    };
+    await ControllerFunctionTemplate(
       params,
-      pool
+      queryGetBaseProduct,
+      messages,
+      res
     );
-
-    if (resultQueryGetBaseProduct.data.rowsAffected == 0) {
-      res.status(404).json({ message: "Not Found", data: undefined });
-      await pool?.close();
-      return;
-    }
-
-    res.status(200).json({ message: "OK", data: resultQueryGetBaseProduct });
-    await pool?.close();
     return;
   }
 }

@@ -6,38 +6,52 @@ import sql from "mssql";
 import { INSERTQueryString } from "../../../utils/buildSQLqueryString";
 import { ControllerFunctionTemplate } from "../../../utils/controllerFunctionTemplate";
 
-async function addProductVariation(req: any, res: any) {
+async function addBaseProduct(req: any, res: any) {
   const { ID, role } = req.user;
-  const { productID, stockQuantity, additionalPrice } = req.body;
+  const {
+    productTitle,
+    productDescription,
+    basePrice,
+    categoryID,
+    subCategoryID,
+  } = req.body;
 
   //validation:
-  if (!productID || !stockQuantity || !additionalPrice) {
+  if (!productTitle || !productDescription || !basePrice || !categoryID) {
     res.status(400).json({ message: "BAD request" });
   } else {
     /////
-    const productVariationID = uuid();
+    const productID = uuid();
     ///creating objects/query params
 
     const params: object = {
       ID: {
-        value: productVariationID,
+        value: productID,
         type: sql.Char,
       },
-      productID: {
-        value: productID, //this is userID
+      productTitle: {
+        value: productTitle, //this is userID
+        type: sql.NVarChar,
+      },
+      productDescription: {
+        value: productDescription,
+        type: sql.NVarChar,
+      },
+      basePrice: {
+        value: basePrice,
+        type: sql.Decimal,
+      },
+      categoryID: {
+        value: categoryID,
         type: sql.Char,
       },
-      stockQuantity: {
-        value: stockQuantity,
-        type: sql.Decimal,
-      },
-      additionalPrice: {
-        value: additionalPrice,
-        type: sql.Decimal,
+      subCategoryID: {
+        value: subCategoryID,
+        type: sql.Char,
       },
     };
 
-    const tableName: string = "ProductVariation";
+    const tableName: string = "Product";
     const query: string = INSERTQueryString(tableName, Object.keys(params));
 
     const messages: object = {
@@ -45,9 +59,7 @@ async function addProductVariation(req: any, res: any) {
       successMessage: `Success Adding into ${tableName}`,
     };
     await ControllerFunctionTemplate(params, query, messages, res);
-
-    return;
   }
 }
 
-export { addProductVariation };
+export { addBaseProduct };

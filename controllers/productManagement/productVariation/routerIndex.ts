@@ -1,46 +1,57 @@
 import express from "express";
 import { authorizeRole, validateToken } from "../../../utils/validateToken";
 import { Role } from "../../../types/userTypes";
-import { deleteProduct } from "./deleteProductVariation";
-import { updateBaseProduct } from "./updateProductVariation";
-import { getBaseProduct } from "./getProductVariation";
-import { addBaseProduct } from "./addProductVariation";
+import { deleteProductVariation } from "./deleteProductVariation";
+import { updateProductVariation } from "./updateProductVariation";
+import { getProductVariation } from "./getProductVariation";
+import { addBaseProduct } from "../baseProduct/addBaseProduct";
+import { addProductVariation } from "./addProductVariation";
+import { getAllProductVariations } from "./getAllProductVariations";
 
 var router = express.Router();
 
 router.put(
-  "/addBaseProduct",
+  "/addProductVariation",
   validateToken,
   authorizeRole([Role.ADMIN]),
   async (req: any, res: any) => {
-    await addBaseProduct(req, res);
+    await addProductVariation(req, res);
   }
 );
 
 router.get(
-  "/getBaseProduct",
+  "/getProductVariation",
   validateToken,
   authorizeRole([Role.ADMIN]),
   async (req: any, res: any) => {
-    await getBaseProduct(req, res);
+    await getProductVariation(req, res);
+  }
+);
+
+router.get(
+  "/getAllProductVariations",
+  validateToken,
+  authorizeRole([Role.ADMIN]),
+  async (req: any, res: any) => {
+    await getAllProductVariations(req, res);
   }
 );
 
 router.post(
-  "/updateBaseProduct",
+  "/updateProductVariation",
   validateToken,
   authorizeRole([Role.ADMIN]),
   async (req: any, res: any) => {
-    await updateBaseProduct(req, res);
+    await updateProductVariation(req, res);
   }
 );
 
 router.post(
-  "/deleteProduct",
+  "/deleteProductVariation",
   validateToken,
   authorizeRole([Role.ADMIN]),
   async (req: any, res: any) => {
-    await deleteProduct(req, res);
+    await deleteProductVariation(req, res);
   }
 );
 
