@@ -9,13 +9,13 @@ import { ControllerFunctionTemplate } from "../../../utils/controllerFunctionTem
 async function updateProductVariationImages(req: any, res: any) {
   const { ID, userEmail } = req.user;
   const {
-    imageID, productVariationDetailsID, path
+    imageID, productVariationID, path
   } = req.body;
 
   //validation:
   if (
     !imageID ||
-    productVariationDetailsID ||
+    productVariationID ||
     path
   ) {
     res.status(400).json({ message: "BAD request" });
@@ -29,8 +29,8 @@ async function updateProductVariationImages(req: any, res: any) {
         value: imageID,
         type: sql.Char,
       },
-      productVariationDetailsID: {
-        value: productVariationDetailsID, //this is userID
+      productVariationID: {
+        value: productVariationID, //this is userID
         type: sql.Char,
       },
       path: {

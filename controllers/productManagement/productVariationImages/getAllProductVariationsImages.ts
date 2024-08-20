@@ -13,7 +13,7 @@ async function getAllProductVariationImages(req: any, res: any) {
     res.json({ message: "BAD request" });
   } else {
     const query =
-      "SELECT ID, productVariationDetailsID, path FROM ProductVariationImages WHERE productVariationDetailsID = @productVariationDetailsID";
+      "SELECT ID, productVariationID, path FROM ProductVariationImages WHERE productVariationDetailsID = @productVariationDetailsID";
 
     const params = {
       productVariationDetailsID: { value: productVariationDetailsID, type: sql.Char },

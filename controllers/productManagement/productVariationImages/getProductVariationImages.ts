@@ -17,7 +17,7 @@ async function getProductVariationImage(req: any, res: any) {
 
 
     const query =
-      "SELECT ID, productVariationDetailsID, path FROM ProductVariationImages WHERE ID = @ID";
+      "SELECT ID, productVariationID, path FROM ProductVariationImages WHERE ID = @ID";
 
     const params = {
       ID: { value: imageID, type: sql.Char },

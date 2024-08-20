@@ -3,8 +3,9 @@ import { connectToDatabase } from "../../config/dbConnection";
 
 import { queryInDatabase, QueryResult } from "../../utils/queryInDatabase";
 import { Role } from "../../types/userTypes";
+import { ControllerFunctionTemplate } from "../../utils/controllerFunctionTemplate";
 
-async function getAllWishProducts(req: any, res: any) {
+async function getAllCartProducts(req: any, res: any) {
   let { ID, role } = req.user; //user ID
 
   ////////
@@ -24,30 +25,24 @@ async function getAllWishProducts(req: any, res: any) {
   } else {
     const pool: object | undefined | any = await connectToDatabase();
 
-    const queryGetAllWishProducts =
-      "SELECT ID, userID, productVariationID FROM userWishTable WHERE userID = @userID";
+    const queryGetAllCartProducts =
+      "SELECT ID, userID, productID FROM userCartTable WHERE userID = @userID";
 
     const params = {
       userID: { value: ID, type: sql.Char },
     };
-    const resultQueryGetAllWishProducts: QueryResult = await queryInDatabase(
-      queryGetAllWishProducts,
+    const messages: object = {
+      errorMessage: `Not Found`,
+      successMessage: `OK`,
+    };
+    await ControllerFunctionTemplate(
       params,
-      pool
+      queryGetAllCartProducts,
+      messages,
+      res
     );
-
-    if (resultQueryGetAllWishProducts.data.rowsAffected == 0) {
-      res.status(404).json({ message: "Not Found", data: undefined });
-      await pool?.close();
-      return;
-    }
-
-    res
-      .status(200)
-      .json({ message: "OK", data: resultQueryGetAllWishProducts });
-    await pool?.close();
     return;
   }
 }
 
-export { getAllWishProducts };
+export { getAllCartProducts };

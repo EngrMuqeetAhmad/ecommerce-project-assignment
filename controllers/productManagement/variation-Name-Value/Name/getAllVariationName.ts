@@ -23,6 +23,7 @@ async function getAllVariationName(req: any, res: any) {
       messages,
       res
     );
+    return
   }
 }
 

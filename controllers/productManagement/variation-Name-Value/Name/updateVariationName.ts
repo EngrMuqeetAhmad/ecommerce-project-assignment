@@ -21,26 +21,31 @@ async function updateVairationName(req: any, res: any) {
 
     ///creating objects/query params
 
-    const params: object = {
-      ID: {
-        value: variationID,
-        type: sql.Char,
-      },
+    const paramToUpdate: object = {
       productVariationName: {
         value: productVariationName, //this is userID
         type: sql.NVarChar,
       },
     };
 
+    const conditions: object = {
+      ID: {
+        value: variationID,
+        type: sql.Char,
+      },
+    };
+
     const tableName: string = "ProductVariationType";
 
     const query: string =
-      UPDATEQueryString(tableName, Object.keys(params)) + "WHERE ID = @ID";
+      UPDATEQueryString(tableName, Object.keys(paramToUpdate)) +
+      "WHERE ID = @ID";
 
     const messages: object = {
       errorMessage: `Error updating into ${tableName}`,
       successMessage: `Success updating into ${tableName}`,
     };
+    const params = { conditions, paramToUpdate };
 
     await ControllerFunctionTemplate(params, query, messages, res);
 

@@ -1,10 +1,11 @@
 // var createError = require("http-errors");
-import createError from 'http-errors'
-import express from 'express'
-import path from 'path'
-import cookieParser from 'cookie-parser'
-import logger from 'morgan'
-
+import createError from "http-errors";
+import express from "express";
+import path from "path";
+import cookieParser from "cookie-parser";
+import logger from "morgan";
+import https from "https";
+import fs from "fs";
 ///
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/user");
@@ -13,9 +14,19 @@ var shippingAddressRouter = require("./routes/shippingAddress");
 var userWishRouter = require("./routes/userWish");
 var userOrder = require("./routes/userOrder");
 var productManagement = require("./routes/productManagement");
+var userCartProductRouter = require("./routes/userCart");
 ////
 const PORT = 3000;
 var app = express();
+
+const sslOptions = {
+  key: fs.readFileSync(
+    path.resolve("C:\\Users\\muqeet.ahmad\\Desktop", "server.key")
+  ),
+  cert: fs.readFileSync(
+    path.resolve("C:\\Users\\muqeet.ahmad\\Desktop", "server.crt")
+  ),
+};
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -36,6 +47,7 @@ app.use("/shippingAddress", shippingAddressRouter);
 app.use("/userWish", userWishRouter);
 app.use("/order", userOrder);
 app.use("/productManagement", productManagement);
+app.use("/userCart", userCartProductRouter);
 
 // // catch 404 and forward to error handler
 // app.use(function (req, res, next) {
@@ -52,8 +64,7 @@ app.use("/productManagement", productManagement);
 //   res.status(err.status || 500);
 //   res.render("error");
 // });
-
-app.listen(PORT, (err: any) => {
+https.createServer(sslOptions, app).listen(PORT, (err: any) => {
   if (err) {
     console.log(`there is an error ${err.message}`);
   } else {

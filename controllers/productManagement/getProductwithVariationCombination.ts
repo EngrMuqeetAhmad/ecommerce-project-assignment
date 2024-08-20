@@ -22,7 +22,8 @@ async function getProductWithVariationCombinations(req: any, res: any) {
                             p.productTitle, p.productDescription, 
                             pv.stockQuantity, 
                             p.basePrice + pv.additionalPrice AS FinalPrice,
-                            STRING_AGG(vValue.productVariationTypeValue, ', ') WITHIN GROUP (ORDER BY vt.productVariationName) AS VariationDetails
+                            STRING_AGG(vValue.productVariationTypeValue, ', ') WITHIN GROUP (ORDER BY vt.productVariationName) AS VariationDetails,
+                            STRING_AGG(pvImages.path, ',')  VariationImages
                             
                         FROM 
                             Product p
@@ -30,7 +31,8 @@ async function getProductWithVariationCombinations(req: any, res: any) {
                             ProductVariation pv ON p.ID = pv.productID
                         JOIN 
                             ProductVariationDetails pvd ON pv.ID = pvd.productVariationID
-                        
+                        JOIN
+                            ProductVariationImages pvImages ON pvd.ID = pvImages.productVariationDetailsID
                         JOIN 
                             ProductVariationTypeValue vValue ON pvd.productVariationTypeValueID = vValue.ID
                         JOIN 

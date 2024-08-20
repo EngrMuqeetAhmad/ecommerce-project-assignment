@@ -8,10 +8,10 @@ import { ControllerFunctionTemplate } from "../../../utils/controllerFunctionTem
 
 async function addProductVariationImages(req: any, res: any) {
   const { ID, role } = req.user;
-  const { path, productVariationDetailsID } = req.body;
+  const { path, productVariationID } = req.body;
 
   //validation:
-  if (!path || !productVariationDetailsID) {
+  if (!path || !productVariationID) {
     res.status(400).json({ message: "BAD request" });
   } else {
     /////
@@ -23,8 +23,8 @@ async function addProductVariationImages(req: any, res: any) {
         value: imageID,
         type: sql.Char,
       },
-      productVariationDetailsID: {
-        value: productVariationDetailsID, //this is userID
+      productVariationID: {
+        value: productVariationID, //this is userID
         type: sql.Char,
       },
       path: {

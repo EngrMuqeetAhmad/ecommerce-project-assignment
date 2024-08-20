@@ -7,15 +7,15 @@ import userWishExists from "./validations/wishExists";
 
 async function addWishProduct(req: any, res: any) {
   const { ID } = req.user; //userID
-  const { productID } = req.params;
+  const { productVariationID } = req.params;
 
   //validation:
-  if (!productID) {
+  if (!productVariationID) {
     res.status(400).json({ message: "BAD request" });
   } else {
     /// check wish already exists
 
-    const isWishExists: QueryResult = await userWishExists(ID, productID);
+    const isWishExists: QueryResult = await userWishExists(ID, productVariationID);
 
     if (isWishExists.data.rowsAffected != 0) {
       res.json({ message: "user wish already exists" });
@@ -35,8 +35,8 @@ async function addWishProduct(req: any, res: any) {
         value: ID, //this is userID
         type: sql.Char,
       },
-      productID: {
-        value: productID,
+      productVariationID: {
+        value: productVariationID,
         type: sql.Char,
       },
     };
