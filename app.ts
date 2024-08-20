@@ -15,6 +15,7 @@ var userWishRouter = require("./routes/userWish");
 var userOrder = require("./routes/userOrder");
 var productManagement = require("./routes/productManagement");
 var userCartProductRouter = require("./routes/userCart");
+var createPaymentRouter = require("./routes/paymentIntent");
 ////
 const PORT = 3000;
 var app = express();
@@ -48,7 +49,7 @@ app.use("/userWish", userWishRouter);
 app.use("/order", userOrder);
 app.use("/productManagement", productManagement);
 app.use("/userCart", userCartProductRouter);
-
+app.use("/payment", createPaymentRouter);
 // // catch 404 and forward to error handler
 // app.use(function (req, res, next) {
 //   next(createError(404));

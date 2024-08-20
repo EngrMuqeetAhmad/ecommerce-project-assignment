@@ -51,6 +51,7 @@ async function queryLoginInDatabase(
           ID: queryResult?.recordset[0].ID,
           email: queryResult?.recordset[0].userEmail,
           role: queryResult?.recordset[0].role,
+          stripeID: queryResult?.recordset[0].stripeID
         },
         SECRET
       );

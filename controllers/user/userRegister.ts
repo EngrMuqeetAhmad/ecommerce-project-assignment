@@ -4,9 +4,14 @@ import { queryInDatabase, QueryResult } from "../../utils/queryInDatabase";
 import { hashString } from "../../utils/passwordHashednSalated";
 import sql from "mssql";
 import userExists from "./validations/userExists";
-import { Parameter, User, UserPhoneNO } from "../../types/userTypes";
+import { User, UserPhoneNO } from "../../types/userTypes";
+import dotenv from "dotenv";
+import { INSERTQueryString } from "../../utils/buildSQLqueryString";
+import { ControllerFunctionTemplate } from "../../utils/controllerFunctionTemplate";
 
 async function userRegister(req: any, res: any, next: any) {
+  dotenv.config();
+
   const { firstName, secondName, email, countryCode, phoneNo, password } =
     req.body;
 
@@ -29,9 +34,25 @@ async function userRegister(req: any, res: any, next: any) {
       return;
     }
     /////
+    ///stripe configuration
+
+    const stripe = require("stripe")(process.env.STRIPE_SECRETKEY);
+
     const UserID: string = uuid();
     const UserPhoneNoID: string = uuid();
     const hashedPassword: string = hashString(password);
+
+    let customer;
+    try {
+      customer = await stripe.customers.create({
+        email: email,
+        name: `${firstName} ${secondName}`,
+      });
+    } catch (error) {
+      console.log("error creating customer in stripe");
+      res.json({ message: "an error occured - stripe" });
+      return;
+    }
 
     ///creating objects/query params
     const userPhoneNo: UserPhoneNO = {
@@ -53,7 +74,7 @@ async function userRegister(req: any, res: any, next: any) {
       },
     };
 
-    const user: User = {
+    const user: object = {
       ID: {
         value: UserID,
         type: sql.Char,
@@ -82,6 +103,10 @@ async function userRegister(req: any, res: any, next: any) {
         value: "admin",
         type: sql.NVarChar,
       },
+      stripeID: {
+        value: customer?.id,
+        type: sql.NVarChar,
+      },
       //hashed and salted password
       userPassword: {
         value: hashedPassword,
@@ -89,50 +114,29 @@ async function userRegister(req: any, res: any, next: any) {
       },
     };
 
-    /*
-  first it will create in database the given phoneNumber of user then creates the user table - it is because user has separate table to store it phone Number details
-  if there is an error in creation of user information table in DB then it will remove the phone Number created so No data redundancy remains in DB
-*/
-    const pool: object | undefined | any = await connectToDatabase();
+    const tableName: string = "userTable";
 
-    try {
-      const queryUser = `INSERT INTO userTable (ID, userFirstName, userSecondName, userEmail, userPhoneNoID, isVerified, role, userPassword) VALUES (@ID, @userFirstName, @userSecondName, @userEmail, @userPhoneNoID, @isVerified, @role, @userPassword)`;
+    let query: string = INSERTQueryString(tableName, Object.keys(user));
 
-      const createUserResult: QueryResult = await queryInDatabase(
-        queryUser,
-        user,
-        pool
-      );
+    const messages: object = {
+      errorMessage: `Error adding into ${tableName}`,
+      successMessage: `Success Adding into ${tableName}`,
+    };
 
-      if (createUserResult.data.rowsAffected == 0) {
-        res.json({
-          message: `user is not created`,
-        });
-        await pool?.close();
-        return;
-      }
+    await ControllerFunctionTemplate(user, query, messages, res);
 
-      const queryCreatePhoneNo = `INSERT INTO userPhoneNumber (ID, userID, countryCode, phoneNumber) VALUES (@ID, @userID, @countryCode, @phoneNo)`;
+    const tableNamePhoneNumber: string = "userPhoneNumber";
 
-      const createUserPhoneNoResult: QueryResult = await queryInDatabase(
-        queryCreatePhoneNo,
-        userPhoneNo,
-        pool
-      );
+    query = INSERTQueryString(tableNamePhoneNumber, Object.keys(userPhoneNo));
 
+    const messages1: object = {
+      errorMessage: `Error adding into ${tableNamePhoneNumber}`,
+      successMessage: `Success Adding into ${tableNamePhoneNumber}`,
+    };
 
-      res.json({
-        message: `user created with email ${email}`,
-      });
-      await pool?.close();
-      next();
-      return;
-    } catch (error) {
-      res.json({ message: `creation failed` });
-      console.log(error);
-      await pool?.close();
-      return;
-    }
+    await ControllerFunctionTemplate(user, query, messages1, res);
+
+    return;
   }
 }
 

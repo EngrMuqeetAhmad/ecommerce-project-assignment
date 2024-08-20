@@ -4,11 +4,20 @@ import { queryInDatabase, QueryResult } from "../../utils/queryInDatabase";
 import jwt from "jsonwebtoken";
 import sql from "mssql";
 import encryptSensitiveData from "../../utils/encryptSensitiveData";
-
+import dotenv from "dotenv";
+import { INSERTQueryString } from "../../utils/buildSQLqueryString";
+import { ControllerFunctionTemplate } from "../../utils/controllerFunctionTemplate";
 async function userAddPaymentInfo(req: any, res: any) {
   const { ID } = req.user;
-  const { fullNameOnPaymentCard, paymentCardNumber, cardProvider } = req.body;
-
+  const {
+    fullNameOnPaymentCard,
+    paymentCardNumber,
+    cardProvider,
+    expMonth,
+    expYear,
+    cardCVC,
+  } = req.body;
+  dotenv.config();
   //validation:
   if (!fullNameOnPaymentCard || !paymentCardNumber || !cardProvider) {
     res.status(400).json({ message: "BAD request" });
@@ -16,6 +25,25 @@ async function userAddPaymentInfo(req: any, res: any) {
     /////
     const paymentCardID = uuid();
     ///creating objects/query params
+
+    const stripe = require("stripe")(process.env.STRIPE_SECRETKEY);
+
+    let paymentMethod;
+    try {
+      paymentMethod = await stripe.paymentMethods.create({
+        type: "card",
+        card: {
+          number: paymentCardNumber,
+          exp_month: expMonth,
+          exp_year: expYear,
+          cvc: cardCVC,
+        },
+      });
+    } catch (error) {
+      console.log("error creating paymentMethod in stripe");
+      res.json({ message: "an error occured - stripe" });
+      return;
+    }
 
     const params: object = {
       ID: {
@@ -38,31 +66,32 @@ async function userAddPaymentInfo(req: any, res: any) {
         value: cardProvider,
         type: sql.VarChar,
       },
+      stripePaymentMethodID: {
+        value: paymentMethod.id,
+        type: sql.NVarChar,
+      },
+      expMonth: {
+        value: expMonth, //this is userID
+        type: sql.Char,
+      },
+      expYear: {
+        value: expYear, //this is userID
+        type: sql.Char,
+      },
     };
 
-    const pool: object | undefined | any = await connectToDatabase();
+    const tableName: string = "userPaymentCardInfo";
 
-    try {
-      const queryAddPaymentCard = `INSERT INTO userPaymentCardInfo (ID, userID, fullNameOnPaymentCard, paymentCardNumber, cardProvider) VALUES (@ID, @userID, @fullNameOnPaymentCard, @paymentCardNumber, @cardProvider)`;
+    const query: string = INSERTQueryString(tableName, Object.keys(params));
 
-      const resultAddPaymentCard: QueryResult = await queryInDatabase(
-        queryAddPaymentCard,
-        params,
-        pool
-      );
+    const messages: object = {
+      errorMessage: `Error adding into ${tableName}`,
+      successMessage: `Success Adding into ${tableName}`,
+    };
 
-      if (resultAddPaymentCard.data.rowsAffected == 0) {
-        res.json({ message: "error adding payment card info" });
-        return;
-      }
+    await ControllerFunctionTemplate(params, query, messages, res);
 
-      res.json({ message: "Success Adding payment card info" });
-      return;
-    } catch (error) {
-      res.json({ message: `creation failed` });
-      await pool?.close();
-      return;
-    }
+    return;
   }
 }
 

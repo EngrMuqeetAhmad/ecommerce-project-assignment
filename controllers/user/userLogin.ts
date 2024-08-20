@@ -16,7 +16,7 @@ async function userLogin(req: any, res: any) {
 
     const hashedPassword: string = hashString(password);
     const queryUserLogin =
-      "SELECT ID, userEmail, isVerified, role FROM userTable WHERE userEmail = @userEmail AND userPassword = @userPassword";
+      "SELECT ID, userEmail, isVerified, role, stripeID FROM userTable WHERE userEmail = @userEmail AND userPassword = @userPassword";
 
     const params = {
       userEmail: { value: email, type: sql.NVarChar },
