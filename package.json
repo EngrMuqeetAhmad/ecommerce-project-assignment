@@ -9,16 +9,15 @@
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
-    "debug": "~2.6.9",
-    "dotenv": "^16.4.5",
     "express": "~4.16.1",
     "http-errors": "~1.6.3",
     "jsonwebtoken": "^9.0.2",
     "morgan": "~1.9.1",
     "mssql": "^11.0.1",
     "nodemailer": "^6.9.14",
-    "pug": "2.0.0-beta11",
+    "sequelize": "^6.37.3",
     "stripe": "^16.8.0",
+    "tedious": "^18.6.2",
     "uuid": "^10.0.0"
   },
   "devDependencies": {
@@ -27,10 +26,13 @@
     "@types/jsonwebtoken": "^9.0.6",
     "@types/morgan": "^1.9.9",
     "@types/mssql": "^9.1.5",
-    "@types/node": "^22.1.0",
+    "@types/node": "^22.4.2",
     "@types/nodemailer": "^6.4.15",
+    "@types/sequelize": "^4.28.20",
     "@types/stripe": "^8.0.417",
     "@types/uuid": "^10.0.0",
+    "debug": "^4.3.6",
+    "dotenv": "^16.4.5",
     "nodemon": "^3.1.4",
     "ts-node": "^10.9.2",
     "typescript": "^5.5.4"
