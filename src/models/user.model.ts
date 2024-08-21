@@ -95,3 +95,5 @@ User.init(
     paranoid: true,
   }
 );
+
+export default User;
