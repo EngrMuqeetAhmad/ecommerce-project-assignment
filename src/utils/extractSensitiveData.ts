@@ -1,14 +1,13 @@
-import jwt from "jsonwebtoken";
+import jwt from 'jsonwebtoken';
 
 function extractSensitiveData(
   data: Array<any>,
-  indexToDecrypt: string
+  indexToDecrypt: string,
 ): Array<any> {
-  
-  let newData: Array<any> = [];
+  const newData: Array<any> = [];
 
   data?.map((item) => {
-    jwt.verify(item[indexToDecrypt], "MuqeetAhmad", (err: any, d: any) => {
+    jwt.verify(item[indexToDecrypt], 'MuqeetAhmad', (err: any, d: any) => {
       if (err) {
         return item[indexToDecrypt];
       }

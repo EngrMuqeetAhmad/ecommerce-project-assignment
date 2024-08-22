@@ -1,8 +1,7 @@
-import { connectToDatabase } from "../../config/dbConnection";
-import { v4 as uuid } from "uuid";
-import { queryInDatabase, QueryResult } from "../../utils/queryInDatabase";
-
-import sql from "mssql";
+import sql from 'mssql';
+import { v4 as uuid } from 'uuid';
+import { connectToDatabase } from '../../config/dbConnection';
+import { queryInDatabase, QueryResult } from '../../utils/queryInDatabase';
 
 async function userDeleteShippingAddress(req: any, res: any) {
   const { ID, userEmail } = req.user;
@@ -10,7 +9,7 @@ async function userDeleteShippingAddress(req: any, res: any) {
 
   //validation:
   if (!addressID) {
-    res.status(400).json({ message: "BAD request" });
+    res.status(400).json({ message: 'BAD request' });
   } else {
     /////
 
@@ -35,15 +34,15 @@ async function userDeleteShippingAddress(req: any, res: any) {
       const resultDeleteShippingAddress: QueryResult = await queryInDatabase(
         queryDeleteShippingAddress,
         params,
-        pool
+        pool,
       );
 
       if (resultDeleteShippingAddress.data.rowsAffected == 0) {
-        res.json({ message: "error adding shipping address or not found" });
+        res.json({ message: 'error adding shipping address or not found' });
         return;
       }
 
-      res.json({ message: "Success deleting shipping address" });
+      res.json({ message: 'Success deleting shipping address' });
       return;
     } catch (error) {
       res.json({ message: `deletion failed` });

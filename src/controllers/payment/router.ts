@@ -1,13 +1,13 @@
-import express from "express";
-import { authorizeRole, validateToken } from "../../utils/validateToken";
+import express from 'express';
 
-import { getUserPaymentCardInfo } from "./getPaymentInfo.controller";
-import { getUserAllPaymentCardInfo } from "./getAllPaymentCardsInfo.controller";
-import { userAddPaymentInfo } from "./addPaymentInfo.controller";
-import { userUpdatePaymentInfo } from "./updatePaymentInfo.controller";
-import { userDeletePaymentInfo } from "./deletePaymentInfo.controller";
-import { Role } from "../../types/userTypes";
-import { createPaymentFlow } from "./createPayment.controller";
+import { userAddPaymentInfo } from './addPaymentInfo.controller';
+import { createPaymentFlow } from './createPayment.controller';
+import { userDeletePaymentInfo } from './deletePaymentInfo.controller';
+import { getUserAllPaymentCardInfo } from './getAllPaymentCardsInfo.controller';
+import { getUserPaymentCardInfo } from './getPaymentInfo.controller';
+import { userUpdatePaymentInfo } from './updatePaymentInfo.controller';
+import { Role } from '../../types/userTypes';
+import { authorizeRole, validateToken } from '../../utils/validateToken';
 
 ///////
 
@@ -18,55 +18,55 @@ import { createPaymentFlow } from "./createPayment.controller";
 export const paymentRouter = express.Router();
 ///
 paymentRouter.get(
-  "/protected/getPaymentCardInfo/:paymentCardID",
+  '/protected/getPaymentCardInfo/:paymentCardID',
   validateToken,
   authorizeRole([Role.ADMIN, Role.USER]),
   async (req: any, res: any) => {
     await getUserPaymentCardInfo(req, res);
-  }
+  },
 );
 
 paymentRouter.get(
-  "/protected/getUserAllPaymentCardsInfo/",
+  '/protected/getUserAllPaymentCardsInfo/',
   validateToken,
   authorizeRole([Role.ADMIN, Role.USER]),
   async (req: any, res: any) => {
     await getUserAllPaymentCardInfo(req, res);
-  }
+  },
 );
 
 paymentRouter.put(
-  "/protected/addPaymentInfo",
+  '/protected/addPaymentInfo',
   validateToken,
   authorizeRole([Role.USER]),
   async (req: any, res: any) => {
     await userAddPaymentInfo(req, res);
-  }
+  },
 );
 
 paymentRouter.post(
-  "/protected/updatePaymentInfo",
+  '/protected/updatePaymentInfo',
   validateToken,
   authorizeRole([Role.USER]),
   async (req: any, res: any) => {
     await userUpdatePaymentInfo(req, res);
-  }
+  },
 );
 paymentRouter.post(
-  "/protected/deletePaymentInfo",
+  '/protected/deletePaymentInfo',
   validateToken,
   authorizeRole([Role.USER]),
   async (req: any, res: any) => {
     await userDeletePaymentInfo(req, res);
-  }
+  },
 );
 
 paymentRouter.post(
-  "/protected/createPayment",
+  '/protected/createPayment',
   validateToken,
   authorizeRole([Role.USER]),
   async (req: any, res: any) => {
     await createPaymentFlow(req, res);
-  }
+  },
 );
 ///////

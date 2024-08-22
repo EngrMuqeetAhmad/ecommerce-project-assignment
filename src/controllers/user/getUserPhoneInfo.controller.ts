@@ -1,8 +1,8 @@
-import sql from "mssql";
-import { connectToDatabase } from "../../config/dbConnection";
+import sql from 'mssql';
+import { connectToDatabase } from '../../config/dbConnection';
 
-import { queryInDatabase, QueryResult } from "../../utils/queryInDatabase";
-import { Role } from "../../types/userTypes";
+import { Role } from '../../types/userTypes';
+import { queryInDatabase, QueryResult } from '../../utils/queryInDatabase';
 
 async function getUserPhoneInfo(req: any, res: any) {
   let { ID, role } = req.user;
@@ -11,7 +11,7 @@ async function getUserPhoneInfo(req: any, res: any) {
   if (role == Role.ADMIN) {
     const { userID } = req.body;
     if (!userID) {
-      res.json({ message: "Admin error - no userID" });
+      res.json({ message: 'Admin error - no userID' });
     }
     ID = userID;
   }
@@ -19,12 +19,12 @@ async function getUserPhoneInfo(req: any, res: any) {
   //validation:
   if (!ID) {
     res.status(400);
-    res.json({ message: "BAD request" });
+    res.json({ message: 'BAD request' });
   } else {
     const pool: object | undefined | any = await connectToDatabase();
 
     const queryGetUserPhoneNo =
-      "SELECT ID, countryCode, phoneNumber FROM userPhoneNumber WHERE userID = @userID";
+      'SELECT ID, countryCode, phoneNumber FROM userPhoneNumber WHERE userID = @userID';
 
     const params = {
       userID: { value: ID, type: sql.Char },
@@ -32,16 +32,16 @@ async function getUserPhoneInfo(req: any, res: any) {
     const resultQueryGetUserPhoneNo: QueryResult = await queryInDatabase(
       queryGetUserPhoneNo,
       params,
-      pool
+      pool,
     );
 
     if (resultQueryGetUserPhoneNo.data.rowsAffected == 0) {
-      res.status(404).json({ message: "Failed", data: undefined });
+      res.status(404).json({ message: 'Failed', data: undefined });
       await pool?.close();
       return;
     }
 
-    res.status(200).json({ message: "OK", data: resultQueryGetUserPhoneNo });
+    res.status(200).json({ message: 'OK', data: resultQueryGetUserPhoneNo });
     await pool?.close();
     return;
   }

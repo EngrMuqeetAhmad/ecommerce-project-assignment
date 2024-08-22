@@ -1,7 +1,7 @@
-import { DataTypes, Model } from "sequelize";
-import { sequelize } from "../config/dbConnection";
-import { hashString } from "../utils/passwordHashednSalated";
-import { UserInput, UserTypes } from "../types/user.types";
+import { DataTypes, Model } from 'sequelize';
+import { sequelize } from '../config/dbConnection';
+import { UserInput, UserTypes } from '../types/user.types';
+import { hashString } from '../utils/passwordHashednSalated';
 
 class User extends Model<UserTypes, UserInput> {
   public ID!: number;
@@ -55,7 +55,7 @@ User.init(
       type: DataTypes.STRING,
       allowNull: false,
       set(this: Model, value: string) {
-        this.setDataValue("password", hashString(value));
+        this.setDataValue('password', hashString(value));
       },
       validate: {
         min: 6,
@@ -75,7 +75,7 @@ User.init(
       allowNull: false,
       validate: {
         notEmpty: true,
-        isIn: [["admin", "user"]],
+        isIn: [['admin', 'user']],
       },
     },
     stripeID: {
@@ -90,10 +90,10 @@ User.init(
 
   {
     sequelize,
-    tableName: "UserTable",
+    tableName: 'UserTable',
     timestamps: true,
     paranoid: true,
-  }
+  },
 );
 
 export default User;

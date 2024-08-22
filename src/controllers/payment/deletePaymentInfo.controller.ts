@@ -1,8 +1,7 @@
-import { connectToDatabase } from "../../config/dbConnection";
+import sql from 'mssql';
+import { connectToDatabase } from '../../config/dbConnection';
 
-import { queryInDatabase, QueryResult } from "../../utils/queryInDatabase";
-
-import sql from "mssql";
+import { queryInDatabase, QueryResult } from '../../utils/queryInDatabase';
 
 async function userDeletePaymentInfo(req: any, res: any) {
   const { ID, userEmail } = req.user;
@@ -10,7 +9,7 @@ async function userDeletePaymentInfo(req: any, res: any) {
 
   //validation:
   if (!paymentCardID) {
-    res.status(400).json({ message: "BAD request" });
+    res.status(400).json({ message: 'BAD request' });
   } else {
     /////
 
@@ -35,15 +34,15 @@ async function userDeletePaymentInfo(req: any, res: any) {
       const resultDeletePaymentCard: QueryResult = await queryInDatabase(
         queryDeletePaymentCard,
         params,
-        pool
+        pool,
       );
 
       if (resultDeletePaymentCard.data.rowsAffected == 0) {
-        res.json({ message: "error adding shipping address or not found" });
+        res.json({ message: 'error adding shipping address or not found' });
         return;
       }
 
-      res.json({ message: "Success deleting shipping address" });
+      res.json({ message: 'Success deleting shipping address' });
       return;
     } catch (error) {
       res.json({ message: `deletion failed` });

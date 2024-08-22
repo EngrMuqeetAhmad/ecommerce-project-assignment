@@ -1,16 +1,16 @@
 function INSERTQueryString(tableName: string, params: Array<string>): string {
-  let queryString: string = "";
+  let queryString: string = '';
 
-  let queryParamName: string = "";
+  let queryParamName: string = '';
 
-  let queryParamValues: string = "";
+  let queryParamValues: string = '';
 
   for (let index = 0; index < params.length; index++) {
     const element = params[index];
 
-    queryParamName = queryParamName + element + ",";
+    queryParamName = queryParamName + element + ',';
 
-    queryParamValues = queryParamValues + "@" + element + ",";
+    queryParamValues = queryParamValues + '@' + element + ',';
   }
 
   queryParamName = queryParamName.substring(0, queryParamName.length - 1);
@@ -22,9 +22,9 @@ function INSERTQueryString(tableName: string, params: Array<string>): string {
 }
 
 function UPDATEQueryString(tableName: string, params: Array<string>): string {
-  let queryString: string = "";
+  let queryString: string = '';
 
-  let queryParams: string = "";
+  let queryParams: string = '';
 
   for (let index = 0; index < params.length; index++) {
     const element = params[index];

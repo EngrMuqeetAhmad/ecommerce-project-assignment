@@ -1,23 +1,19 @@
-import sql from "mssql";
+import sql from 'mssql';
 
-import { Role } from "../../../types/userTypes";
-import { ControllerFunctionTemplate } from "../../../utils/controllerFunctionTemplate";
+import { Role } from '../../../types/userTypes';
+import { ControllerFunctionTemplate } from '../../../utils/controllerFunctionTemplate';
 
 async function getAllCategories(req: any, res: any) {
-  let { ID, role } = req.user; //user ID
-
+  const { ID, role } = req.user; //user ID
 
   //validation:
-  if (role != "admin") {
+  if (role != 'admin') {
     res.status(400);
-    res.json({ message: "BAD request" });
+    res.json({ message: 'BAD request' });
   } else {
-    const query =
-      "SELECT ID, categoryName FROM Category";
+    const query = 'SELECT ID, categoryName FROM Category';
 
-    const params = {
-      
-    };
+    const params = {};
     const messages: object = {
       errorMessage: `Not Found`,
       successMessage: `OK`,

@@ -1,9 +1,9 @@
-import { connectToDatabase } from "../../config/dbConnection";
+import sql from 'mssql';
+import { connectToDatabase } from '../../config/dbConnection';
 
-import { queryInDatabase, QueryResult } from "../../utils/queryInDatabase";
-import { hashString } from "../../utils/passwordHashednSalated";
-import sql from "mssql";
-import userExists from "../../validators/userExists.validation";
+import { hashString } from '../../utils/passwordHashednSalated';
+import { queryInDatabase, QueryResult } from '../../utils/queryInDatabase';
+import userExists from '../../validators/userExists.validation';
 
 async function userPasswordUpdate(req: any, res: any) {
   const { email, newPassword } = req.body;
@@ -11,12 +11,12 @@ async function userPasswordUpdate(req: any, res: any) {
   //validation:
   if (!email || !newPassword) {
     res.status(400);
-    res.json({ message: "BAD request" });
+    res.json({ message: 'BAD request' });
   } else {
     //validation for existing email
     const emailRegistered: QueryResult = await userExists(email);
     if (emailRegistered?.data.rowsAffected == 0 ? true : false) {
-      res.json({ message: "USER with given email does not exist" });
+      res.json({ message: 'USER with given email does not exist' });
       return;
     }
     /////
@@ -46,21 +46,21 @@ async function userPasswordUpdate(req: any, res: any) {
       const resultQueryUpdatePassword: QueryResult = await queryInDatabase(
         queryUpdatePassword,
         params,
-        pool
+        pool,
       );
 
       if (resultQueryUpdatePassword?.data.rowsAffected == 0) {
-        console.log("error updating password");
-        res.json({ message: "error updating password - try again" });
+        console.log('error updating password');
+        res.json({ message: 'error updating password - try again' });
         return;
       }
 
-      console.log("password updated");
-      res.json({ message: "password updated successfully" });
+      console.log('password updated');
+      res.json({ message: 'password updated successfully' });
       return;
     } catch (error) {
-      console.log("error updating password");
-      res.json({ message: "error updating password" });
+      console.log('error updating password');
+      res.json({ message: 'error updating password' });
       return;
     }
   }

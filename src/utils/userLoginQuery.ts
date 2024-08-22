@@ -1,12 +1,12 @@
-import { QueryResultLogin } from "../types/userTypes";
-import jwt from "jsonwebtoken";
-import dotenv from "dotenv";
-import { v4 as uuid } from "uuid";
+import dotenv from 'dotenv';
+import jwt from 'jsonwebtoken';
+import { v4 as uuid } from 'uuid';
+import { QueryResultLogin } from '../types/userTypes';
 async function queryLoginInDatabase(
   query: string,
   params: any | object,
   dbConnectionPool: any | undefined,
-  res: any
+  res: any,
 ) {
   dotenv.config();
 
@@ -29,13 +29,13 @@ async function queryLoginInDatabase(
     const queryResult: any = await request?.query(query);
 
     if (queryResult?.rowsAffected == 0) {
-      res.status(404).json({ message: "No user found", data: undefined });
+      res.status(404).json({ message: 'No user found', data: undefined });
       return;
     }
 
-    if (queryResult?.recordset[0]?.isVerified != "1") {
+    if (queryResult?.recordset[0]?.isVerified != '1') {
       res.json({
-        message: "Please, verify your email to continue",
+        message: 'Please, verify your email to continue',
         data: undefined,
       });
       return;
@@ -44,16 +44,16 @@ async function queryLoginInDatabase(
     let token: string;
 
     try {
-      let SECRET = "MuqeetAhmad";
+      const SECRET = 'MuqeetAhmad';
 
       token = jwt.sign(
         {
           ID: queryResult?.recordset[0].ID,
           email: queryResult?.recordset[0].userEmail,
           role: queryResult?.recordset[0].role,
-          stripeID: queryResult?.recordset[0].stripeID
+          stripeID: queryResult?.recordset[0].stripeID,
         },
-        SECRET
+        SECRET,
       );
 
       result = {
@@ -65,15 +65,15 @@ async function queryLoginInDatabase(
         },
       };
 
-      res.status(200).json({ message: "OK", data: result });
+      res.status(200).json({ message: 'OK', data: result });
       return;
     } catch (error) {
-      res.json({ message: "An error occured - try again", data: result });
-      console.log("error creating json web token", error);
+      res.json({ message: 'An error occured - try again', data: result });
+      console.log('error creating json web token', error);
       return;
     }
   } catch (error) {
-    res.json({ message: "An error occured - try again", data: result });
+    res.json({ message: 'An error occured - try again', data: result });
     console.log(`Error create query the database ${error}`);
     return;
   }

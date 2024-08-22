@@ -1,8 +1,8 @@
-import sql from "mssql";
-import { connectToDatabase } from "../../config/dbConnection";
+import sql from 'mssql';
+import { connectToDatabase } from '../../config/dbConnection';
 
-import { queryInDatabase, QueryResult } from "../../utils/queryInDatabase";
-import { ControllerFunctionTemplate } from "../../utils/controllerFunctionTemplate";
+import { ControllerFunctionTemplate } from '../../utils/controllerFunctionTemplate';
+import { queryInDatabase, QueryResult } from '../../utils/queryInDatabase';
 
 async function getOrder(req: any, res: any) {
   const { ID } = req.user; //user ID
@@ -11,12 +11,12 @@ async function getOrder(req: any, res: any) {
   //validation:
   if (!orderID) {
     res.status(400);
-    res.json({ message: "BAD request" });
+    res.json({ message: 'BAD request' });
   } else {
     const pool: object | undefined | any = await connectToDatabase();
 
     const query =
-      "SELECT ID, userID, productIDs, shippingAddressID, paymentMethod ,paymentCardInfoID, timestamp  ,couponID, orderTotalPrice, paymentID, statusTableID FROM userOrderTable WHERE ID=@ID";
+      'SELECT ID, userID, productIDs, shippingAddressID, paymentMethod ,paymentCardInfoID, timestamp  ,couponID, orderTotalPrice, paymentID, statusTableID FROM userOrderTable WHERE ID=@ID';
 
     const params = {
       ID: { value: orderID, type: sql.Char },

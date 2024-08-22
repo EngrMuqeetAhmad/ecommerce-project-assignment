@@ -1,14 +1,13 @@
-import { connectToDatabase } from "../config/dbConnection";
-import { queryInDatabase, QueryResult } from "./queryInDatabase";
+import { queryInDatabase, QueryResult } from './queryInDatabase';
+import { connectToDatabase } from '../config/dbConnection';
 
 async function ControllerFunctionTemplate(
   params: any,
   query: string,
   messages: any,
-  res: any
+  res: any,
 ) {
-
-  console.log(query, params)
+  console.log(query, params);
 
   const pool: object | undefined | any = await connectToDatabase();
 

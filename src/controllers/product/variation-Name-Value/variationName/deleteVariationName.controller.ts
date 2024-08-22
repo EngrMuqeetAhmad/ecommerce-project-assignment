@@ -1,8 +1,5 @@
-
-
-
-import sql from "mssql";
-import { ControllerFunctionTemplate } from "../../../../utils/controllerFunctionTemplate";
+import sql from 'mssql';
+import { ControllerFunctionTemplate } from '../../../../utils/controllerFunctionTemplate';
 
 async function deleteVariationType(req: any, res: any) {
   const { ID, role } = req.user;
@@ -10,7 +7,7 @@ async function deleteVariationType(req: any, res: any) {
 
   //validation:
   if (!variationTypeID) {
-    res.status(400).json({ message: "BAD request" });
+    res.status(400).json({ message: 'BAD request' });
   } else {
     /////
 
@@ -28,12 +25,7 @@ async function deleteVariationType(req: any, res: any) {
       errorMessage: `Failed deleting Base Product variation Type`,
       successMessage: `success deleting base product variation Type`,
     };
-    await ControllerFunctionTemplate(
-      params,
-      query,
-      messages,
-      res
-    );
+    await ControllerFunctionTemplate(params, query, messages, res);
 
     return;
   }

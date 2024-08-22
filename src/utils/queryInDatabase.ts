@@ -9,7 +9,7 @@ type QueryResult = {
 async function queryInDatabase(
   query: string,
   params: any | object,
-  dbConnectionPool: any | undefined
+  dbConnectionPool: any | undefined,
 ): Promise<QueryResult> {
   let result: QueryResult = {
     success: false,

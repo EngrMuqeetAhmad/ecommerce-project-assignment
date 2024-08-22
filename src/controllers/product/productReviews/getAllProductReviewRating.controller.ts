@@ -1,20 +1,20 @@
-import sql from "mssql";
-import { connectToDatabase } from "../../../config/dbConnection";
+import sql from 'mssql';
+import { connectToDatabase } from '../../../config/dbConnection';
 
-import { queryInDatabase, QueryResult } from "../../../utils/queryInDatabase";
-import { Role } from "../../../types/userTypes";
-import { ControllerFunctionTemplate } from "../../../utils/controllerFunctionTemplate";
+import { Role } from '../../../types/userTypes';
+import { ControllerFunctionTemplate } from '../../../utils/controllerFunctionTemplate';
+import { queryInDatabase, QueryResult } from '../../../utils/queryInDatabase';
 
 async function getAllProductReviewRating(req: any, res: any) {
-  let { ID, role } = req.user; //user ID
+  const { ID, role } = req.user; //user ID
   const { productVariationID } = req.body;
   //validation:
   if (productVariationID) {
     res.status(400);
-    res.json({ message: "BAD request" });
+    res.json({ message: 'BAD request' });
   } else {
     const queryGetBaseProduct =
-      "SELECT ID, productTitle, productDescription, basePrice, categoryID, subCategoryID FROM ProductUserReviewRating WHERE productVariationID = @productVariationID";
+      'SELECT ID, productTitle, productDescription, basePrice, categoryID, subCategoryID FROM ProductUserReviewRating WHERE productVariationID = @productVariationID';
 
     const params = {
       productVariationID: {
@@ -30,7 +30,7 @@ async function getAllProductReviewRating(req: any, res: any) {
       params,
       queryGetBaseProduct,
       messages,
-      res
+      res,
     );
     return;
   }

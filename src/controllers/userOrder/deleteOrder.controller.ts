@@ -1,8 +1,7 @@
-import { connectToDatabase } from "../../config/dbConnection";
-import { v4 as uuid } from "uuid";
-import { queryInDatabase, QueryResult } from "../../utils/queryInDatabase";
-
-import sql from "mssql";
+import sql from 'mssql';
+import { v4 as uuid } from 'uuid';
+import { connectToDatabase } from '../../config/dbConnection';
+import { queryInDatabase, QueryResult } from '../../utils/queryInDatabase';
 
 async function deleteOrder(req: any, res: any) {
   const { ID, userEmail } = req.user; //userID
@@ -10,7 +9,7 @@ async function deleteOrder(req: any, res: any) {
 
   //validation:
   if (!orderID || !statusID) {
-    res.status(400).json({ message: "BAD request" });
+    res.status(400).json({ message: 'BAD request' });
   } else {
     /////////// cancel order - also perform some operations - like adding products back to stock, returning payment if done,
 
@@ -40,27 +39,27 @@ async function deleteOrder(req: any, res: any) {
       const resutlQueryOrderStatus: QueryResult = await queryInDatabase(
         queryOrderStatus,
         statusTableParams,
-        pool
+        pool,
       );
 
       if (resutlQueryOrderStatus.data.rowsAffected == 0) {
-        res.json({ message: "error query staus - try again" });
+        res.json({ message: 'error query staus - try again' });
         return;
       }
 
       if (
-        resutlQueryOrderStatus.data.recordSet?.orderStatus == "pending" ||
-        resutlQueryOrderStatus.data.recordSet?.orderStatus == "processing"
+        resutlQueryOrderStatus.data.recordSet?.orderStatus == 'pending' ||
+        resutlQueryOrderStatus.data.recordSet?.orderStatus == 'processing'
       ) {
         const queryDeleteOrder = `DELETE FROM userOrderTable WHERE ID = @ID`;
 
         const resultDeleteOrder: QueryResult = await queryInDatabase(
           queryDeleteOrder,
           cancelOrderParams,
-          pool
+          pool,
         );
         if (resultDeleteOrder.data.rowsAffected == 0) {
-          res.json({ message: "error deleting order" });
+          res.json({ message: 'error deleting order' });
           return;
         }
         const queryDeleteOrderStatus = `DELETE FROM orderStatusTable WHERE ID = @ID`;
@@ -68,14 +67,14 @@ async function deleteOrder(req: any, res: any) {
         const resultDeleteOrderStatus: QueryResult = await queryInDatabase(
           queryDeleteOrderStatus,
           statusTableParams,
-          pool
+          pool,
         );
         if (resultDeleteOrderStatus.data.rowsAffected == 0) {
-          res.json({ message: "error deleting order - status" });
+          res.json({ message: 'error deleting order - status' });
           return;
         }
 
-        res.json({ message: "Success cancellig Order" });
+        res.json({ message: 'Success cancellig Order' });
         return;
       } else {
         res.json({ message: "Order Has been dispatched - can't be cancelled" });

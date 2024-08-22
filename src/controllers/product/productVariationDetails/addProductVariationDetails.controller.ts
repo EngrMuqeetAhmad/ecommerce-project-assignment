@@ -1,10 +1,9 @@
-import { connectToDatabase } from "../../../config/dbConnection";
-import { v4 as uuid } from "uuid";
-import { queryInDatabase, QueryResult } from "../../../utils/queryInDatabase";
-
-import sql from "mssql";
-import { INSERTQueryString } from "../../../utils/buildSQLqueryString";
-import { ControllerFunctionTemplate } from "../../../utils/controllerFunctionTemplate";
+import sql from 'mssql';
+import { v4 as uuid } from 'uuid';
+import { connectToDatabase } from '../../../config/dbConnection';
+import { INSERTQueryString } from '../../../utils/buildSQLqueryString';
+import { ControllerFunctionTemplate } from '../../../utils/controllerFunctionTemplate';
+import { queryInDatabase, QueryResult } from '../../../utils/queryInDatabase';
 
 async function addProductVariationDetails(req: any, res: any) {
   const { ID, role } = req.user;
@@ -12,7 +11,7 @@ async function addProductVariationDetails(req: any, res: any) {
 
   //validation:
   if (!productVariationID || !productVariationTypeValueID) {
-    res.status(400).json({ message: "BAD request" });
+    res.status(400).json({ message: 'BAD request' });
   } else {
     /////
     const productVariationDetailsID = uuid();
@@ -28,14 +27,12 @@ async function addProductVariationDetails(req: any, res: any) {
         type: sql.Char,
       },
       productVariationID: {
-        value: productVariationID, 
+        value: productVariationID,
         type: sql.Char,
       },
-     
-      
     };
 
-    const tableName: string = "ProductVariationDetails";
+    const tableName: string = 'ProductVariationDetails';
     const query: string = INSERTQueryString(tableName, Object.keys(params));
 
     const messages: object = {

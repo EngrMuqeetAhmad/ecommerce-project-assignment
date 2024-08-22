@@ -1,9 +1,8 @@
-import { connectToDatabase } from "../../../config/dbConnection";
-import { ControllerFunctionTemplate } from "../../../utils/controllerFunctionTemplate";
+import sql from 'mssql';
+import { connectToDatabase } from '../../../config/dbConnection';
+import { ControllerFunctionTemplate } from '../../../utils/controllerFunctionTemplate';
 
-import { queryInDatabase, QueryResult } from "../../../utils/queryInDatabase";
-
-import sql from "mssql";
+import { queryInDatabase, QueryResult } from '../../../utils/queryInDatabase';
 
 async function deleteBaseProduct(req: any, res: any) {
   const { ID, role } = req.user;
@@ -11,7 +10,7 @@ async function deleteBaseProduct(req: any, res: any) {
 
   //validation:
   if (!baseProductID) {
-    res.status(400).json({ message: "BAD request" });
+    res.status(400).json({ message: 'BAD request' });
   } else {
     /////
 
@@ -33,7 +32,7 @@ async function deleteBaseProduct(req: any, res: any) {
       params,
       queryDeleteBaseProduct,
       messages,
-      res
+      res,
     );
 
     return;

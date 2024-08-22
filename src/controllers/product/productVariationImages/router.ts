@@ -1,55 +1,55 @@
-import express from "express";
-import { authorizeRole, validateToken } from "../../../utils/validateToken";
-import { Role } from "../../../types/userTypes";
-import { addProductVariationImages } from "./addProductVariationImages.controller";
-import { getProductVariationImage } from "./getProductVariationImages.controller";
-import { getAllProductVariationImages } from "./getAllProductVariationsImages.controller";
-import { updateProductVariationImages } from "./updateProductVariationImages.controller";
-import { deleteProductVariationImages } from "./deleteProductVariationImages.controller";
+import express from 'express';
+import { addProductVariationImages } from './addProductVariationImages.controller';
+import { deleteProductVariationImages } from './deleteProductVariationImages.controller';
+import { getAllProductVariationImages } from './getAllProductVariationsImages.controller';
+import { getProductVariationImage } from './getProductVariationImages.controller';
+import { updateProductVariationImages } from './updateProductVariationImages.controller';
+import { Role } from '../../../types/userTypes';
+import { authorizeRole, validateToken } from '../../../utils/validateToken';
 
-export const variationImagesRouter = express.Router()
+export const variationImagesRouter = express.Router();
 
 variationImagesRouter.put(
-  "/addProductVariationImage",
+  '/addProductVariationImage',
   validateToken,
   authorizeRole([Role.ADMIN]),
   async (req: any, res: any) => {
     await addProductVariationImages(req, res);
-  }
+  },
 );
 
 variationImagesRouter.get(
-  "/getProductVariationImage",
+  '/getProductVariationImage',
   validateToken,
   authorizeRole([Role.ADMIN]),
   async (req: any, res: any) => {
     await getProductVariationImage(req, res);
-  }
+  },
 );
 
 variationImagesRouter.get(
-  "/getAllProductVariationImages",
+  '/getAllProductVariationImages',
   validateToken,
   authorizeRole([Role.ADMIN]),
   async (req: any, res: any) => {
     await getAllProductVariationImages(req, res);
-  }
+  },
 );
 
 variationImagesRouter.post(
-  "/updateProductVariationImage",
+  '/updateProductVariationImage',
   validateToken,
   authorizeRole([Role.ADMIN]),
   async (req: any, res: any) => {
     await updateProductVariationImages(req, res);
-  }
+  },
 );
 
 variationImagesRouter.post(
-  "/deleteProductVariationImage",
+  '/deleteProductVariationImage',
   validateToken,
   authorizeRole([Role.ADMIN]),
   async (req: any, res: any) => {
     await deleteProductVariationImages(req, res);
-  }
+  },
 );

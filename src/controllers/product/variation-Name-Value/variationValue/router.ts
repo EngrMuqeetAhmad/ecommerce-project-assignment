@@ -1,54 +1,53 @@
-import express from "express";
-import { authorizeRole, validateToken } from "../../../../utils/validateToken";
-import { Role } from "../../../../types/userTypes";
-import { getVariationTypeValue } from "./getVariationValue.controller";
-import { deleteVariationValue } from "./deleteVariationValue.controller";
-import { updateVariationValue } from "./updateVariationValue.controller";
-import { addProductVariationValue } from "./addVariationValue.controller";
-import { getAllVariationTypeValues } from "./getAllVariationValues.controller";
+import express from 'express';
+import { addProductVariationValue } from './addVariationValue.controller';
+import { deleteVariationValue } from './deleteVariationValue.controller';
+import { getAllVariationTypeValues } from './getAllVariationValues.controller';
+import { getVariationTypeValue } from './getVariationValue.controller';
+import { updateVariationValue } from './updateVariationValue.controller';
+import { Role } from '../../../../types/userTypes';
+import { authorizeRole, validateToken } from '../../../../utils/validateToken';
 
-export const variationValueRouter = express.Router()
-
+export const variationValueRouter = express.Router();
 
 variationValueRouter.put(
-  "/product/variation/addTypeValue",
+  '/product/variation/addTypeValue',
   validateToken,
   authorizeRole([Role.ADMIN]),
   async (req: any, res: any) => {
     await addProductVariationValue(req, res);
-  }
+  },
 );
 
 variationValueRouter.post(
-  "/product/variation/updateTypeValue",
+  '/product/variation/updateTypeValue',
   validateToken,
   authorizeRole([Role.ADMIN]),
   async (req: any, res: any) => {
     await updateVariationValue(req, res);
-  }
+  },
 );
 variationValueRouter.post(
-  "/product/variation/deleteTypeValue",
+  '/product/variation/deleteTypeValue',
   validateToken,
   authorizeRole([Role.ADMIN]),
   async (req: any, res: any) => {
     await deleteVariationValue(req, res);
-  }
+  },
 );
 
 variationValueRouter.get(
-  "/product/variation/getTypeValue",
+  '/product/variation/getTypeValue',
   validateToken,
   authorizeRole([Role.ADMIN]),
   async (req: any, res: any) => {
     await getVariationTypeValue(req, res);
-  }
+  },
 );
 variationValueRouter.get(
-  "/product/variation/getAllTypeValues",
+  '/product/variation/getAllTypeValues',
   validateToken,
   authorizeRole([Role.ADMIN]),
   async (req: any, res: any) => {
     await getAllVariationTypeValues(req, res);
-  }
+  },
 );

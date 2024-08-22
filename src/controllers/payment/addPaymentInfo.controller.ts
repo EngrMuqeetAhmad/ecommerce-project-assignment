@@ -1,9 +1,9 @@
-import { v4 as uuid } from "uuid";
-import sql from "mssql";
-import encryptSensitiveData from "../../utils/encryptSensitiveData";
-import dotenv from "dotenv";
-import { INSERTQueryString } from "../../utils/buildSQLqueryString";
-import { ControllerFunctionTemplate } from "../../utils/controllerFunctionTemplate";
+import dotenv from 'dotenv';
+import sql from 'mssql';
+import { v4 as uuid } from 'uuid';
+import { INSERTQueryString } from '../../utils/buildSQLqueryString';
+import { ControllerFunctionTemplate } from '../../utils/controllerFunctionTemplate';
+import encryptSensitiveData from '../../utils/encryptSensitiveData';
 async function userAddPaymentInfo(req: any, res: any) {
   const { ID } = req.user;
   const {
@@ -17,18 +17,18 @@ async function userAddPaymentInfo(req: any, res: any) {
   dotenv.config();
   //validation:
   if (!fullNameOnPaymentCard || !paymentCardNumber || !cardProvider) {
-    res.status(400).json({ message: "BAD request" });
+    res.status(400).json({ message: 'BAD request' });
   } else {
     /////
     const paymentCardID = uuid();
     ///creating objects/query params
 
-    const stripe = require("stripe")(process.env.STRIPE_SECRETKEY);
+    const stripe = require('stripe')(process.env.STRIPE_SECRETKEY);
 
     let paymentMethod;
     try {
       paymentMethod = await stripe.paymentMethods.create({
-        type: "card",
+        type: 'card',
         card: {
           number: paymentCardNumber,
           exp_month: expMonth,
@@ -37,8 +37,8 @@ async function userAddPaymentInfo(req: any, res: any) {
         },
       });
     } catch (error) {
-      console.log("error creating paymentMethod in stripe");
-      res.json({ message: "an error occured - stripe" });
+      console.log('error creating paymentMethod in stripe');
+      res.json({ message: 'an error occured - stripe' });
       return;
     }
 
@@ -77,7 +77,7 @@ async function userAddPaymentInfo(req: any, res: any) {
       },
     };
 
-    const tableName: string = "userPaymentCardInfo";
+    const tableName: string = 'userPaymentCardInfo';
 
     const query: string = INSERTQueryString(tableName, Object.keys(params));
 

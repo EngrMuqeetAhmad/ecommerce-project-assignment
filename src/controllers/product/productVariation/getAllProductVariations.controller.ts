@@ -1,21 +1,19 @@
-import sql from "mssql";
+import sql from 'mssql';
 
-import { Role } from "../../../types/userTypes";
-import { ControllerFunctionTemplate } from "../../../utils/controllerFunctionTemplate";
+import { Role } from '../../../types/userTypes';
+import { ControllerFunctionTemplate } from '../../../utils/controllerFunctionTemplate';
 
 async function getAllProductVariations(req: any, res: any) {
-  let { ID, role } = req.user; //user ID
+  const { ID, role } = req.user; //user ID
   const { productID } = req.body;
 
   //validation:
   if (!productID) {
     res.status(400);
-    res.json({ message: "BAD request" });
+    res.json({ message: 'BAD request' });
   } else {
-
-
     const query =
-      "SELECT ID, productID, stockQuantity, additionalPrice FROM ProductVariation WHERE productID=@productID";
+      'SELECT ID, productID, stockQuantity, additionalPrice FROM ProductVariation WHERE productID=@productID';
 
     const params = {
       productID: { value: productID, type: sql.Char },
@@ -24,12 +22,7 @@ async function getAllProductVariations(req: any, res: any) {
       errorMessage: `Not Found`,
       successMessage: `OK`,
     };
-    await ControllerFunctionTemplate(
-      params,
-      query,
-      messages,
-      res
-    );
+    await ControllerFunctionTemplate(params, query, messages, res);
     return;
   }
 }

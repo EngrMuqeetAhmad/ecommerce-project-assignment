@@ -1,8 +1,8 @@
-import { v4 as uuid } from "uuid";
+import sql from 'mssql';
+import { v4 as uuid } from 'uuid';
 
-import sql from "mssql";
-import { INSERTQueryString } from "../../../../utils/buildSQLqueryString";
-import { ControllerFunctionTemplate } from "../../../../utils/controllerFunctionTemplate";
+import { INSERTQueryString } from '../../../../utils/buildSQLqueryString';
+import { ControllerFunctionTemplate } from '../../../../utils/controllerFunctionTemplate';
 
 async function addProductVariationName(req: any, res: any) {
   const { ID, role } = req.user;
@@ -10,7 +10,7 @@ async function addProductVariationName(req: any, res: any) {
 
   //validation:
   if (!productVariationName) {
-    res.status(400).json({ message: "BAD request" });
+    res.status(400).json({ message: 'BAD request' });
   } else {
     /////
     const variationNameID = uuid();
@@ -27,7 +27,7 @@ async function addProductVariationName(req: any, res: any) {
       },
     };
 
-    const tableName: string = "ProductVariationType";
+    const tableName: string = 'ProductVariationType';
 
     const query: string = INSERTQueryString(tableName, Object.keys(params));
 

@@ -1,9 +1,9 @@
-import sql from "mssql";
-import { connectToDatabase } from "../../config/dbConnection";
+import sql from 'mssql';
+import { connectToDatabase } from '../../config/dbConnection';
 
-import { queryInDatabase, QueryResult } from "../../utils/queryInDatabase";
-import { extractSensitiveData } from "../../utils/extractSensitiveData";
-import { Role } from "../../types/userTypes";
+import { Role } from '../../types/userTypes';
+import { extractSensitiveData } from '../../utils/extractSensitiveData';
+import { queryInDatabase, QueryResult } from '../../utils/queryInDatabase';
 
 async function getUserPaymentCardInfo(req: any, res: any) {
   let { ID, role } = req.user; //user ID
@@ -13,7 +13,7 @@ async function getUserPaymentCardInfo(req: any, res: any) {
   if (role == Role.ADMIN) {
     const { userID } = req.body;
     if (!userID) {
-      res.json({ message: "Admin error - no userID" });
+      res.json({ message: 'Admin error - no userID' });
     }
     ID = userID;
   }
@@ -22,12 +22,12 @@ async function getUserPaymentCardInfo(req: any, res: any) {
   //validation:
   if (!paymentCardID) {
     res.status(400);
-    res.json({ message: "BAD request" });
+    res.json({ message: 'BAD request' });
   } else {
     const pool: object | undefined | any = await connectToDatabase();
 
     const queryGetUserPaymentCardInfo =
-      "SELECT ID, userID, fullNameOnPaymentCard, paymentCardNumber, cardProvider FROM userPaymentCardInfo WHERE userID = @userID AND ID=@ID";
+      'SELECT ID, userID, fullNameOnPaymentCard, paymentCardNumber, cardProvider FROM userPaymentCardInfo WHERE userID = @userID AND ID=@ID';
 
     const params = {
       ID: { value: paymentCardID, type: sql.Char },
@@ -36,22 +36,22 @@ async function getUserPaymentCardInfo(req: any, res: any) {
     const resultQueryGetPaymentCardInfo: QueryResult = await queryInDatabase(
       queryGetUserPaymentCardInfo,
       params,
-      pool
+      pool,
     );
 
     if (resultQueryGetPaymentCardInfo.data.rowsAffected == 0) {
-      res.status(404).json({ message: "Not Found", data: undefined });
+      res.status(404).json({ message: 'Not Found', data: undefined });
       await pool?.close();
       return;
     }
 
     resultQueryGetPaymentCardInfo.data.recordSet = extractSensitiveData(
       resultQueryGetPaymentCardInfo.data.recordSet,
-      "paymentCardNumber"
+      'paymentCardNumber',
     );
 
     res.status(200).json({
-      message: "OK",
+      message: 'OK',
       data: resultQueryGetPaymentCardInfo,
     });
     await pool?.close();

@@ -1,11 +1,14 @@
 {
   "name": "ecommerce-assignment",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "start": "npm --prefix ./bin/client run dev",
     "server": "nodemon app.ts",
-    "prod-server": "tsc && node dist/app.js"
+    "prod-server": "tsc && node dist/app.js",
+    "lint": "eslint src/**/*.{js,ts}",
+    "lint:fix": "eslint src/**/*.{js,ts} --fix",
+    "format": "prettier --write src/**/*.{js,ts,json,md}"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
@@ -31,9 +34,17 @@
     "@types/sequelize": "^4.28.20",
     "@types/stripe": "^8.0.417",
     "@types/uuid": "^10.0.0",
+    "@typescript-eslint/eslint-plugin": "^8.2.0",
+    "@typescript-eslint/parser": "^8.2.0",
     "debug": "^4.3.6",
     "dotenv": "^16.4.5",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^5.2.1",
     "nodemon": "^3.1.4",
+    "prettier": "^3.3.3",
     "ts-node": "^10.9.2",
     "typescript": "^5.5.4"
   }

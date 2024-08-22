@@ -1,8 +1,8 @@
-import { connectToDatabase } from "../../config/dbConnection";
-import encryptSensitiveData from "../../utils/encryptSensitiveData";
-import { queryInDatabase, QueryResult } from "../../utils/queryInDatabase";
-import jwt from "jsonwebtoken";
-import sql from "mssql";
+import jwt from 'jsonwebtoken';
+import sql from 'mssql';
+import { connectToDatabase } from '../../config/dbConnection';
+import encryptSensitiveData from '../../utils/encryptSensitiveData';
+import { queryInDatabase, QueryResult } from '../../utils/queryInDatabase';
 
 async function userUpdatePaymentInfo(req: any, res: any) {
   const { ID, userEmail } = req.user;
@@ -20,7 +20,7 @@ async function userUpdatePaymentInfo(req: any, res: any) {
     !paymentCardNumber ||
     !cardProvider
   ) {
-    res.status(400).json({ message: "BAD request" });
+    res.status(400).json({ message: 'BAD request' });
   } else {
     /////
 
@@ -57,15 +57,15 @@ async function userUpdatePaymentInfo(req: any, res: any) {
       const resultUpdatePaymentCard: QueryResult = await queryInDatabase(
         queryUpdatePaymentCard,
         params,
-        pool
+        pool,
       );
 
       if (resultUpdatePaymentCard.data.rowsAffected == 0) {
-        res.json({ message: "error updating payment info" });
+        res.json({ message: 'error updating payment info' });
         return;
       }
 
-      res.json({ message: "Success- updating payment info" });
+      res.json({ message: 'Success- updating payment info' });
       return;
     } catch (error) {
       res.json({ message: `updating failed` });

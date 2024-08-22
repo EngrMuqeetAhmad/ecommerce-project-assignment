@@ -1,10 +1,7 @@
-import jwt from "jsonwebtoken";
+import jwt from 'jsonwebtoken';
 
 function encryptSensitiveData(data: string) {
-  const encryptedString : string = jwt.sign(
-    data,
-    "MuqeetAhmad"
-  );
+  const encryptedString: string = jwt.sign(data, 'MuqeetAhmad');
 
   return encryptedString;
 }

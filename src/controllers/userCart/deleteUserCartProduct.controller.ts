@@ -1,10 +1,9 @@
-import { debug } from "console";
-import { connectToDatabase } from "../../config/dbConnection";
-import { ControllerFunctionTemplate } from "../../utils/controllerFunctionTemplate";
+import { debug } from 'console';
+import sql from 'mssql';
+import { connectToDatabase } from '../../config/dbConnection';
+import { ControllerFunctionTemplate } from '../../utils/controllerFunctionTemplate';
 
-import { queryInDatabase, QueryResult } from "../../utils/queryInDatabase";
-
-import sql from "mssql";
+import { queryInDatabase, QueryResult } from '../../utils/queryInDatabase';
 
 async function deleteCartProduct(req: any, res: any) {
   const { ID } = req.user; //userID
@@ -12,7 +11,7 @@ async function deleteCartProduct(req: any, res: any) {
 
   //validation:
   if (!cartProductID) {
-    res.status(400).json({ message: "BAD request" });
+    res.status(400).json({ message: 'BAD request' });
   } else {
     /////
 
@@ -42,4 +41,3 @@ async function deleteCartProduct(req: any, res: any) {
 }
 
 export { deleteCartProduct };
- 

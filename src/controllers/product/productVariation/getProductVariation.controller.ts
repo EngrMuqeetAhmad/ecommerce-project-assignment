@@ -1,23 +1,21 @@
-import sql from "mssql";
-import { connectToDatabase } from "../../../config/dbConnection";
+import sql from 'mssql';
+import { connectToDatabase } from '../../../config/dbConnection';
 
-import { queryInDatabase, QueryResult } from "../../../utils/queryInDatabase";
-import { Role } from "../../../types/userTypes";
-import { ControllerFunctionTemplate } from "../../../utils/controllerFunctionTemplate";
+import { Role } from '../../../types/userTypes';
+import { ControllerFunctionTemplate } from '../../../utils/controllerFunctionTemplate';
+import { queryInDatabase, QueryResult } from '../../../utils/queryInDatabase';
 
 async function getProductVariation(req: any, res: any) {
-  let { ID, role } = req.user; //user ID
+  const { ID, role } = req.user; //user ID
   const { productVariationID } = req.body;
 
   //validation:
   if (!productVariationID) {
     res.status(400);
-    res.json({ message: "BAD request" });
+    res.json({ message: 'BAD request' });
   } else {
-
-
     const query =
-      "SELECT ID, productID, stockQuantity, additionalPrice FROM ProductVariation WHERE ID=@ID";
+      'SELECT ID, productID, stockQuantity, additionalPrice FROM ProductVariation WHERE ID=@ID';
 
     const params = {
       ID: { value: productVariationID, type: sql.Char },
@@ -26,12 +24,7 @@ async function getProductVariation(req: any, res: any) {
       errorMessage: `Not Found`,
       successMessage: `OK`,
     };
-    await ControllerFunctionTemplate(
-      params,
-      query,
-      messages,
-      res
-    );
+    await ControllerFunctionTemplate(params, query, messages, res);
     return;
   }
 }

@@ -1,19 +1,19 @@
-import sql from "mssql";
+import sql from 'mssql';
 
-import { Role } from "../../../types/userTypes";
-import { ControllerFunctionTemplate } from "../../../utils/controllerFunctionTemplate";
+import { Role } from '../../../types/userTypes';
+import { ControllerFunctionTemplate } from '../../../utils/controllerFunctionTemplate';
 
 async function getAllProductVariationDetails(req: any, res: any) {
-  let { ID, role } = req.user; //user ID
+  const { ID, role } = req.user; //user ID
   const { productVariationID } = req.body;
 
   //validation:
   if (!productVariationID) {
     res.status(400);
-    res.json({ message: "BAD request" });
+    res.json({ message: 'BAD request' });
   } else {
     const query =
-      "SELECT ID, productVariationID, productVariationTypeValueID FROM ProductVariationDetails WHERE productVariationID=@productVariationID";
+      'SELECT ID, productVariationID, productVariationTypeValueID FROM ProductVariationDetails WHERE productVariationID=@productVariationID';
 
     const params = {
       productVariationID: { value: productVariationID, type: sql.Char },

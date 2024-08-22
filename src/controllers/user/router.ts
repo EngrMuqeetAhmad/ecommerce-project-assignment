@@ -1,75 +1,68 @@
-import express from "express";
+import express from 'express';
 
-import userRegister from "./userRegister.controller";
-
-import userLogin from "./userLogin.controller";
-
-import { authorizeRole, validateToken } from "../../utils/validateToken";
-import { getUser } from "./getUser.controller";
-import { getUserPhoneInfo } from "./getUserPhoneInfo.controller";
-import { emailForVerification } from "../../utils/emailForVerification";
-import { validateEmail } from "../../validators/verifyEmailFnc.validation";
-import userPasswordUpdate from "./resetPassword.controller";
-import { Role } from "../../types/userTypes";
+import { getUser } from './getUser.controller';
+import { getUserPhoneInfo } from './getUserPhoneInfo.controller';
+import userPasswordUpdate from './resetPassword.controller';
+import UserControllers from './user.controller';
+import userLogin from './userLogin.controller';
+import UserServices from '../../services/user/user.services';
+import { Role } from '../../types/userTypes';
+import { emailForVerification } from '../../utils/emailForVerification';
+import { authorizeRole, validateToken } from '../../utils/validateToken';
+import { validateEmail } from '../../validators/verifyEmailFnc.validation';
 
 ///////
 
 //add functionality to verfiy email for reset-password
-export const userRouter = express.Router()
+export const userRouter = express.Router();
 ///
 
-userRouter.post("/resetPassword", async (req: any, res: any) => {
-  await userPasswordUpdate(req, res);
-});
-
-/* GET users listing. */
+const userControllers = new UserControllers();
+const userServices = new UserServices();
 
 userRouter.get(
-  "/protected/getUser",
-  validateToken,
-  authorizeRole([Role.ADMIN, Role.USER]),
-  async (req: any, res: any) => {
-    await getUser(req, res);
-  }
-);
-
-userRouter.get(
-  "/protected/getUserPhoneInfo",
+  '/protected/getUserPhoneInfo',
   validateToken,
   authorizeRole([Role.ADMIN, Role.USER]),
   async (req: any, res: any) => {
     await getUserPhoneInfo(req, res);
-  }
-);
-
-userRouter.put(
-  "/protected/getUserPhoneInfo",
-  validateToken,
-  authorizeRole([Role.ADMIN, Role.USER]),
-  async (req: any, res: any) => {
-    await getUserPhoneInfo(req, res);
-  }
-);
-
-//login User
-
-userRouter.get("/userLogin", async (req: any, res: any) => {
-  await userLogin(req, res);
-});
-
-//update user profile data name, phoneNo
-
-//register user
-userRouter.put(
-  "/userRegister",
-  async (req: any, res: any, next: any) => {
-    await userRegister(req, res, next);
   },
-  async (req: any, res: any) => {
-    await emailForVerification(req, res);
-  }
 );
 
-userRouter.get("/verify-email", async (req: any, res: any) => {
-  await validateEmail(req, res);
-});
+userRouter.put(
+  '/protected/getUserPhoneInfo',
+  validateToken,
+  authorizeRole([Role.ADMIN, Role.USER]),
+  async (req: any, res: any) => {
+    await getUserPhoneInfo(req, res);
+  },
+);
+
+userRouter.post(
+  '/resetPassword/:token',
+  validateEmail, //send email in body
+  userControllers.resetPassword,
+);
+
+userRouter.get(
+  '/resetPassword',
+  emailForVerification, //send email in body
+);
+
+userRouter.get(
+  '/protected/getUser',
+  validateToken,
+  authorizeRole([Role.ADMIN, Role.USER]),
+  userControllers.getUser,
+);
+
+userRouter.get('/userLogin', userControllers.userLogin);
+
+userRouter.put(
+  '/userRegister', ///validate funtion here
+  userServices.createStripe,
+  userControllers.userRegister,
+  emailForVerification,
+);
+
+userRouter.get('/verify-email/:token', validateEmail);

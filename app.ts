@@ -7,9 +7,11 @@ import logger from "morgan";
 import https from "https";
 import fs from "fs";
 import dotenv from "dotenv";
-import { AppRouter } from "./src/controllers/router";
-import apiKeyAuth from "./src/middleware/ApiKeyAuth.middleware";
+import { AppRouter } from "./src/router";
+import apiKeyAuth from "./src/middlewares/ApiKeyAuth.middleware";
 import { sequelize } from "./src/config/dbConnection";
+import User from "./src/models/user.model";
+
 ///
 dotenv.config();
 
@@ -17,9 +19,18 @@ dotenv.config();
   try {
     await sequelize.authenticate();
     console.log("Connected to database successflly");
-    await sequelize.sync();
   } catch (error) {
-    console.log("Error connecting to database", error);
+    console.log("Error connecting to database");
+  }
+})();
+
+(async () => {
+  try {
+    await sequelize.sync({ force: true });
+    await User.sync({ alter: true });
+    console.log("Database sync successful");
+  } catch (error) {
+    console.log("Error syncing database");
   }
 })();
 

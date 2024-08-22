@@ -1,4 +1,4 @@
-import { ControllerFunctionTemplate } from "../../utils/controllerFunctionTemplate";
+import { ControllerFunctionTemplate } from '../../utils/controllerFunctionTemplate';
 
 async function getProductWithVariationCombinations(req: any, res: any) {
   const { ID, role } = req.user;
@@ -6,10 +6,10 @@ async function getProductWithVariationCombinations(req: any, res: any) {
   const { baseProductID } = req.params;
 
   if (!baseProductID) {
-    res.status(403).json({ message: "BAD Request" });
+    res.status(403).json({ message: 'BAD Request' });
     return;
   } else {
-    const sql = require("mssql");
+    const sql = require('mssql');
 
     const params: object = {
       productID: {

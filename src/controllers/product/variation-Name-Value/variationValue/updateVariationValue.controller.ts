@@ -1,13 +1,12 @@
-import { connectToDatabase } from "../../../../config/dbConnection";
-import { v4 as uuid } from "uuid";
+import sql from 'mssql';
+import { v4 as uuid } from 'uuid';
+import { connectToDatabase } from '../../../../config/dbConnection';
+import { UPDATEQueryString } from '../../../../utils/buildSQLqueryString';
+import { ControllerFunctionTemplate } from '../../../../utils/controllerFunctionTemplate';
 import {
   queryInDatabase,
   QueryResult,
-} from "../../../../utils/queryInDatabase";
-
-import sql from "mssql";
-import { UPDATEQueryString } from "../../../../utils/buildSQLqueryString";
-import { ControllerFunctionTemplate } from "../../../../utils/controllerFunctionTemplate";
+} from '../../../../utils/queryInDatabase';
 
 async function updateVariationValue(req: any, res: any) {
   const { ID, userEmail } = req.user;
@@ -15,7 +14,7 @@ async function updateVariationValue(req: any, res: any) {
 
   //validation:
   if (!variationTypeValueID || productVariationTypeValue) {
-    res.status(400).json({ message: "BAD request" });
+    res.status(400).json({ message: 'BAD request' });
   } else {
     /////
 
@@ -32,10 +31,10 @@ async function updateVariationValue(req: any, res: any) {
       },
     };
 
-    const tableName: string = "ProductVariationTypeValue";
+    const tableName: string = 'ProductVariationTypeValue';
 
     const query: string =
-      UPDATEQueryString(tableName, Object.keys(params)) + "WHERE ID = @ID";
+      UPDATEQueryString(tableName, Object.keys(params)) + 'WHERE ID = @ID';
 
     const messages: object = {
       errorMessage: `Error updating into ${tableName}`,

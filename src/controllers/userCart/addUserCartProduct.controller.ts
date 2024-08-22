@@ -1,12 +1,11 @@
-import { connectToDatabase } from "../../config/dbConnection";
-import { v4 as uuid } from "uuid";
-import { queryInDatabase, QueryResult } from "../../utils/queryInDatabase";
+import sql from 'mssql';
+import { v4 as uuid } from 'uuid';
+import { connectToDatabase } from '../../config/dbConnection';
 
-import sql from "mssql";
-
-import { INSERTQueryString } from "../../utils/buildSQLqueryString";
-import { ControllerFunctionTemplate } from "../../utils/controllerFunctionTemplate";
-import userCartProductExists from "../../validators/cartExists.validation";
+import { INSERTQueryString } from '../../utils/buildSQLqueryString';
+import { ControllerFunctionTemplate } from '../../utils/controllerFunctionTemplate';
+import { queryInDatabase, QueryResult } from '../../utils/queryInDatabase';
+import userCartProductExists from '../../validators/cartExists.validation';
 
 async function addUserCartProduct(req: any, res: any) {
   const { ID } = req.user; //userID
@@ -14,14 +13,17 @@ async function addUserCartProduct(req: any, res: any) {
 
   //validation:
   if (!productVariationID) {
-    res.status(400).json({ message: "BAD request" });
+    res.status(400).json({ message: 'BAD request' });
   } else {
     /// check wish already exists
 
-    const isProductInCartExists: QueryResult = await userCartProductExists(ID, productVariationID);
+    const isProductInCartExists: QueryResult = await userCartProductExists(
+      ID,
+      productVariationID,
+    );
 
     if (isProductInCartExists.data.rowsAffected != 0) {
-      res.json({ message: "user cart product already exists" });
+      res.json({ message: 'user cart product already exists' });
       return;
     }
 
@@ -44,11 +46,11 @@ async function addUserCartProduct(req: any, res: any) {
       },
       quantity: {
         value: quantity,
-        type: sql.Int
-      }
+        type: sql.Int,
+      },
     };
 
-    const tableName: string = "userCartTable";
+    const tableName: string = 'userCartTable';
 
     const query: string = INSERTQueryString(tableName, Object.keys(params));
 

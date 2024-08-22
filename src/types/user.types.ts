@@ -1,4 +1,4 @@
-import { Optional } from "sequelize";
+import { Optional } from 'sequelize';
 
 export interface UserTypes {
   ID: number;
@@ -15,10 +15,11 @@ export interface UserTypes {
 }
 
 enum Role {
-  USER = "user",
-  ADMIN = "admin",
+  USER = 'user',
+  ADMIN = 'admin',
 }
 
-export interface UserInput extends Optional<UserTypes, "ID"> {}
+export interface UserInput extends Optional<UserTypes, 'ID'> {}
 
-export interface UserOutput extends Optional<UserTypes, "password"> {}
+export interface UserOutput
+  extends Optional<UserTypes, 'password' | 'deletedAt'> {}

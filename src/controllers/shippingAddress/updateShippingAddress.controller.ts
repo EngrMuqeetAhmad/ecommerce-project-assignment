@@ -1,8 +1,7 @@
-import { connectToDatabase } from "../../config/dbConnection";
-import { v4 as uuid } from "uuid";
-import { queryInDatabase, QueryResult } from "../../utils/queryInDatabase";
-
-import sql from "mssql";
+import sql from 'mssql';
+import { v4 as uuid } from 'uuid';
+import { connectToDatabase } from '../../config/dbConnection';
+import { queryInDatabase, QueryResult } from '../../utils/queryInDatabase';
 
 async function userUpdateShippingAddress(req: any, res: any) {
   const { ID, userEmail } = req.user;
@@ -24,7 +23,7 @@ async function userUpdateShippingAddress(req: any, res: any) {
     !newPostalCode ||
     !newCountry
   ) {
-    res.status(400).json({ message: "BAD request" });
+    res.status(400).json({ message: 'BAD request' });
   } else {
     /////
 
@@ -70,15 +69,15 @@ async function userUpdateShippingAddress(req: any, res: any) {
       const resultAddShippingAddress: QueryResult = await queryInDatabase(
         queryAddShippingAddress,
         params,
-        pool
+        pool,
       );
 
       if (resultAddShippingAddress.data.rowsAffected == 0) {
-        res.json({ message: "error updating shipping address" });
+        res.json({ message: 'error updating shipping address' });
         return;
       }
 
-      res.json({ message: "Success- updating shipping address" });
+      res.json({ message: 'Success- updating shipping address' });
       return;
     } catch (error) {
       res.json({ message: `updating failed` });

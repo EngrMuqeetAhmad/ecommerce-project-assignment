@@ -1,10 +1,9 @@
-import { connectToDatabase } from "../../config/dbConnection";
-import { UPDATEQueryString } from "../../utils/buildSQLqueryString";
-import { ControllerFunctionTemplate } from "../../utils/controllerFunctionTemplate";
+import sql from 'mssql';
+import { connectToDatabase } from '../../config/dbConnection';
+import { UPDATEQueryString } from '../../utils/buildSQLqueryString';
+import { ControllerFunctionTemplate } from '../../utils/controllerFunctionTemplate';
 
-import { queryInDatabase, QueryResult } from "../../utils/queryInDatabase";
-
-import sql from "mssql";
+import { queryInDatabase, QueryResult } from '../../utils/queryInDatabase';
 
 async function udpateCartProduct(req: any, res: any) {
   const { ID } = req.user; //userID
@@ -12,7 +11,7 @@ async function udpateCartProduct(req: any, res: any) {
 
   //validation:
   if (!cartProductID) {
-    res.status(400).json({ message: "BAD request" });
+    res.status(400).json({ message: 'BAD request' });
   } else {
     /////
 
@@ -32,11 +31,11 @@ async function udpateCartProduct(req: any, res: any) {
       },
     };
 
-    const tableName: string = "userCartTable";
+    const tableName: string = 'userCartTable';
 
     const query: string =
       UPDATEQueryString(tableName, Object.keys(paramToUpdate)) +
-      "WHERE ID = @ID";
+      'WHERE ID = @ID';
 
     const messages: object = {
       errorMessage: `Error updating into ${tableName}`,

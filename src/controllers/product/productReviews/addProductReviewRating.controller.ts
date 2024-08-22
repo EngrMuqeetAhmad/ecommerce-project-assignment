@@ -1,10 +1,9 @@
-import { connectToDatabase } from "../../../config/dbConnection";
-import { v4 as uuid } from "uuid";
-import { queryInDatabase, QueryResult } from "../../../utils/queryInDatabase";
-
-import sql from "mssql";
-import { INSERTQueryString } from "../../../utils/buildSQLqueryString";
-import { ControllerFunctionTemplate } from "../../../utils/controllerFunctionTemplate";
+import sql from 'mssql';
+import { v4 as uuid } from 'uuid';
+import { connectToDatabase } from '../../../config/dbConnection';
+import { INSERTQueryString } from '../../../utils/buildSQLqueryString';
+import { ControllerFunctionTemplate } from '../../../utils/controllerFunctionTemplate';
+import { queryInDatabase, QueryResult } from '../../../utils/queryInDatabase';
 
 async function addProductReviewRating(req: any, res: any) {
   const { ID, role } = req.user;
@@ -13,7 +12,7 @@ async function addProductReviewRating(req: any, res: any) {
 
   //validation:
   if (!userMessage || !timestamp || !rating || !productVariationID || !userID) {
-    res.status(400).json({ message: "BAD request" });
+    res.status(400).json({ message: 'BAD request' });
   } else {
     /////
     const reviewID = uuid();
@@ -46,7 +45,7 @@ async function addProductReviewRating(req: any, res: any) {
       },
     };
 
-    const tableName: string = "ProductUserReviewRating";
+    const tableName: string = 'ProductUserReviewRating';
     const query: string = INSERTQueryString(tableName, Object.keys(params));
 
     const messages: object = {

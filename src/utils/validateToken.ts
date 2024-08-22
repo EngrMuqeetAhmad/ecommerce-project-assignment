@@ -1,16 +1,16 @@
-import jwt from "jsonwebtoken";
-import { Role } from "../types/userTypes";
+import jwt from 'jsonwebtoken';
+import { Role } from '../types/userTypes';
 
 function validateToken(req: any, res: any, next: any) {
-  const token = req.header("Authorization");
+  const token = req.header('Authorization');
 
   if (!token) {
-    return res.status(401).json({ error: "Unauthorized" });
+    return res.status(401).json({ error: 'Unauthorized' });
   }
 
-  jwt.verify(token.split(" ")[1], "MuqeetAhmad", (err: any, user: any) => {
+  jwt.verify(token.split(' ')[1], 'MuqeetAhmad', (err: any, user: any) => {
     if (err) {
-      return res.status(403).json({ error: "Forbidden" });
+      return res.status(403).json({ error: 'Forbidden' });
     }
 
     req.user = user;
@@ -21,7 +21,7 @@ function validateToken(req: any, res: any, next: any) {
 function authorizeRole(roles: Array<Role>) {
   return (req: any, res: any, next: any) => {
     if (!roles.includes(req?.user?.role)) {
-      res.status(403).json({ message: "UnAuthorized" });
+      res.status(403).json({ message: 'UnAuthorized' });
       return;
     }
     next();

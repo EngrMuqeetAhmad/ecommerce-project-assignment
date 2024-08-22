@@ -1,11 +1,11 @@
-import { connectToDatabase } from "../../config/dbConnection";
-import { v4 as uuid } from "uuid";
-import { queryInDatabase, QueryResult } from "../../utils/queryInDatabase";
+import sql from 'mssql';
+import { v4 as uuid } from 'uuid';
+import { connectToDatabase } from '../../config/dbConnection';
+import { INSERTQueryString } from '../../utils/buildSQLqueryString';
+import { ControllerFunctionTemplate } from '../../utils/controllerFunctionTemplate';
+import { queryInDatabase, QueryResult } from '../../utils/queryInDatabase';
 
-import sql from "mssql";
-import userWishExists from "../../validators/wishExists.validation";
-import { INSERTQueryString } from "../../utils/buildSQLqueryString";
-import { ControllerFunctionTemplate } from "../../utils/controllerFunctionTemplate";
+import userWishExists from '../../validators/wishExists.validation';
 
 async function addWishProduct(req: any, res: any) {
   const { ID } = req.user; //userID
@@ -13,14 +13,17 @@ async function addWishProduct(req: any, res: any) {
 
   //validation:
   if (!productVariationID) {
-    res.status(400).json({ message: "BAD request" });
+    res.status(400).json({ message: 'BAD request' });
   } else {
     /// check wish already exists
 
-    const isWishExists: QueryResult = await userWishExists(ID, productVariationID);
+    const isWishExists: QueryResult = await userWishExists(
+      ID,
+      productVariationID,
+    );
 
     if (isWishExists.data.rowsAffected != 0) {
-      res.json({ message: "user wish already exists" });
+      res.json({ message: 'user wish already exists' });
       return;
     }
 
@@ -43,8 +46,7 @@ async function addWishProduct(req: any, res: any) {
       },
     };
 
-
-    const tableName: string = "userWishTable";
+    const tableName: string = 'userWishTable';
 
     const query: string = INSERTQueryString(tableName, Object.keys(params));
 
@@ -56,8 +58,6 @@ async function addWishProduct(req: any, res: any) {
     await ControllerFunctionTemplate(params, query, messages, res);
 
     return;
-
- 
   }
 }
 

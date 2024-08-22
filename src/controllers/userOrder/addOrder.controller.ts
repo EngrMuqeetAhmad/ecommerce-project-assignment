@@ -1,10 +1,9 @@
-import { connectToDatabase } from "../../config/dbConnection";
-import { v4 as uuid } from "uuid";
-import { queryInDatabase, QueryResult } from "../../utils/queryInDatabase";
-
-import sql from "mssql";
-import { INSERTQueryString } from "../../utils/buildSQLqueryString";
-import { ControllerFunctionTemplate } from "../../utils/controllerFunctionTemplate";
+import sql from 'mssql';
+import { v4 as uuid } from 'uuid';
+import { connectToDatabase } from '../../config/dbConnection';
+import { INSERTQueryString } from '../../utils/buildSQLqueryString';
+import { ControllerFunctionTemplate } from '../../utils/controllerFunctionTemplate';
+import { queryInDatabase, QueryResult } from '../../utils/queryInDatabase';
 
 async function addOrder(req: any, res: any) {
   const { ID, userEmail } = req.user; //userID
@@ -30,7 +29,7 @@ async function addOrder(req: any, res: any) {
     !couponID ||
     !paymentID
   ) {
-    res.status(400).json({ message: "BAD request" });
+    res.status(400).json({ message: 'BAD request' });
   } else {
     /////
     const userOrderID = uuid();
@@ -54,7 +53,7 @@ async function addOrder(req: any, res: any) {
         type: sql.Char,
       },
       orderStatus: {
-        value: "pending",
+        value: 'pending',
         type: sql.NVarChar,
       },
     };
@@ -107,11 +106,11 @@ async function addOrder(req: any, res: any) {
       },
     };
 
-    const tableName1: string = "userOrderTable";
+    const tableName1: string = 'userOrderTable';
 
     const query1: string = INSERTQueryString(
       tableName1,
-      Object.keys(userOrderTableParams)
+      Object.keys(userOrderTableParams),
     );
 
     const messages1: object = {
@@ -123,14 +122,14 @@ async function addOrder(req: any, res: any) {
       userOrderTableParams,
       query1,
       messages1,
-      res
+      res,
     );
 
-    const tableName2: string = "orderStatusTable";
+    const tableName2: string = 'orderStatusTable';
 
     const query: string = INSERTQueryString(
       tableName2,
-      Object.keys(orderStatusTableParams)
+      Object.keys(orderStatusTableParams),
     );
 
     const messages2: object = {
@@ -142,7 +141,7 @@ async function addOrder(req: any, res: any) {
       orderStatusTableParams,
       query,
       messages2,
-      res
+      res,
     );
 
     return;
