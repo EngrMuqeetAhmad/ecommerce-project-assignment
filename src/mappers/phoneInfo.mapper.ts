@@ -17,9 +17,9 @@ export class PhoneInfoMapper {
       userID: model.userID,
       countryCode: model.countryCode,
       phoneNumber: model.phoneNumber,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      deletedAt: new Date(),
+      createdAt: new Date(`${model.createdAt}`),
+      updatedAt: new Date(`${model.updatedAt}`),
+      deletedAt: new Date(`${model.deletedAt}`),
     };
   }
 }

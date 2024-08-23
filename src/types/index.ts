@@ -27,3 +27,9 @@ export {
   SubCategoryOutput,
   SubCategoryTypes,
 } from './subCategory.types';
+
+export {
+  BaseProductInput,
+  BaseProductOuput,
+  BaseProductTypes,
+} from './baseProduct.types';

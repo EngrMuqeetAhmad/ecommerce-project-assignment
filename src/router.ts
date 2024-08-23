@@ -9,6 +9,7 @@ import { userRouter } from './controllers/user/router';
 import { userCartRouter } from './controllers/userCart/router';
 import { userOrderRouter } from './controllers/userOrder/router';
 import { userWishRouter } from './controllers/userWish/router';
+import { BaseProductRouter } from './controllers/baseProduct/router';
 export const AppRouter = express.Router();
 
 AppRouter.use('/userWish', userWishRouter);
@@ -23,6 +24,8 @@ AppRouter.use('/user/phoneInfo', phoneInfoRouter);
 AppRouter.use('/user', userRouter);
 
 AppRouter.use('/shippingAddress', shippingAddressRouter);
+
+AppRouter.use('/baseProduct', BaseProductRouter);
 
 // AppRouter.use("/product", productRouter);
 

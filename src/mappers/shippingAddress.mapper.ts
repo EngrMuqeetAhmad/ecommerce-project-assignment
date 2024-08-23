@@ -28,8 +28,8 @@ export class ShippingAddressMapper {
       city: model.city,
       country: model.country,
       postalCode: model.postalCode,
-      createdAt: new Date(),
-      updatedAt: new Date(),
+      createdAt: new Date(`${model.createdAt}`),
+      updatedAt: new Date(`${model.updatedAt}`),
       deletedAt: undefined,
     };
   }
