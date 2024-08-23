@@ -1,10 +1,10 @@
 import { Association, DataTypes, Model } from 'sequelize';
+import { User } from './user.model';
+import { sequelize } from '../config/dbConnection';
 import {
   ShippingAddressInput,
   ShippingAddressTypes,
 } from '../types/shippingAddress.types';
-import User from './user.model';
-import { sequelize } from '../config/dbConnection';
 
 export class ShippingAddress extends Model<
   ShippingAddressTypes,
@@ -35,7 +35,7 @@ ShippingAddress.init(
     ID: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
-     
+
       primaryKey: true,
     },
     userID: {
@@ -60,33 +60,33 @@ ShippingAddress.init(
       },
     },
     region: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-          notEmpty: true,
-        },
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: true,
       },
-      city: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-          notEmpty: true,
-        },
+    },
+    city: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: true,
       },
-      country: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-          notEmpty: true,
-        },
+    },
+    country: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: true,
       },
-      postalCode: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-          notEmpty: true,
-        },
+    },
+    postalCode: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: true,
       },
+    },
   },
 
   {
@@ -96,4 +96,3 @@ ShippingAddress.init(
     paranoid: true,
   },
 );
-

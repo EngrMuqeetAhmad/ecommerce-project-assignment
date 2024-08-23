@@ -1,13 +1,11 @@
 import express from 'express';
 
-import { addWishProduct } from './addUserWish.controller';
-import { deleteWishProduct } from './deleteUserWish.controller';
-import { getAllWishProducts } from './getAllWishProducts.controller';
 import {
   authorizeRole,
   validateToken,
 } from '../../middlewares/validateToken.middleware';
 import { Role } from '../../types/userTypes';
+import { UserWishControllers } from './userWish.controller';
 ///////
 
 //add functionality to verfiy email for reset-password
@@ -15,30 +13,24 @@ import { Role } from '../../types/userTypes';
 /// update isVerified prop and role in user creation
 
 export const userWishRouter = express.Router();
-
+const userWishControllers = new UserWishControllers();
 ///
 userWishRouter.post(
-  '/protected/deleteWish/:productID',
+  '/protected/deleteWish',
   validateToken,
   authorizeRole([Role.USER]),
-  async (req: any, res: any) => {
-    await deleteWishProduct(req, res);
-  },
+  userWishControllers.deleteFromWish,
 );
 
 userWishRouter.get(
   '/protected/getAllWishProducts',
   validateToken,
   authorizeRole([Role.ADMIN, Role.USER]),
-  async (req: any, res: any) => {
-    await getAllWishProducts(req, res);
-  },
+  userWishControllers.getWholeWish,
 );
 
 userWishRouter.put(
-  '/protected/addWish/:productID',
+  '/protected/addWish',
   validateToken,
-  async (req: any, res: any) => {
-    await addWishProduct(req, res);
-  },
+  userWishControllers.addToWish,
 );

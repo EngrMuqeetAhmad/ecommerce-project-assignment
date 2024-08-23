@@ -23,7 +23,11 @@ export class UserCartServices {
     }
   }
 
-  public async deleteCartItem(req: any, res: any, next: any): Promise<void> {
+  public async deleteItemFromCart(
+    req: any,
+    res: any,
+    next: any,
+  ): Promise<void> {
     const { ID } = req.body;
 
     try {
@@ -39,7 +43,7 @@ export class UserCartServices {
     }
   }
 
-  public async addCartItem(req: any, res: any, next: any): Promise<void> {
+  public async addItemToCart(req: any, res: any, next: any): Promise<void> {
     const { ID } = req.user;
     const params = req.body;
     params.body.userID = ID;

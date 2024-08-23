@@ -1,5 +1,5 @@
 import { PhoneInfoMapper } from '../../mappers/';
-import PhoneInfo from '../../models/phoneInfo.model';
+import { PhoneInfo } from '../../models/phoneInfo.model';
 import { PhoneInfoInput, PhoneInfoOutput } from '../../types/phoneInfo.types';
 
 export default class PhoneInfoServices {

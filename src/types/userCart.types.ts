@@ -9,6 +9,6 @@ export interface UserCartTypes {
 }
 
 export interface UserCartInput
-  extends Optional<UserCartTypes, 'ID' | 'deletedAt'> {}
+  extends Optional<UserCartTypes, 'ID' | 'deletedAt' | 'userID'> {}
 
 export interface UserCartOutput extends Optional<UserCartTypes, 'deletedAt'> {}

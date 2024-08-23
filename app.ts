@@ -10,8 +10,10 @@ import dotenv from 'dotenv';
 import { AppRouter } from './src/router';
 import apiKeyAuth from './src/middlewares/ApiKeyAuth.middleware';
 import { sequelize } from './src/config/dbConnection';
-import User from './src/models/user.model';
-import PhoneInfo from './src/models/phoneInfo.model';
+import {User} from './src/models/user.model';
+import {PhoneInfo} from './src/models/phoneInfo.model';
+import { ShippingAddress } from './src/models/shippingAddress.model';
+import { UserCart } from './src/models/userCart.model';
 
 ///
 dotenv.config();
@@ -29,6 +31,9 @@ dotenv.config();
   try {
     await User.sync({ alter: true });
     await PhoneInfo.sync({ alter: true });
+    await ShippingAddress.sync({alter: true})
+    await UserCart.sync({alter: true})
+
     console.log('Database sync successful');
   } catch (error) {
     console.log('Error syncing database');

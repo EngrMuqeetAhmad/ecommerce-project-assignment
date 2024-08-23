@@ -1,11 +1,11 @@
 import { Association, DataTypes, Model } from 'sequelize';
+import { User } from './user.model';
 import { sequelize } from '../config/dbConnection';
 import { PhoneInfoInput, PhoneInfoTypes } from '../types/phoneInfo.types';
 import { UserInput, UserTypes } from '../types/user.types';
 import { hashString } from '../utils/passwordHashednSalated';
-import User from './user.model';
 
-class PhoneInfo extends Model<PhoneInfoTypes, PhoneInfoInput> {
+export class PhoneInfo extends Model<PhoneInfoTypes, PhoneInfoInput> {
   public ID!: number;
   public userID!: number;
   public countryCode!: number;
@@ -60,6 +60,3 @@ PhoneInfo.init(
     paranoid: true,
   },
 );
-
-
-export default PhoneInfo;

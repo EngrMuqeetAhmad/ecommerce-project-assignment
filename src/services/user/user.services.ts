@@ -1,7 +1,8 @@
 import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
 import { UserMapper } from '../../mappers';
-import User from '../../models/user.model';
+import { UserCartMapper } from '../../mappers/userCart.mapper';
+import { User } from '../../models/user.model';
 import { UserInput, UserOutput } from '../../types/user.types';
 import { hashString } from '../../utils/passwordHashednSalated';
 
@@ -64,23 +65,15 @@ class UserServices {
     }
   }
 
-
-  public async updateUser(
-    req: any,
-    res: any,
-   
-  ): Promise<void> {
-    const payload: Partial<UserOutput> =
-      UserMapper.toUserDTOUpdate(req.body);
+  public async updateUser(req: any, res: any): Promise<void> {
+    const payload: Partial<UserOutput> = UserMapper.toUserDTOUpdate(req.body);
     try {
       await User.update(payload, {
         where: {
           ID: req.body.ID,
         },
       });
-      res
-        .status(200)
-        .json({ message: 'Successfully updated User' });
+      res.status(200).json({ message: 'Successfully updated User' });
       return;
     } catch (error) {
       res.json({ error: 'Error updating User' });
@@ -196,11 +189,12 @@ class UserServices {
   public async userRegister(req: any, res: any, next: any): Promise<void> {
     const params = req.body;
     params.stripeID = req.stripeID;
-
+    params.cart = UserCartMapper.toUserCartDTOInput(req.body); ////create all beloging one-to-one table at user creation
     const payload: UserInput = UserMapper.toUserDTOInput(params);
 
     try {
-      await User.create(payload);
+      const result = await User.create(payload);
+      console.log('result user and cart', result);
       params.accessRoute = 'emailVerification';
       // res.status(201).json({ message: 'user created - please verify email' });
       next();

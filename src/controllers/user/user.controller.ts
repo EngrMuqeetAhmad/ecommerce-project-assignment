@@ -1,9 +1,5 @@
-import dotenv from 'dotenv';
-import { UserMapper } from '../../mappers';
 import UserServices from '../../services/user/user.services';
-import { UserInput } from '../../types/user.types';
 
-import { Role } from '../../types/userTypes';
 class UserControllers {
   private userServices: UserServices;
 

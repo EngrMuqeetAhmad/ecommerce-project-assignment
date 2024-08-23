@@ -12,6 +12,13 @@ export interface UserTypes {
   createdAt?: Date;
   updatedAt?: Date;
   deletedAt?: Date;
+  cart?: {
+    ID: number;
+    userID: number;
+    createdAt?: Date;
+    updatedAt?: Date;
+    deletedAt?: Date;
+  };
 }
 
 enum Role {
@@ -19,10 +26,10 @@ enum Role {
   ADMIN = 'admin',
 }
 
-export interface UserInput extends Optional<UserTypes, 'ID'> {}
+export interface UserInput extends Optional<UserTypes, 'ID' | 'cart'> {}
 
 export interface UserOutput
-  extends Optional<UserTypes, 'password' | 'deletedAt'> {}
+  extends Optional<UserTypes, 'password' | 'deletedAt' | 'cart'> {}
 
 export interface UserUpdate
   extends Omit<
@@ -35,4 +42,5 @@ export interface UserUpdate
     | 'createdAt'
     | 'updatedAt'
     | 'deletedAt'
+    | 'cart'
   > {}

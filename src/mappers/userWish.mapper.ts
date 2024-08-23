@@ -1,15 +1,16 @@
-import { UserCartInput, UserCartOutput } from '../types';
+import { UserWishInput, UserWishOutput } from '../types';
 
-export class UserCartMapper {
-  public static toUserCartDTOInput(model: any): UserCartInput {
+export class UserWishMapper {
+  public static toUserWishDTOInput(model: any): UserWishInput {
     return {
+      userID: model.userID,
       createdAt: new Date(),
       updatedAt: new Date(),
       deletedAt: undefined,
     };
   }
 
-  public static toUserCartDTOOutput(model: any): UserCartOutput {
+  public static toUserWishDTOOutput(model: any): UserWishOutput {
     return {
       ID: model.ID,
       userID: model.ID,

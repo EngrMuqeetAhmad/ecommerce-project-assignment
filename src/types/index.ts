@@ -11,3 +11,11 @@ export {
   ShippingAddressInput,
   ShippingAddressOutput,
 } from './shippingAddress.types';
+
+export {
+  UserOrderTypes,
+  UserOrderInput,
+  UserOrderOutput,
+} from './userOrder.types';
+
+export { UserWishInput, UserWishOutput, UserWishTypes } from './userWish.types';

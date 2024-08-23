@@ -1,8 +1,8 @@
 import { DataTypes, Model } from 'sequelize';
-import { User } from './user.model';
 import { sequelize } from '../config/dbConnection';
-import { UserCartInput, UserCartTypes } from '../types';
-export class UserCart extends Model<UserCartTypes, UserCartInput> {
+import { UserWishInput, UserWishTypes } from '../types';
+
+export class UserWish extends Model<UserWishTypes, UserWishInput> {
   public ID!: number;
   public userID!: number;
 
@@ -13,7 +13,7 @@ export class UserCart extends Model<UserCartTypes, UserCartInput> {
   //association for products
 }
 
-UserCart.init(
+UserWish.init(
   {
     ID: {
       type: DataTypes.INTEGER,
@@ -32,7 +32,7 @@ UserCart.init(
 
   {
     sequelize,
-    tableName: 'UserCartTable',
+    tableName: 'UserWishTable',
     timestamps: true,
     paranoid: true,
   },
@@ -42,8 +42,8 @@ UserCart.init(
 
 //for product model
 // Copy code
-// Cart.hasMany(Product, {
+// Wish.hasMany(Product, {
 //   foreignKey: 'cartId',
 //   as: 'products',
-//   onDelete: 'CASCADE', // This ensures that deleting a Cart deletes its Products
+//   onDelete: 'CASCADE', // This ensures that deleting a Wish deletes its Products
 // });

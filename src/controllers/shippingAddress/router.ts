@@ -1,11 +1,10 @@
 import express from 'express';
+import { ShippingAddressControllers } from './shippingAddress.contoller';
 import {
   authorizeRole,
   validateToken,
 } from '../../middlewares/validateToken.middleware';
 import { Role } from '../../types/userTypes';
-import { ShippingAddressControllers } from './shippingAddress.contoller';
-
 
 export const shippingAddressRouter = express.Router();
 const shippingAddressControllers = new ShippingAddressControllers();

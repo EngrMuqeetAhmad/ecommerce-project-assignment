@@ -10,9 +10,9 @@ import { userWishRouter } from './controllers/userWish/router';
 
 export const AppRouter = express.Router();
 
-// AppRouter.use("/userWish", userWishRouter);
+AppRouter.use('/userWish', userWishRouter);
 
-// AppRouter.use("/userOrder", userOrderRouter);
+AppRouter.use('/userOrder', userOrderRouter);
 
 AppRouter.use('/userCart', userCartRouter);
 AppRouter.use('/user/phoneInfo', phoneInfoRouter);

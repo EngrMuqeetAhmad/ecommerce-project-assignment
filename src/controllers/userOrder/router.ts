@@ -1,8 +1,5 @@
 import express from 'express';
-import { addOrder } from './addOrder.controller';
-import { deleteOrder } from './deleteOrder.controller';
-import { getAllOrders } from './getAllOrders.controller';
-import { getOrder } from './getOrder.controller';
+import { UserOrderControllers } from './userOrder.controller';
 import {
   authorizeRole,
   validateToken,
@@ -10,40 +7,33 @@ import {
 import { Role } from '../../types/userTypes';
 
 export const userOrderRouter = express.Router();
+const userOrderControllers = new UserOrderControllers();
 
 ///
 
 userOrderRouter.put(
-  '/protected/addOrder',
+  '/protected/createOrder',
   validateToken,
   authorizeRole([Role.USER]),
-  async (req: any, res: any) => {
-    await addOrder(req, res);
-  },
+  userOrderControllers.createOrder,
 );
 
 userOrderRouter.post(
   '/protected/deleteOrder',
   validateToken,
   authorizeRole([Role.USER]),
-  async (req: any, res: any) => {
-    await deleteOrder(req, res);
-  },
+  userOrderControllers.deleteOrder,
 );
 
 userOrderRouter.get(
   '/protected/getOrder',
   validateToken,
   authorizeRole([Role.ADMIN, Role.USER]),
-  async (req: any, res: any) => {
-    await getOrder(req, res);
-  },
+  userOrderControllers.getOrder,
 );
 userOrderRouter.get(
   '/protected/getAllOrders',
   validateToken,
   authorizeRole([Role.ADMIN, Role.USER]),
-  async (req: any, res: any) => {
-    await getAllOrders(req, res);
-  },
+  userOrderControllers.getAllOrders,
 );

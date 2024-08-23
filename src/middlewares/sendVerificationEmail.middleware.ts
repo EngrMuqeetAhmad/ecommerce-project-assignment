@@ -1,6 +1,6 @@
 import dotenv from 'dotenv';
 import { UserMapper } from '../mappers';
-import User from '../models/user.model';
+import {User} from '../models/user.model';
 import { UserOutput } from '../types';
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
@@ -8,7 +8,6 @@ const nodemailer = require('nodemailer');
 async function emailForVerification(req: any, res: any, next: any) {
   dotenv.config();
   const { email, accessRoute } = req.body;
- 
 
   let user: UserOutput;
   const result: any = await User.findOne({
