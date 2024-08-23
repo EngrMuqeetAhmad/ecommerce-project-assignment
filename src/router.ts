@@ -14,7 +14,7 @@ export const AppRouter = express.Router();
 
 // AppRouter.use("/userOrder", userOrderRouter);
 
-// AppRouter.use("/userCart", userCartRouter);
+AppRouter.use('/userCart', userCartRouter);
 AppRouter.use('/user/phoneInfo', phoneInfoRouter);
 
 AppRouter.use('/user', userRouter);

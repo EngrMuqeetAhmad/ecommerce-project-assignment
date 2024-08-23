@@ -9,47 +9,30 @@ import {
   validateToken,
 } from '../../middlewares/validateToken.middleware';
 import { Role } from '../../types/userTypes';
-///////
-
-//add functionality to verfiy email for reset-password
-
-/// update isVerified prop and role in user creation
+import { UserCartControllers } from './userCart.controller';
 
 export const userCartRouter = express.Router();
+const userCartContrllers = new UserCartControllers();
 
 ///
-userCartRouter.post(
-  '/protected/deleteCartProduct/:productID',
+userCartRouter.delete(
+  '/protected/deleteCartProduct',
   validateToken,
   authorizeRole([Role.USER]),
-  async (req: any, res: any) => {
-    await deleteCartProduct(req, res);
-  },
+  userCartContrllers.delete,
 );
 
 userCartRouter.get(
   '/protected/getAllCartProducts',
   validateToken,
   authorizeRole([Role.ADMIN, Role.USER]),
-  async (req: any, res: any) => {
-    await getAllCartProducts(req, res);
-  },
+  userCartContrllers.getWholeCart,
 );
 
 userCartRouter.put(
-  '/protected/addCartProduct/:productID',
+  '/protected/addCartProduct',
   validateToken,
   authorizeRole([Role.USER]),
-  async (req: any, res: any) => {
-    await addUserCartProduct(req, res);
-  },
-);
 
-userCartRouter.put(
-  '/protected/updateCartProduct/:productID',
-  validateToken,
-  authorizeRole([Role.USER]),
-  async (req: any, res: any) => {
-    await udpateCartProduct(req, res);
-  },
+  userCartContrllers.add,
 );
