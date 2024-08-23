@@ -3,20 +3,20 @@ import { PhoneInfoInput, PhoneInfoOutput } from '../types/phoneInfo.types';
 export class PhoneInfoMapper {
   public static toPhoneInfoDTOInput(model: any): PhoneInfoInput {
     return {
-      userID: model.number,
-      countryCode: model.number,
-      phoneNumber: model.string,
+      userID: model.userID,
+      countryCode: model.countryCode,
+      phoneNumber: model.phoneNumber,
       createdAt: new Date(),
       updatedAt: new Date(),
-      deletedAt: new Date(),
+      deletedAt: undefined,
     };
   }
-  public static toUserDTOOutput(model: any): PhoneInfoOutput {
+  public static toPhoneInfoDTOOutput(model: any): PhoneInfoOutput {
     return {
       ID: model.ID,
-      userID: model.number,
-      countryCode: model.number,
-      phoneNumber: model.string,
+      userID: model.userID,
+      countryCode: model.countryCode,
+      phoneNumber: model.phoneNumber,
       createdAt: new Date(),
       updatedAt: new Date(),
       deletedAt: new Date(),

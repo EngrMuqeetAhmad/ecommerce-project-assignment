@@ -4,8 +4,11 @@ import { deleteSubCategory } from './deleteSubCategory.controller';
 import { getAllSubCategory } from './getAllSubCategory.controller';
 import { getSubCategory } from './getSubCategory.controller';
 import { updateSubCategory } from './updateSubCategory.controller';
+import {
+  authorizeRole,
+  validateToken,
+} from '../../../middlewares/validateToken.middleware';
 import { Role } from '../../../types/userTypes';
-import { authorizeRole, validateToken } from '../../../utils/validateToken';
 
 export const subCategoryRouter = express.Router();
 

@@ -4,8 +4,11 @@ import { deleteProductReviewRating } from './deleteProductReviewRating.controlle
 import { getAllProductReviewRating } from './getAllProductReviewRating.controller';
 import { getProductReviewRating } from './getProductReviewRating.controller';
 import { updateProductReviewRating } from './updateProductReviewRating.controller';
+import {
+  authorizeRole,
+  validateToken,
+} from '../../../middlewares/validateToken.middleware';
 import { Role } from '../../../types/userTypes';
-import { authorizeRole, validateToken } from '../../../utils/validateToken';
 
 export const variationReviewRouter = express.Router();
 

@@ -1,8 +1,9 @@
-import { DataTypes, Model } from 'sequelize';
+import { Association, DataTypes, Model } from 'sequelize';
 import { sequelize } from '../config/dbConnection';
+import { PhoneInfoInput, PhoneInfoTypes } from '../types/phoneInfo.types';
 import { UserInput, UserTypes } from '../types/user.types';
 import { hashString } from '../utils/passwordHashednSalated';
-import { PhoneInfoInput, PhoneInfoTypes } from '../types/phoneInfo.types';
+import User from './user.model';
 
 class PhoneInfo extends Model<PhoneInfoTypes, PhoneInfoInput> {
   public ID!: number;
@@ -12,6 +13,12 @@ class PhoneInfo extends Model<PhoneInfoTypes, PhoneInfoInput> {
   public createdAt!: Date;
   public updatedAt!: Date;
   public deletedAt!: Date;
+
+  public readonly owner!: User;
+
+  public static association: {
+    owner: Association<PhoneInfo, User>;
+  };
 }
 
 PhoneInfo.init(
@@ -53,5 +60,6 @@ PhoneInfo.init(
     paranoid: true,
   },
 );
+
 
 export default PhoneInfo;

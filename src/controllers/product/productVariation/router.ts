@@ -4,8 +4,11 @@ import { deleteProductVariation } from './deleteProductVariation.controller';
 import { getAllProductVariations } from './getAllProductVariations.controller';
 import { getProductVariation } from './getProductVariation.controller';
 import { updateProductVariation } from './updateProductVariation.controller';
+import {
+  authorizeRole,
+  validateToken,
+} from '../../../middlewares/validateToken.middleware';
 import { Role } from '../../../types/userTypes';
-import { authorizeRole, validateToken } from '../../../utils/validateToken';
 import { addBaseProduct } from '../baseProduct/addBaseProduct.controller';
 
 export const productVariationRouter = express.Router();

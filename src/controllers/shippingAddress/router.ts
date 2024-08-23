@@ -1,62 +1,47 @@
 import express from 'express';
-
-import { userAddShippingAddress } from './addShippingAddress.controller';
-import { userDeleteShippingAddress } from './deleteShippingAddress.controller';
-import { getUserAllShippingAddress } from './getAllShippingAddress.controller';
-import { getUserShippingAddress } from './getShippingAddress.controller';
-import { userUpdateShippingAddress } from './updateShippingAddress.controller';
+import {
+  authorizeRole,
+  validateToken,
+} from '../../middlewares/validateToken.middleware';
 import { Role } from '../../types/userTypes';
-import { authorizeRole, validateToken } from '../../utils/validateToken';
+import { ShippingAddressControllers } from './shippingAddress.contoller';
 
-///////
-
-//add functionality to verfiy email for reset-password
-
-///////
 
 export const shippingAddressRouter = express.Router();
+const shippingAddressControllers = new ShippingAddressControllers();
 shippingAddressRouter.get(
   '/protected/getShippingAddress/:id',
   validateToken,
   authorizeRole([Role.ADMIN, Role.USER]),
-  async (req: any, res: any) => {
-    await getUserShippingAddress(req, res);
-  },
+
+  shippingAddressControllers.getShippingAddress,
 );
 
 shippingAddressRouter.get(
   '/protected/getAllUserShippingAddress/',
   validateToken,
   authorizeRole([Role.ADMIN, Role.USER]),
-  async (req: any, res: any) => {
-    await getUserAllShippingAddress(req, res);
-  },
+  shippingAddressControllers.getAllShippingAddress,
 );
 
 shippingAddressRouter.put(
   '/protected/addShippingAddress',
   validateToken,
   authorizeRole([Role.USER]),
-  async (req: any, res: any) => {
-    await userAddShippingAddress(req, res);
-  },
+  shippingAddressControllers.addShippingAddress,
 );
 
 shippingAddressRouter.post(
   '/protected/updateShippingAddress',
   validateToken,
   authorizeRole([Role.USER]),
-  async (req: any, res: any) => {
-    await userUpdateShippingAddress(req, res);
-  },
+  shippingAddressControllers.updateShippingAddress,
 );
-shippingAddressRouter.post(
+shippingAddressRouter.delete(
   '/protected/deleteShippingAddress',
   validateToken,
   authorizeRole([Role.USER]),
-  async (req: any, res: any) => {
-    await userDeleteShippingAddress(req, res);
-  },
+  shippingAddressControllers.deleteShippingAddress,
 );
 
 ///

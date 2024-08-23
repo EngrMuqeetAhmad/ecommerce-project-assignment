@@ -4,8 +4,11 @@ import { addUserCartProduct } from './addUserCartProduct.controller';
 import { deleteCartProduct } from './deleteUserCartProduct.controller';
 import { getAllCartProducts } from './getAllCartProducts.controller';
 import { udpateCartProduct } from './updateUserCartProduct.controller';
+import {
+  authorizeRole,
+  validateToken,
+} from '../../middlewares/validateToken.middleware';
 import { Role } from '../../types/userTypes';
-import { authorizeRole, validateToken } from '../../utils/validateToken';
 ///////
 
 //add functionality to verfiy email for reset-password

@@ -4,8 +4,11 @@ import { deleteVariationValue } from './deleteVariationValue.controller';
 import { getAllVariationTypeValues } from './getAllVariationValues.controller';
 import { getVariationTypeValue } from './getVariationValue.controller';
 import { updateVariationValue } from './updateVariationValue.controller';
+import {
+  authorizeRole,
+  validateToken,
+} from '../../../../middlewares/validateToken.middleware';
 import { Role } from '../../../../types/userTypes';
-import { authorizeRole, validateToken } from '../../../../utils/validateToken';
 
 export const variationValueRouter = express.Router();
 

@@ -4,8 +4,11 @@ import { deleteBaseProduct } from './deleteBaseProduct.controller';
 import { getAllBaseProducts } from './getAllBaseProduct.controller';
 import { getBaseProduct } from './getBaseProduct.controller';
 import { updateBaseProduct } from './updateBaseProduct.controller';
+import {
+  authorizeRole,
+  validateToken,
+} from '../../../middlewares/validateToken.middleware';
 import { Role } from '../../../types/userTypes';
-import { authorizeRole, validateToken } from '../../../utils/validateToken';
 
 export const baseProductRouter = express.Router();
 

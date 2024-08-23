@@ -1,16 +1,17 @@
 // var createError = require("http-errors");
-import createError from "http-errors";
-import express from "express";
-import path from "path";
-import cookieParser from "cookie-parser";
-import logger from "morgan";
-import https from "https";
-import fs from "fs";
-import dotenv from "dotenv";
-import { AppRouter } from "./src/router";
-import apiKeyAuth from "./src/middlewares/ApiKeyAuth.middleware";
-import { sequelize } from "./src/config/dbConnection";
-import User from "./src/models/user.model";
+import createError from 'http-errors';
+import express from 'express';
+import path from 'path';
+import cookieParser from 'cookie-parser';
+import logger from 'morgan';
+import https from 'https';
+import fs from 'fs';
+import dotenv from 'dotenv';
+import { AppRouter } from './src/router';
+import apiKeyAuth from './src/middlewares/ApiKeyAuth.middleware';
+import { sequelize } from './src/config/dbConnection';
+import User from './src/models/user.model';
+import PhoneInfo from './src/models/phoneInfo.model';
 
 ///
 dotenv.config();
@@ -18,19 +19,19 @@ dotenv.config();
 (async () => {
   try {
     await sequelize.authenticate();
-    console.log("Connected to database successflly");
+    console.log('Connected to database successflly');
   } catch (error) {
-    console.log("Error connecting to database");
+    console.log('Error connecting to database');
   }
 })();
 
 (async () => {
   try {
-    await sequelize.sync({ force: true });
     await User.sync({ alter: true });
-    console.log("Database sync successful");
+    await PhoneInfo.sync({ alter: true });
+    console.log('Database sync successful');
   } catch (error) {
-    console.log("Error syncing database");
+    console.log('Error syncing database');
   }
 })();
 
@@ -39,26 +40,26 @@ var app = express();
 
 const sslOptions = {
   key: fs.readFileSync(
-    path.resolve("C:\\Users\\muqeet.ahmad\\Desktop", "server.key")
+    path.resolve('C:\\Users\\muqeet.ahmad\\Desktop', 'server.key'),
   ),
   cert: fs.readFileSync(
-    path.resolve("C:\\Users\\muqeet.ahmad\\Desktop", "server.crt")
+    path.resolve('C:\\Users\\muqeet.ahmad\\Desktop', 'server.crt'),
   ),
 };
 
 // view engine setup
-app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "pug");
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'pug');
 
 //middlewares
-app.use(logger("dev"));
+app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, 'public')));
 
 //routes
-app.use("/api/v1/", apiKeyAuth, AppRouter);
+app.use('/api/v1/', apiKeyAuth, AppRouter);
 
 https.createServer(sslOptions, app).listen(PORT, (err: any) => {
   if (err) {

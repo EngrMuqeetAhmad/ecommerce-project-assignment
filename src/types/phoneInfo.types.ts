@@ -10,6 +10,8 @@ export interface PhoneInfoTypes {
   deletedAt?: Date;
 }
 
-export interface PhoneInfoInput extends Optional<PhoneInfoTypes, 'ID'> {}
+export interface PhoneInfoInput
+  extends Optional<PhoneInfoTypes, 'ID' | 'deletedAt'> {}
 
-export interface PhoneInfoOutput extends Required<PhoneInfoTypes> {}
+export interface PhoneInfoOutput
+  extends Optional<PhoneInfoTypes, 'deletedAt' | 'updatedAt'> {}

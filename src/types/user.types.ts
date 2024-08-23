@@ -23,3 +23,16 @@ export interface UserInput extends Optional<UserTypes, 'ID'> {}
 
 export interface UserOutput
   extends Optional<UserTypes, 'password' | 'deletedAt'> {}
+
+export interface UserUpdate
+  extends Omit<
+    UserTypes,
+    | 'ID'
+    | 'password'
+    | 'role'
+    | 'isVerified'
+    | 'stripeID'
+    | 'createdAt'
+    | 'updatedAt'
+    | 'deletedAt'
+  > {}

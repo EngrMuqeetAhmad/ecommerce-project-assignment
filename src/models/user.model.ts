@@ -1,7 +1,8 @@
-import { DataTypes, Model } from 'sequelize';
+import { Association, DataTypes, Model } from 'sequelize';
 import { sequelize } from '../config/dbConnection';
 import { UserInput, UserTypes } from '../types/user.types';
 import { hashString } from '../utils/passwordHashednSalated';
+import PhoneInfo from './phoneInfo.model';
 
 class User extends Model<UserTypes, UserInput> {
   public ID!: number;
@@ -17,6 +18,14 @@ class User extends Model<UserTypes, UserInput> {
   public readonly deletedAt!: Date;
 
   private password!: string;
+
+  //Associaiton
+
+  public readonly phoneNumbers!: PhoneInfo[];
+
+  public static association: {
+    phoneNumbers: Association<User, PhoneInfo>;
+  };
 }
 
 User.init(
@@ -24,8 +33,6 @@ User.init(
     ID: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
-      allowNull: false,
-      unique: true,
       primaryKey: true,
     },
     email: {
@@ -95,5 +102,10 @@ User.init(
     paranoid: true,
   },
 );
+
+User.hasMany(PhoneInfo, {
+  as: 'phoneNumbers',
+  foreignKey: 'userID',
+});
 
 export default User;

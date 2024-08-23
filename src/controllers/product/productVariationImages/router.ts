@@ -4,8 +4,11 @@ import { deleteProductVariationImages } from './deleteProductVariationImages.con
 import { getAllProductVariationImages } from './getAllProductVariationsImages.controller';
 import { getProductVariationImage } from './getProductVariationImages.controller';
 import { updateProductVariationImages } from './updateProductVariationImages.controller';
+import {
+  authorizeRole,
+  validateToken,
+} from '../../../middlewares/validateToken.middleware';
 import { Role } from '../../../types/userTypes';
-import { authorizeRole, validateToken } from '../../../utils/validateToken';
 
 export const variationImagesRouter = express.Router();
 

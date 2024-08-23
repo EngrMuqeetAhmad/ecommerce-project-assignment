@@ -1,1 +1,1 @@
-export { UserTypes, UserInput, UserOutput } from './user.types';
+export { UserTypes, UserInput, UserOutput, UserUpdate } from './user.types';

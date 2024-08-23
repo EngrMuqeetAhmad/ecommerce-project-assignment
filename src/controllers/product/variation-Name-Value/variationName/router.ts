@@ -4,8 +4,11 @@ import { deleteVariationType } from './deleteVariationName.controller';
 import { getAllVariationName } from './getAllVariationName.controller';
 import { getVariationName } from './getVariationName.controller';
 import { updateVairationName } from './updateVariationName.controller';
+import {
+  authorizeRole,
+  validateToken,
+} from '../../../../middlewares/validateToken.middleware';
 import { Role } from '../../../../types/userTypes';
-import { authorizeRole, validateToken } from '../../../../utils/validateToken';
 
 export const variationNameRouter = express.Router();
 

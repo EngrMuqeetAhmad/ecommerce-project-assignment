@@ -1,5 +1,6 @@
 import express from 'express';
 import { paymentRouter } from './controllers/payment/router';
+import { phoneInfoRouter } from './controllers/phoneInfo/router';
 import { productRouter } from './controllers/product/router';
 import { shippingAddressRouter } from './controllers/shippingAddress/router';
 import { userRouter } from './controllers/user/router';
@@ -14,10 +15,11 @@ export const AppRouter = express.Router();
 // AppRouter.use("/userOrder", userOrderRouter);
 
 // AppRouter.use("/userCart", userCartRouter);
+AppRouter.use('/user/phoneInfo', phoneInfoRouter);
 
 AppRouter.use('/user', userRouter);
 
-// AppRouter.use("/shippingAddress", shippingAddressRouter);
+AppRouter.use('/shippingAddress', shippingAddressRouter);
 
 // AppRouter.use("/product", productRouter);
 

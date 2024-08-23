@@ -6,6 +6,26 @@ import { UserInput, UserOutput } from '../../types/user.types';
 import { hashString } from '../../utils/passwordHashednSalated';
 
 class UserServices {
+  public async makeVerified(req: any, res: any, next: any): Promise<void> {
+    const email = req.email;
+
+    try {
+      await User.update(
+        {
+          isVerified: true,
+        },
+        {
+          where: {
+            email: email,
+          },
+        },
+      );
+      res.status(200).json({ message: 'Email verified Successfully' });
+    } catch (error) {
+      res.json({ error: 'Error making verified' });
+      return;
+    }
+  }
   public async resetPassword(req: any, res: any): Promise<void> {
     const { password } = req.body;
     const { token } = req.params;
@@ -44,6 +64,30 @@ class UserServices {
     }
   }
 
+
+  public async updateUser(
+    req: any,
+    res: any,
+   
+  ): Promise<void> {
+    const payload: Partial<UserOutput> =
+      UserMapper.toUserDTOUpdate(req.body);
+    try {
+      await User.update(payload, {
+        where: {
+          ID: req.body.ID,
+        },
+      });
+      res
+        .status(200)
+        .json({ message: 'Successfully updated User' });
+      return;
+    } catch (error) {
+      res.json({ error: 'Error updating User' });
+      return;
+    }
+  }
+
   public async getUser(req: any, res: any): Promise<void> {
     const user: UserOutput = UserMapper.toUserDTOOutput(req.user);
     res.status(200).json({
@@ -60,7 +104,7 @@ class UserServices {
     const response: any = await User.findOne({
       attributes: [
         'ID',
-        'fistName',
+        'firstName',
         'secondName',
         'email',
         'isVerified',
@@ -155,11 +199,10 @@ class UserServices {
 
     const payload: UserInput = UserMapper.toUserDTOInput(params);
 
-    console.log('payload', payload);
-
     try {
       await User.create(payload);
-      res.status(201).json({ message: 'user created - please verify email' });
+      params.accessRoute = 'emailVerification';
+      // res.status(201).json({ message: 'user created - please verify email' });
       next();
     } catch (error: any) {
       console.log('error creating user', error);

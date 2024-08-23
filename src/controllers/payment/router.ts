@@ -6,8 +6,11 @@ import { userDeletePaymentInfo } from './deletePaymentInfo.controller';
 import { getUserAllPaymentCardInfo } from './getAllPaymentCardsInfo.controller';
 import { getUserPaymentCardInfo } from './getPaymentInfo.controller';
 import { userUpdatePaymentInfo } from './updatePaymentInfo.controller';
+import {
+  authorizeRole,
+  validateToken,
+} from '../../middlewares/validateToken.middleware';
 import { Role } from '../../types/userTypes';
-import { authorizeRole, validateToken } from '../../utils/validateToken';
 
 ///////
 

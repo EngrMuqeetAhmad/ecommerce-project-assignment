@@ -3,8 +3,11 @@ import { addOrder } from './addOrder.controller';
 import { deleteOrder } from './deleteOrder.controller';
 import { getAllOrders } from './getAllOrders.controller';
 import { getOrder } from './getOrder.controller';
+import {
+  authorizeRole,
+  validateToken,
+} from '../../middlewares/validateToken.middleware';
 import { Role } from '../../types/userTypes';
-import { authorizeRole, validateToken } from '../../utils/validateToken';
 
 export const userOrderRouter = express.Router();
 

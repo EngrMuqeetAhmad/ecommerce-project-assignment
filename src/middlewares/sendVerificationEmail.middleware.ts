@@ -1,13 +1,14 @@
 import dotenv from 'dotenv';
-import { UserOutput } from '../types';
-import User from '../models/user.model';
 import { UserMapper } from '../mappers';
+import User from '../models/user.model';
+import { UserOutput } from '../types';
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
 
 async function emailForVerification(req: any, res: any, next: any) {
   dotenv.config();
   const { email, accessRoute } = req.body;
+ 
 
   let user: UserOutput;
   const result: any = await User.findOne({
@@ -54,7 +55,7 @@ async function emailForVerification(req: any, res: any, next: any) {
 
     try {
       await transporter.sendMail(mailOptions);
-      console.log('verification email sent');
+      console.log('verification email sent', verificationLink);
       res.status(200).json({ message: 'Verification email sent!' });
     } catch (error) {
       console.log('verification email error', error);

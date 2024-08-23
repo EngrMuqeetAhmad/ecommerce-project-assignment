@@ -1,10 +1,12 @@
 import jwt from 'jsonwebtoken';
 
-import { UserOutput } from '../types';
-import User from '../models/user.model';
 import { UserMapper } from '../mappers';
+import User from '../models/user.model';
+import { UserOutput } from '../types';
 async function validateEmail(req: any, res: any, next: any) {
   const { token } = req.params;
+
+  
 
   jwt.verify(token, 'MuqeetAhmad', async (err: any, decodedData: any) => {
     if (err) {
@@ -27,26 +29,8 @@ async function validateEmail(req: any, res: any, next: any) {
 
       return;
     }
-    if (!user.isVerified) {
-      try {
-        await User.update(
-          {
-            isVerified: true,
-          },
-          {
-            where: {
-              email: decodedData?.email,
-            },
-          },
-        );
-      } catch (error) {
-        res
-          .status(404)
-          .json({ message: 'failed - updating user verification status' });
-        return;
-      }
-    }
-    res.status(200).json({ message: 'Email verified Successfully' });
+    req.email = decodedData?.email;
+
     next();
     return;
   });

@@ -9,8 +9,11 @@ import { variationDetailsRouter } from './productVariationDetails/router';
 import { variationImagesRouter } from './productVariationImages/router';
 import { variationNameRouter } from './variation-Name-Value/variationName/router';
 import { variationValueRouter } from './variation-Name-Value/variationValue/router';
+import {
+  authorizeRole,
+  validateToken,
+} from '../../middlewares/validateToken.middleware';
 import { Role } from '../../types/userTypes';
-import { authorizeRole, validateToken } from '../../utils/validateToken';
 
 export const productRouter = express.Router();
 

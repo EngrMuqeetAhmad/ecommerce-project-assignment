@@ -1,15 +1,14 @@
 import express from 'express';
 
-import { getUser } from './getUser.controller';
-import { getUserPhoneInfo } from './getUserPhoneInfo.controller';
-import userPasswordUpdate from './resetPassword.controller';
 import UserControllers from './user.controller';
-import userLogin from './userLogin.controller';
+import { emailForVerification } from '../../middlewares/sendVerificationEmail.middleware';
+import {
+  authorizeRole,
+  validateToken,
+} from '../../middlewares/validateToken.middleware';
+import { validateEmail } from '../../middlewares/verifyEmail.middleware';
 import UserServices from '../../services/user/user.services';
 import { Role } from '../../types/userTypes';
-import { emailForVerification } from '../../utils/emailForVerification';
-import { authorizeRole, validateToken } from '../../utils/validateToken';
-import { validateEmail } from '../../validators/verifyEmailFnc.validation';
 
 ///////
 
@@ -21,25 +20,27 @@ const userControllers = new UserControllers();
 const userServices = new UserServices();
 
 userRouter.get(
-  '/protected/getUserPhoneInfo',
+  '/protected/getUser',
   validateToken,
   authorizeRole([Role.ADMIN, Role.USER]),
-  async (req: any, res: any) => {
-    await getUserPhoneInfo(req, res);
-  },
+  userControllers.getUser,
 );
 
-userRouter.put(
-  '/protected/getUserPhoneInfo',
-  validateToken,
-  authorizeRole([Role.ADMIN, Role.USER]),
-  async (req: any, res: any) => {
-    await getUserPhoneInfo(req, res);
-  },
-);
-
+userRouter.get('/userLogin', userControllers.userLogin);
 userRouter.post(
-  '/resetPassword/:token',
+  '/protected/updateUser',
+  validateToken,
+  authorizeRole([Role.ADMIN, Role.USER]),
+  userControllers.updateUser,
+);
+userRouter.put(
+  '/userRegister', ///validate funtion here
+  userServices.createStripe,
+  userControllers.userRegister,
+  emailForVerification,
+);
+userRouter.post(
+  '/reset/:token',
   validateEmail, //send email in body
   userControllers.resetPassword,
 );
@@ -50,19 +51,7 @@ userRouter.get(
 );
 
 userRouter.get(
-  '/protected/getUser',
-  validateToken,
-  authorizeRole([Role.ADMIN, Role.USER]),
-  userControllers.getUser,
+  '/verify-email/:token',
+  validateEmail,
+  userControllers.updateIsVerified,
 );
-
-userRouter.get('/userLogin', userControllers.userLogin);
-
-userRouter.put(
-  '/userRegister', ///validate funtion here
-  userServices.createStripe,
-  userControllers.userRegister,
-  emailForVerification,
-);
-
-userRouter.get('/verify-email/:token', validateEmail);

@@ -3,8 +3,11 @@ import express from 'express';
 import { addWishProduct } from './addUserWish.controller';
 import { deleteWishProduct } from './deleteUserWish.controller';
 import { getAllWishProducts } from './getAllWishProducts.controller';
+import {
+  authorizeRole,
+  validateToken,
+} from '../../middlewares/validateToken.middleware';
 import { Role } from '../../types/userTypes';
-import { authorizeRole, validateToken } from '../../utils/validateToken';
 ///////
 
 //add functionality to verfiy email for reset-password
