@@ -1,11 +1,11 @@
 import express from 'express';
 
+import { UserWishControllers } from './userWish.controller';
 import {
   authorizeRole,
   validateToken,
 } from '../../middlewares/validateToken.middleware';
 import { Role } from '../../types/userTypes';
-import { UserWishControllers } from './userWish.controller';
 ///////
 
 //add functionality to verfiy email for reset-password

@@ -19,3 +19,11 @@ export {
 } from './userOrder.types';
 
 export { UserWishInput, UserWishOutput, UserWishTypes } from './userWish.types';
+
+export { CategoryTypes, CategoryInput, CategoryOutput } from './category.types';
+
+export {
+  SubCategoryInput,
+  SubCategoryOutput,
+  SubCategoryTypes,
+} from './subCategory.types';

@@ -1,6 +1,6 @@
 import dotenv from 'dotenv';
 import { UserMapper } from '../mappers';
-import {User} from '../models/user.model';
+import { User } from '../models/user.model';
 import { UserOutput } from '../types';
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
