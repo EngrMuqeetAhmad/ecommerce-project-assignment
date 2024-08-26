@@ -3,6 +3,8 @@ import { User } from './user.model';
 import { sequelize } from '../config/dbConnection';
 import { UserOrderInput, UserOrderTypes } from '../types';
 import { STATUS } from '../types/userOrder.types';
+import { Product } from './product.model';
+import { OrderProductJunction } from './junctionModels/orderProduct.model';
 
 export class UserOrder extends Model<UserOrderTypes, UserOrderInput> {
   public ID!: number;
@@ -58,6 +60,14 @@ UserOrder.init(
         notEmpty: true,
       },
     },
+    price: {
+      type: DataTypes.DECIMAL,
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+        min: 0.01,
+      },
+    },
   },
 
   {
@@ -67,6 +77,10 @@ UserOrder.init(
     paranoid: true,
   },
 );
+
+UserOrder.belongsToMany(Product, {
+  through: OrderProductJunction,
+});
 
 //for product model
 // Copy code

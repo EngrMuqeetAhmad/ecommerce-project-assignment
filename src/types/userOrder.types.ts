@@ -6,6 +6,7 @@ export interface UserOrderTypes {
   status: string;
   shippingAddressID: number;
   paymentID: string;
+  price: number; // total price after tax/discount/additional/ calculations
   // couponID: string;
   createdAt?: Date;
   updatedAt?: Date;

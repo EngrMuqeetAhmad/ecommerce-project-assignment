@@ -1,60 +1,54 @@
 import { DataTypes, Model } from 'sequelize';
-import { BaseProductInput, BaseProductTypes } from '../types';
-import { sequelize } from '../config/dbConnection';
-import { ProductVariation } from './productVariation.model';
 
-export class BaseProduct extends Model<BaseProductTypes, BaseProductInput> {
+import { sequelize } from '../config/dbConnection';
+import {
+  RATING,
+  VariationReviewInput,
+  VariationReviewTypes,
+} from '../types/review.types';
+
+export class Reviews extends Model<VariationReviewTypes, VariationReviewInput> {
   public ID!: number;
-  public title!: string;
-  public description!: string;
-  public basePrice!: number;
-  public subCategory!: string;
-  public brand!: string;
+  public message!: string;
+  public rating!: RATING;
+  public userID!: number;
+  public variationID!: number;
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
   public readonly deletedAt!: Date;
 }
 
-BaseProduct.init(
+Reviews.init(
   {
     ID: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
-    title: {
+    message: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
         notEmpty: true,
       },
     },
-    description: {
+    rating: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
         notEmpty: true,
       },
     },
-    basePrice: {
+    variationID: {
       type: DataTypes.INTEGER,
       allowNull: false,
       validate: {
         notEmpty: true,
-        min: 1,
       },
     },
-    subCategory: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notEmpty: true,
-      },
-    },
-
-    brand: {
-      type: DataTypes.STRING,
+    userID: {
+      type: DataTypes.INTEGER,
       allowNull: false,
       validate: {
         notEmpty: true,
@@ -63,16 +57,8 @@ BaseProduct.init(
   },
   {
     sequelize,
-    tableName: 'baseProductTable',
+    tableName: 'ReviewTable',
     timestamps: true,
-    paranoid: true,
   },
 );
 
-BaseProduct.hasMany(ProductVariation, {
-  foreignKey: 'productID',
-  as: 'variants',
-  onDelete: 'CASCADE',
-});
-
-// BaseProduct.hasMany(ProductTy)

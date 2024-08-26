@@ -1,6 +1,7 @@
 import { DataTypes, Model } from 'sequelize';
 import { sequelize } from '../config/dbConnection';
 import { CategoryInput, CategoryTypes } from '../types';
+import { SubCategory } from './subCategory.model';
 export class Category extends Model<CategoryTypes, CategoryInput> {
   public ID!: number;
   public category!: string;
@@ -30,6 +31,12 @@ Category.init(
     paranoid: true,
   },
 );
+
+Category.hasMany(SubCategory, {
+  foreignKey: 'category',
+  as: 'subCategories',
+  // onDelete: 'CASCADE',
+});
 
 ///create specific variation product in database and then relate to cart
 

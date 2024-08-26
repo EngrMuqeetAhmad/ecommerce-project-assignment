@@ -2,7 +2,8 @@ import { Optional } from 'sequelize';
 
 export interface SubCategoryTypes {
   ID: number;
-  subCategory: string;
+  subCategoryName: string;
+  category: string
 }
 
 export interface SubCategoryInput extends Optional<SubCategoryTypes, 'ID'> {}

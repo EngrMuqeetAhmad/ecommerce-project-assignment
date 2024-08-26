@@ -6,6 +6,8 @@ import { UserOrder } from './userOrder.model';
 import { sequelize } from '../config/dbConnection';
 import { UserInput, UserTypes } from '../types/user.types';
 import { hashString } from '../utils/passwordHashednSalated';
+import { Reviews } from './review.model';
+import { UserWish } from './userWish.model';
 
 export class User extends Model<UserTypes, UserInput> {
   public ID!: number;
@@ -120,6 +122,10 @@ User.hasOne(UserCart, {
   as: 'userCart',
   foreignKey: 'userID',
 });
+User.hasOne(UserWish, {
+  as: 'userWish',
+  foreignKey: 'userID',
+});
 
 User.hasMany(ShippingAddress, {
   as: 'userAddresses',
@@ -129,4 +135,9 @@ User.hasMany(ShippingAddress, {
 User.hasMany(UserOrder, {
   as: 'userOrder',
   foreignKey: 'userID',
+});
+
+User.hasMany(Reviews, {
+  foreignKey: 'userID',
+  as: 'reviewsGiven',
 });

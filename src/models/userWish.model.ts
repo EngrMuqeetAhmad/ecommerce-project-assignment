@@ -1,6 +1,8 @@
 import { DataTypes, Model } from 'sequelize';
 import { sequelize } from '../config/dbConnection';
 import { UserWishInput, UserWishTypes } from '../types';
+import { Product } from './product.model';
+import { WishProductJunction } from './junctionModels/WishProduct.model';
 
 export class UserWish extends Model<UserWishTypes, UserWishInput> {
   public ID!: number;
@@ -37,6 +39,10 @@ UserWish.init(
     paranoid: true,
   },
 );
+
+UserWish.belongsToMany(Product, {
+  through: WishProductJunction,
+});
 
 ///create specific variation product in database and then relate to cart
 

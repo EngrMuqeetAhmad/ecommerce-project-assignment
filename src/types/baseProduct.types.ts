@@ -5,7 +5,6 @@ export interface BaseProductTypes {
   title: string;
   description: string;
   basePrice: number;
-  category: string;
   subCategory: string;
   brand: string;
   createdAt?: Date;
