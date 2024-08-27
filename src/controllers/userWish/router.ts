@@ -5,7 +5,7 @@ import {
   authorizeRole,
   validateToken,
 } from '../../middlewares/validateToken.middleware';
-import { Role } from '../../types/userTypes';
+import { Role } from '../../types/user.types';
 ///////
 
 //add functionality to verfiy email for reset-password

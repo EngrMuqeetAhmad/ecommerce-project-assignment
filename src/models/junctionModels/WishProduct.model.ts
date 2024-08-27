@@ -1,6 +1,7 @@
 import { DataTypes, Model } from 'sequelize';
 import { sequelize } from '../../config/dbConnection';
-export class WishProductJunction extends Model {
+import { WishProduct, WishProductInput } from '../../types';
+export class WishProductJunction extends Model<WishProduct, WishProductInput> {
   public productID!: number;
   public wishTableID!: number;
   public userID!: number;
@@ -8,6 +9,11 @@ export class WishProductJunction extends Model {
 
 WishProductJunction.init(
   {
+    ID: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      allowNull: false,
+    },
     productID: {
       type: DataTypes.INTEGER,
       allowNull: false,

@@ -3,8 +3,8 @@ import {
   VariationTypeValueOutput,
 } from '../types/variantTypeValue.types';
 
-export class VariantTypeValueMapper {
-  public static toVariantTypeValueDTOInput(
+export class VariationTypeValueMapper {
+  public static toDTOInput(
     model: any,
   ): VariationTypeValueInput {
     return {
@@ -13,7 +13,7 @@ export class VariantTypeValueMapper {
     };
   }
 
-  public static toSubCategoryDTOOutput(model: any): VariationTypeValueOutput {
+  public static toDTOOutput(model: any): VariationTypeValueOutput {
     return {
       variationTypeValue: model.variantTypeValue,
       variationType: model.variationType,

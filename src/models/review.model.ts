@@ -54,6 +54,14 @@ Reviews.init(
         notEmpty: true,
       },
     },
+    approved: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
+      validate: {
+        notEmpty: true,
+      },
+    },
   },
   {
     sequelize,
@@ -61,4 +69,3 @@ Reviews.init(
     timestamps: true,
   },
 );
-

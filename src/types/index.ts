@@ -40,8 +40,11 @@ export {
   ProductVariationTypes,
 } from './productVariation.types';
 
-export * from './productImages.types'
-export * from './review.types'
-export * from './variantTypeValue.types'
-export * from './variantTypes.types'
-export * from './product.types'
+export * from './productImages.types';
+export * from './review.types';
+export * from './variantTypeValue.types';
+export * from './variantTypes.types';
+export * from './product.types';
+export * from './OrderProductJunction.types';
+export * from './CartProductJunction.types';
+export * from './WishProduct.types';

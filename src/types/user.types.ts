@@ -21,9 +21,10 @@ export interface UserTypes {
   };
 }
 
-enum Role {
+export enum Role {
   USER = 'user',
   ADMIN = 'admin',
+  SERVER = 'server',
 }
 
 export interface UserInput extends Optional<UserTypes, 'ID' | 'cart'> {}

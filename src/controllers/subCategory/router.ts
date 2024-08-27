@@ -4,7 +4,7 @@ import {
   authorizeRole,
   validateToken,
 } from '../../middlewares/validateToken.middleware';
-import { Role } from '../../types/userTypes';
+import { Role } from '../../types/user.types';
 
 export const SubCategoryRouter = express.Router();
 const subCategoryControllers = new SubCategoryControllers();

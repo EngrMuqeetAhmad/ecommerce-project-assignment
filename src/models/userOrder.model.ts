@@ -4,7 +4,7 @@ import { sequelize } from '../config/dbConnection';
 import { UserOrderInput, UserOrderTypes } from '../types';
 import { STATUS } from '../types/userOrder.types';
 import { Product } from './product.model';
-import { OrderProductJunction } from './junctionModels/orderProduct.model';
+import { OrderProductJunction } from './junctionModels/OrderProduct.model';
 
 export class UserOrder extends Model<UserOrderTypes, UserOrderInput> {
   public ID!: number;

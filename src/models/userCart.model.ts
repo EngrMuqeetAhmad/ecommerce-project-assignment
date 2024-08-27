@@ -3,7 +3,7 @@ import { User } from './user.model';
 import { sequelize } from '../config/dbConnection';
 import { UserCartInput, UserCartTypes } from '../types';
 import { Product } from './product.model';
-import { CartProductJunction } from './junctionModels/cartProduct.model';
+import { CartProductJunction } from './junctionModels/CartProduct.model';
 export class UserCart extends Model<UserCartTypes, UserCartInput> {
   public ID!: number;
   public userID!: number;

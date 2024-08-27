@@ -3,14 +3,14 @@ import {
   VariationTypeOutput,
 } from '../types/variantTypes.types';
 
-export class VariantTypeMapper {
-  public static toVariationTypeDTOInput(model: any): VariationTypeInput {
+export class VariationTypeMapper {
+  public static toDTOInput(model: any): VariationTypeInput {
     return {
       variationType: model.variationType,
     };
   }
 
-  public static toVariationTypeDTOOutput(model: any): VariationTypeOutput {
+  public static toDTOOutput(model: any): VariationTypeOutput {
     return {
       variationType: model.variationType,
     };

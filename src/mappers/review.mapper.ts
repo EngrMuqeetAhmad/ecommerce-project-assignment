@@ -1,4 +1,5 @@
 import {
+  VariationReviewAdminOutput,
   VariationReviewInput,
   VariationReviewOutput,
 } from '../types/review.types';
@@ -24,8 +25,18 @@ export class ReviewMapper {
       variationID: model.variationID,
       userID: model.userID,
       createdAt: new Date(`${model.createdAt}`),
-      updatedAt: new Date(`${model.updatedAt}`),
-      deletedAt: undefined,
     };
   }
+  public static toAdminDTOOutput(model: any): VariationReviewAdminOutput {
+    return {
+      ID: model.ID,
+      message: model.message,
+      rating: model.rating,
+      variationID: model.variationID,
+      userID: model.userID,
+      approved: model.approved,
+      createdAt: new Date(`${model.createdAt}`),
+    };
+  }
+  
 }

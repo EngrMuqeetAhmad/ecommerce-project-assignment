@@ -2,7 +2,7 @@ import express from 'express';
 import { CategoryRouter } from './controllers/category/router';
 import { paymentRouter } from './controllers/payment/router';
 import { phoneInfoRouter } from './controllers/phoneInfo/router';
-import { productRouter } from './controllers/product/router';
+
 import { shippingAddressRouter } from './controllers/shippingAddress/router';
 import { SubCategoryRouter } from './controllers/subCategory/router';
 import { userRouter } from './controllers/user/router';

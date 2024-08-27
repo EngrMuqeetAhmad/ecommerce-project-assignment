@@ -1,7 +1,7 @@
 import { ProductVariationInput, ProductVariationOutput } from '../types';
 
 export class ProductVariationMapper {
-  public static toProductVariationDTOInput(model: any): ProductVariationInput {
+  public static toDTOInput(model: any): ProductVariationInput {
     return {
       productID: model.productID,
       additionPrice: model.additionPrice,
@@ -12,7 +12,7 @@ export class ProductVariationMapper {
     };
   }
 
-  public static toProductVariationDTOOutput(
+  public static toDTOOutput(
     model: any,
   ): ProductVariationOutput {
     return {

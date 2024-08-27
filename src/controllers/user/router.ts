@@ -8,7 +8,7 @@ import {
 } from '../../middlewares/validateToken.middleware';
 import { validateEmail } from '../../middlewares/verifyEmail.middleware';
 import UserServices from '../../services/user/user.services';
-import { Role } from '../../types/userTypes';
+import { Role } from '../../types/user.types';
 
 ///////
 

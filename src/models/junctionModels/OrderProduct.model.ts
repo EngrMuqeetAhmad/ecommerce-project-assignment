@@ -1,6 +1,10 @@
 import { DataTypes, Model } from 'sequelize';
 import { sequelize } from '../../config/dbConnection';
-export class OrderProductJunction extends Model {
+import { OrderProductInput, OrderProductTypes } from '../../types';
+export class OrderProductJunction extends Model<
+  OrderProductTypes,
+  OrderProductInput
+> {
   public productID!: number;
   public orderID!: number;
   public userID!: number;
@@ -9,6 +13,11 @@ export class OrderProductJunction extends Model {
 
 OrderProductJunction.init(
   {
+    ID: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      allowNull: false,
+    },
     productID: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -45,5 +54,3 @@ OrderProductJunction.init(
     timestamps: false,
   },
 );
-
-
