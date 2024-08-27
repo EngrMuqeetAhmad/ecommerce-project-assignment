@@ -11,6 +11,10 @@ export class UserCartControllers {
     await this.userCartServices.getWholeCart(req, res, next);
   };
 
+  public updateItem = async (req: any, res: any, next: any) => {
+    await this.userCartServices.updateIteminCart(req, res, next);
+  };
+
   public deleteFromCart = async (req: any, res: any, next: any) => {
     await this.userCartServices.deleteItemFromCart(req, res, next);
   };

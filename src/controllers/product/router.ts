@@ -10,12 +10,12 @@ import { ProductControllers } from './product.controller';
 export const ProductRouter = express.Router();
 const productController = new ProductControllers();
 ProductRouter.get(
-    '/protected/product/getAll',
-    validateToken,
-    authorizeRole([Role.ADMIN]),
-    productController.getAllProducts,
-  );
-  
+  '/protected/product/getAll',
+  validateToken,
+  authorizeRole([Role.ADMIN]),
+  productController.getAllProducts,
+);
+
 ProductRouter.get(
   '/protected/product/get',
   validateToken,
@@ -26,7 +26,7 @@ ProductRouter.get(
 ProductRouter.delete(
   '/protected/product/delete',
   validateToken,
-  authorizeRole([Role.SERVER]), //server
+  authorizeRole([Role.ADMIN]), //server
   productController.deleteProduct,
 );
 

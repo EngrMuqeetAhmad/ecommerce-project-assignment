@@ -12,13 +12,8 @@ export interface UserTypes {
   createdAt?: Date;
   updatedAt?: Date;
   deletedAt?: Date;
-  cart?: {
-    ID: number;
-    userID: number;
-    createdAt?: Date;
-    updatedAt?: Date;
-    deletedAt?: Date;
-  };
+  cartID?: number;
+  wishTableID?: number;
 }
 
 export enum Role {
@@ -27,10 +22,11 @@ export enum Role {
   SERVER = 'server',
 }
 
-export interface UserInput extends Optional<UserTypes, 'ID' | 'cart'> {}
+export interface UserInput
+  extends Optional<UserTypes, 'ID' | 'cartID' | 'wishTableID'> {}
 
 export interface UserOutput
-  extends Optional<UserTypes, 'password' | 'deletedAt' | 'cart'> {}
+  extends Optional<UserTypes, 'password' | 'deletedAt' | 'cartID'> {}
 
 export interface UserUpdate
   extends Omit<
@@ -43,5 +39,6 @@ export interface UserUpdate
     | 'createdAt'
     | 'updatedAt'
     | 'deletedAt'
-    | 'cart'
+    | 'cartID'
+    | 'wishTableID'
   > {}

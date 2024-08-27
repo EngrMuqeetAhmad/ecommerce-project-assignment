@@ -10,6 +10,7 @@ export class PhoneInfo extends Model<PhoneInfoTypes, PhoneInfoInput> {
   public userID!: number;
   public countryCode!: number;
   public phoneNumber!: string;
+  public primary!: boolean;
   public createdAt!: Date;
   public updatedAt!: Date;
   public deletedAt!: Date;
@@ -43,6 +44,14 @@ PhoneInfo.init(
       validate: {
         notEmpty: true,
       },
+    },
+    primary : {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
+      validate: {
+        notEmpty: true
+      }
     },
     phoneNumber: {
       type: DataTypes.STRING,

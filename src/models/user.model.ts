@@ -8,6 +8,7 @@ import { UserInput, UserTypes } from '../types/user.types';
 import { hashString } from '../utils/passwordHashednSalated';
 import { Reviews } from './review.model';
 import { UserWish } from './userWish.model';
+import { Payment } from './payment.model';
 
 export class User extends Model<UserTypes, UserInput> {
   public ID!: number;
@@ -17,7 +18,8 @@ export class User extends Model<UserTypes, UserInput> {
   public role!: string;
   public isVerified!: boolean;
   public stripeID!: string;
-
+  public cartID!: number;
+  public wishTableID!: number;
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
   public readonly deletedAt!: Date;
@@ -103,6 +105,22 @@ User.init(
         notEmpty: true,
       },
     },
+    cartID: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      unique: true,
+      validate: {
+        notEmpty: true,
+      },
+    },
+    wishTableID: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      unique: true,
+      validate: {
+        notEmpty: true,
+      },
+    },
   },
 
   {
@@ -140,4 +158,9 @@ User.hasMany(UserOrder, {
 User.hasMany(Reviews, {
   foreignKey: 'userID',
   as: 'reviewsGiven',
+});
+
+User.hasMany(Payment, {
+  foreignKey: 'userID',
+  as: 'paymentMethods',
 });

@@ -43,12 +43,3 @@ UserCart.init(
 UserCart.belongsToMany(Product, {
   through: CartProductJunction,
 });
-///create specific variation product in database and then relate to cart
-
-//for product model
-// Copy code
-// Cart.hasMany(Product, {
-//   foreignKey: 'cartId',
-//   as: 'products',
-//   onDelete: 'CASCADE', // This ensures that deleting a Cart deletes its Products
-// });

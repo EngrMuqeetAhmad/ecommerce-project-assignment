@@ -48,3 +48,4 @@ export * from './product.types';
 export * from './OrderProductJunction.types';
 export * from './CartProductJunction.types';
 export * from './WishProduct.types';
+export * from './payment.types'

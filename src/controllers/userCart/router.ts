@@ -10,21 +10,27 @@ export const userCartRouter = express.Router();
 const userCartContrllers = new UserCartControllers();
 
 userCartRouter.delete(
-  '/protected/deleteCartProduct',
+  '/protected/cart/deleteItem',
   validateToken,
   authorizeRole([Role.USER]),
   userCartContrllers.deleteFromCart,
 );
+userCartRouter.post(
+  '/protected/cart/updateItem',
+  validateToken,
+  authorizeRole([Role.USER]),
+  userCartContrllers.updateItem,
+);
 
 userCartRouter.get(
-  '/protected/getAllCartProducts',
+  '/protected/cart/getAllItems',
   validateToken,
   authorizeRole([Role.ADMIN, Role.USER]),
   userCartContrllers.getWholeCart,
 );
 
 userCartRouter.put(
-  '/protected/addCartProduct',
+  '/protected/cart/addItem',
   validateToken,
   authorizeRole([Role.USER]),
   userCartContrllers.addToCart,

@@ -5,6 +5,7 @@ export interface PhoneInfoTypes {
   countryCode: number;
   phoneNumber: string;
   userID: number;
+  primary: boolean;
   createdAt?: Date;
   updatedAt?: Date;
   deletedAt?: Date;

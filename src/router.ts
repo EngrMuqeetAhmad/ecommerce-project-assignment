@@ -1,6 +1,6 @@
 import express from 'express';
 import { CategoryRouter } from './controllers/category/router';
-import { paymentRouter } from './controllers/payment/router';
+import { PaymentRouter } from './controllers/payment/router';
 import { phoneInfoRouter } from './controllers/phoneInfo/router';
 
 import { shippingAddressRouter } from './controllers/shippingAddress/router';
@@ -29,4 +29,4 @@ AppRouter.use('/baseProduct', BaseProductRouter);
 
 // AppRouter.use("/product", productRouter);
 
-// AppRouter.use("/payment", paymentRouter);
+AppRouter.use('/payment', PaymentRouter);

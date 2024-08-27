@@ -5,6 +5,8 @@ import { UserCartMapper } from '../../mappers/userCart.mapper';
 import { User } from '../../models/user.model';
 import { UserInput, UserOutput } from '../../types/user.types';
 import { hashString } from '../../utils/passwordHashednSalated';
+import { UserCart } from '../../models/userCart.model';
+import { UserWish } from '../../models/userWish.model';
 
 class UserServices {
   public async makeVerified(req: any, res: any, next: any): Promise<void> {
@@ -102,6 +104,8 @@ class UserServices {
         'email',
         'isVerified',
         'role',
+        'cartID',
+        'wishTableID',
         'stripeID',
         'createdAt',
         'updatedAt',
@@ -129,6 +133,8 @@ class UserServices {
         email: user.email,
         role: user.role,
         stripeID: user.stripeID,
+        cartID: user.cartID,
+        wishTableID: user.wishTableID,
       },
       SECRET,
     );
@@ -193,10 +199,40 @@ class UserServices {
     const payload: UserInput = UserMapper.toUserDTOInput(params);
 
     try {
-      const result = await User.create(payload);
-      console.log('result user and cart', result);
+      let user: UserOutput;
+      await User.create(payload).then(async (user) => {
+        await UserCart.create({
+          userID: user.ID,
+        }).then(async (cart) => {
+          await User.update(
+            {
+              cartID: cart.ID,
+            },
+            {
+              where: {
+                ID: user.ID,
+              },
+            },
+          );
+        });
+        await UserWish.create({
+          userID: user.ID,
+        }).then(async (wish) => {
+          await User.update(
+            {
+              wishTableID: wish.ID,
+            },
+            {
+              where: {
+                ID: user.ID,
+              },
+            },
+          );
+        });
+      });
+
       params.accessRoute = 'emailVerification';
-      // res.status(201).json({ message: 'user created - please verify email' });
+
       next();
     } catch (error: any) {
       console.log('error creating user', error);

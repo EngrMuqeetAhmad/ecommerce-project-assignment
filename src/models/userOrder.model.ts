@@ -10,6 +10,9 @@ export class UserOrder extends Model<UserOrderTypes, UserOrderInput> {
   public ID!: number;
   public userID!: number;
   public status!: string;
+  public paymentID!: string;
+  public shippingAddressID!: number;
+  public totalAmount!: number;
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
   public readonly deletedAt!: Date;
@@ -60,7 +63,7 @@ UserOrder.init(
         notEmpty: true,
       },
     },
-    price: {
+    totalAmount: {
       type: DataTypes.DECIMAL,
       allowNull: false,
       validate: {
@@ -80,6 +83,7 @@ UserOrder.init(
 
 UserOrder.belongsToMany(Product, {
   through: OrderProductJunction,
+  onDelete: "CASCADE"
 });
 
 //for product model

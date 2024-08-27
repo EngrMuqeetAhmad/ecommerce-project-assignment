@@ -1,6 +1,12 @@
 import { UserCartMapper } from '../../mappers/userCart.mapper';
+import { CartProductJunction } from '../../models/junctionModels/CartProduct.model';
 import { UserCart } from '../../models/userCart.model';
-import { UserCartInput, UserCartOutput } from '../../types';
+import {
+  CartProduct,
+  CartProductInput,
+  UserCartInput,
+  UserCartOutput,
+} from '../../types';
 
 export class UserCartServices {
   public async getWholeCart(req: any, res: any, next: any): Promise<void> {
@@ -23,6 +29,31 @@ export class UserCartServices {
     }
   }
 
+  public async updateIteminCart(req: any, res: any, next: any): Promise<void> {
+    const { ID, quantity } = req.body;
+    const payload: Omit<CartProduct, 'ID' | 'productID' | 'userID' | 'cartID'> =
+      {
+        quantity: quantity,
+      };
+
+    try {
+      await CartProductJunction.update(
+        {
+          quantity: quantity,
+        },
+        {
+          where: {
+            ID: ID,
+          },
+        },
+      );
+      res.status(200).json({ message: 'Success deleting cart ITEM' });
+      return;
+    } catch (error) {
+      res.json({ error: 'Error deleting cart Item' });
+    }
+  }
+
   public async deleteItemFromCart(
     req: any,
     res: any,
@@ -31,7 +62,7 @@ export class UserCartServices {
     const { ID } = req.body;
 
     try {
-      await UserCart.destroy({
+      await CartProductJunction.destroy({
         where: {
           ID: ID,
         },
@@ -44,13 +75,18 @@ export class UserCartServices {
   }
 
   public async addItemToCart(req: any, res: any, next: any): Promise<void> {
-    const { ID } = req.user;
-    const params = req.body;
-    params.body.userID = ID;
-    const payload: UserCartInput = UserCartMapper.toUserCartDTOInput(params);
+    const { ID, cartID } = req.user;
+    const { productID, quantity } = req.body;
+
+    const payload: CartProductInput = {
+      userID: ID,
+      cartID: cartID,
+      productID: productID,
+      quantity: quantity,
+    };
 
     try {
-      await UserCart.create(payload);
+      await CartProductJunction.create(payload);
       res.status(200).json({ message: 'item added to cart' });
       return;
     } catch (error) {

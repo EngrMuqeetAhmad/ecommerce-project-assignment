@@ -1,75 +1,44 @@
 import express from 'express';
-
-import { userAddPaymentInfo } from './addPaymentInfo.controller';
-import { createPaymentFlow } from './createPayment.controller';
-import { userDeletePaymentInfo } from './deletePaymentInfo.controller';
-import { getUserAllPaymentCardInfo } from './getAllPaymentCardsInfo.controller';
-import { getUserPaymentCardInfo } from './getPaymentInfo.controller';
-import { userUpdatePaymentInfo } from './updatePaymentInfo.controller';
+import { PaymentControllers } from './payment.controller';
 import {
   authorizeRole,
   validateToken,
 } from '../../middlewares/validateToken.middleware';
-import { Role } from '../../types/userTypes';
+import { Role } from '../../types/user.types';
 
-///////
+export const PaymentRouter = express.Router();
+const paymentControllers = new PaymentControllers();
 
-//add functionality to verfiy email for reset-password
-
-/// update isVerified prop and role in user creation
-
-export const paymentRouter = express.Router();
-///
-paymentRouter.get(
-  '/protected/getPaymentCardInfo/:paymentCardID',
-  validateToken,
-  authorizeRole([Role.ADMIN, Role.USER]),
-  async (req: any, res: any) => {
-    await getUserPaymentCardInfo(req, res);
-  },
-);
-
-paymentRouter.get(
-  '/protected/getUserAllPaymentCardsInfo/',
-  validateToken,
-  authorizeRole([Role.ADMIN, Role.USER]),
-  async (req: any, res: any) => {
-    await getUserAllPaymentCardInfo(req, res);
-  },
-);
-
-paymentRouter.put(
-  '/protected/addPaymentInfo',
+PaymentRouter.put(
+  '/protected/payment/checkout',
   validateToken,
   authorizeRole([Role.USER]),
-  async (req: any, res: any) => {
-    await userAddPaymentInfo(req, res);
-  },
+  paymentControllers.calculatePayment,
+  paymentControllers.createPaymentIntent,
+);
+PaymentRouter.get(
+  '/protected/payment/getAllMethods',
+  validateToken,
+  authorizeRole([Role.USER]),
+  paymentControllers.getAllPaymentMethods,
+);
+PaymentRouter.get(
+  '/protected/payment/getMethod',
+  validateToken,
+  authorizeRole([Role.USER]),
+  paymentControllers.getPaymentMethod,
 );
 
-paymentRouter.post(
-  '/protected/updatePaymentInfo',
+PaymentRouter.delete(
+  '/protected/payment/deleteMethod',
   validateToken,
   authorizeRole([Role.USER]),
-  async (req: any, res: any) => {
-    await userUpdatePaymentInfo(req, res);
-  },
-);
-paymentRouter.post(
-  '/protected/deletePaymentInfo',
-  validateToken,
-  authorizeRole([Role.USER]),
-  async (req: any, res: any) => {
-    await userDeletePaymentInfo(req, res);
-  },
+  paymentControllers.deletePaymentMethod,
 );
 
-paymentRouter.post(
-  '/protected/createPayment',
+PaymentRouter.put(
+  '/protected/payment/addMethod',
   validateToken,
   authorizeRole([Role.USER]),
-  async (req: any, res: any) => {
-    await createPaymentFlow(req, res);
-  },
+  paymentControllers.createPaymentMethod,
 );
-///////

@@ -1,6 +1,6 @@
 import { Optional } from 'sequelize';
 
-type VARIATION = {
+export type VARIATION = {
   name: string;
   value: string;
 };

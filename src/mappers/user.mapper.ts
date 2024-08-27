@@ -1,6 +1,6 @@
 import { UserInput, UserOutput, UserUpdate } from '../types/';
 
-import { Role } from '../types/userTypes';
+import { Role } from '../types/user.types';
 
 export class UserMapper {
   public static toUserDTOInput(model: any): UserInput {

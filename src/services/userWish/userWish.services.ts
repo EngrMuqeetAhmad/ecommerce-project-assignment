@@ -1,6 +1,7 @@
 import { UserWishMapper } from '../../mappers/userWish.mapper';
+import { WishProductJunction } from '../../models/junctionModels/WishProduct.model';
 import { UserWish } from '../../models/userWish.model';
-import { UserWishInput, UserWishOutput } from '../../types';
+import { UserWishOutput, WishProductInput } from '../../types';
 
 export class UserWishServices {
   public async getWholeWish(req: any, res: any, next: any): Promise<void> {
@@ -31,7 +32,7 @@ export class UserWishServices {
     const { ID } = req.body;
 
     try {
-      await UserWish.destroy({
+      await WishProductJunction.destroy({
         where: {
           ID: ID,
         },
@@ -44,13 +45,17 @@ export class UserWishServices {
   }
 
   public async addItemToWish(req: any, res: any, next: any): Promise<void> {
-    const { ID } = req.user;
-    const params = req.body;
-    params.body.userID = ID;
-    const payload: UserWishInput = UserWishMapper.toUserWishDTOInput(params);
+    const { ID, wishTableID } = req.user;
+    const { productID } = req.body;
+
+    const payload: WishProductInput = {
+      userID: ID,
+      wishTableID: wishTableID,
+      productID: productID,
+    };
 
     try {
-      await UserWish.create(payload);
+      await WishProductJunction.create(payload);
       res.status(200).json({ message: 'item added to wish' });
       return;
     } catch (error) {
