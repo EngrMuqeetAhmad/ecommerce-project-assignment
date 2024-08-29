@@ -2,10 +2,10 @@ import { DataTypes, Model } from 'sequelize';
 
 import { sequelize } from '../config/dbConnection';
 import {
-  RATING,
   VariationReviewInput,
   VariationReviewTypes,
 } from '../types/review.types';
+import { RATING } from '../utils/enum.util';
 
 export class Reviews extends Model<VariationReviewTypes, VariationReviewInput> {
   public ID!: number;

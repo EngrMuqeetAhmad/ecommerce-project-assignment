@@ -5,6 +5,8 @@ export interface VariationTypeValueTypes {
   variationType: string;
 }
 
-export interface VariationTypeValueInput extends Required<VariationTypeValueTypes> {}
+export interface VariationTypeValueInput
+  extends Required<VariationTypeValueTypes> {}
 
-export interface VariationTypeValueOutput extends Required<VariationTypeValueTypes> {}
+export interface VariationTypeValueOutput
+  extends Required<VariationTypeValueTypes> {}

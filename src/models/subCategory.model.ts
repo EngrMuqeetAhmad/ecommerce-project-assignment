@@ -1,23 +1,18 @@
 import { DataTypes, Model } from 'sequelize';
+import { BaseProduct } from './baseProduct.model';
 import { sequelize } from '../config/dbConnection';
 import { SubCategoryInput, SubCategoryTypes } from '../types';
-import { BaseProduct } from './baseProduct.model';
 export class SubCategory extends Model<SubCategoryTypes, SubCategoryInput> {
-  public ID!: number;
-  public subCategoryName!: string;
+  public subCategory!: string;
   public category!: string;
 }
 
 SubCategory.init(
   {
-    ID: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true,
-    },
-    subCategoryName: {
+    subCategory: {
       type: DataTypes.STRING,
       allowNull: false,
+      primaryKey: true,
       unique: true,
       validate: {
         notEmpty: true,
@@ -46,13 +41,3 @@ SubCategory.hasMany(BaseProduct, {
   as: 'products',
   // onDelete: 'CASCADE',
 });
-
-///create specific variation product in database and then relate to cart
-
-//for product model
-// Copy code
-// Wish.hasMany(Product, {
-//   foreignKey: 'cartId',
-//   as: 'products',
-//   onDelete: 'CASCADE', // This ensures that deleting a Wish deletes its Products
-// });

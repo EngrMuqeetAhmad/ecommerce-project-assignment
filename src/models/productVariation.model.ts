@@ -1,9 +1,9 @@
 import { DataTypes, Model } from 'sequelize';
-import { ProductVariationInput, ProductVariationTypes } from '../types';
-import { sequelize } from '../config/dbConnection';
+import { Reviews } from './review.model';
 import { VariationTypeValueModel } from './variantTypeValue.model';
 import { VariationImage } from './variationImage.model';
-import { Reviews } from './review.model';
+import { sequelize } from '../config/dbConnection';
+import { ProductVariationInput, ProductVariationTypes } from '../types';
 export class ProductVariation extends Model<
   ProductVariationTypes,
   ProductVariationInput
@@ -11,7 +11,7 @@ export class ProductVariation extends Model<
   public ID!: number;
   public productID!: number;
   public stockQuantity!: number;
-  public additionalPrice!: number;
+  public additionPrice!: number;
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
@@ -59,6 +59,9 @@ ProductVariation.init(
 ProductVariation.belongsToMany(VariationTypeValueModel, {
   through: 'ProductVariationDetails',
 });
+// VariationTypeValueModel.belongsToMany(ProductVariation, {
+//   through: 'ProductVariationDetails',
+// });
 
 ProductVariation.hasMany(VariationImage, {
   foreignKey: 'variationID',

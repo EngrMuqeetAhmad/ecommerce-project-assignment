@@ -41,6 +41,6 @@ VariationImage.init(
   {
     sequelize,
     tableName: 'VariationImagesTable',
-    timestamps: false
+    timestamps: false,
   },
 );

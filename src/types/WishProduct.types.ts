@@ -5,7 +5,6 @@ export interface WishProduct {
   productID: number;
   wishTableID: number;
   userID: number;
-  
 }
 
 export interface WishProductInput extends Optional<WishProduct, 'ID'> {}

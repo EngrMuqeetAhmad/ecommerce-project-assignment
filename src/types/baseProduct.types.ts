@@ -9,7 +9,7 @@ export interface BaseProductTypes {
   brand: string;
   createdAt?: Date;
   updatedAt?: Date;
-  deletedAt?: Date;
+  deletedAt?: Date | undefined | null;
 }
 
 export interface BaseProductInput extends Optional<BaseProductTypes, 'ID'> {}

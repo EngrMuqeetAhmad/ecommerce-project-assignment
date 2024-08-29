@@ -1,14 +1,14 @@
-import { Association, DataTypes, Model } from 'sequelize';
+import { DataTypes, Model } from 'sequelize';
+import { Payment } from './payment.model';
 import { PhoneInfo } from './phoneInfo.model';
+import { Reviews } from './review.model';
 import { ShippingAddress } from './shippingAddress.model';
 import { UserCart } from './userCart.model';
 import { UserOrder } from './userOrder.model';
+import { UserWish } from './userWish.model';
 import { sequelize } from '../config/dbConnection';
 import { UserInput, UserTypes } from '../types/user.types';
 import { hashString } from '../utils/passwordHashednSalated';
-import { Reviews } from './review.model';
-import { UserWish } from './userWish.model';
-import { Payment } from './payment.model';
 
 export class User extends Model<UserTypes, UserInput> {
   public ID!: number;
@@ -28,16 +28,16 @@ export class User extends Model<UserTypes, UserInput> {
 
   //Associaiton
 
-  public readonly phoneNumbers!: PhoneInfo[];
-  public readonly userCart!: UserCart;
-  public readonly shippingAdresses!: ShippingAddress[];
-  public readonly userOrder!: UserOrder[];
-  public static association: {
-    phoneNumbers: Association<User, PhoneInfo>;
-    userCart: Association<User, UserCart>;
-    shippingAdresses: Association<User, ShippingAddress>;
-    userOrder: Association<User, UserOrder>;
-  };
+  // public readonly phoneNumbers!: PhoneInfo[];
+  // public readonly userCart!: UserCart;
+  // public readonly shippingAdresses!: ShippingAddress[];
+  // public readonly userOrder!: UserOrder[];
+  // public static association: {
+  //   phoneNumbers: Association<User, PhoneInfo>;
+  //   userCart: Association<User, UserCart>;
+  //   shippingAdresses: Association<User, ShippingAddress>;
+  //   userOrder: Association<User, UserOrder>;
+  // };
 }
 
 User.init(

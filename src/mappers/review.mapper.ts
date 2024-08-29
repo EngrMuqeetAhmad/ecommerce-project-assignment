@@ -38,5 +38,4 @@ export class ReviewMapper {
       createdAt: new Date(`${model.createdAt}`),
     };
   }
-  
 }

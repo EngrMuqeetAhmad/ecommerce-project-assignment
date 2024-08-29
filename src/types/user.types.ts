@@ -6,7 +6,7 @@ export interface UserTypes {
   secondName: string;
   email: string;
   password: string;
-  role: Role;
+  role: string;
   isVerified: boolean;
   stripeID: string;
   createdAt?: Date;
@@ -16,17 +16,10 @@ export interface UserTypes {
   wishTableID?: number;
 }
 
-export enum Role {
-  USER = 'user',
-  ADMIN = 'admin',
-  SERVER = 'server',
-}
-
 export interface UserInput
   extends Optional<UserTypes, 'ID' | 'cartID' | 'wishTableID'> {}
 
-export interface UserOutput
-  extends Optional<UserTypes, 'password' | 'deletedAt' | 'cartID'> {}
+export interface UserOutput extends Omit<UserTypes, 'password' | 'deletedAt'> {}
 
 export interface UserUpdate
   extends Omit<

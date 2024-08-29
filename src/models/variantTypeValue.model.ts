@@ -1,8 +1,8 @@
 import { DataTypes, Model } from 'sequelize';
 
+import { ProductVariation } from './productVariation.model';
 import { sequelize } from '../config/dbConnection';
 import { VariationTypeValueTypes } from '../types/variantTypeValue.types';
-import { ProductVariation } from './productVariation.model';
 
 export class VariationTypeValueModel extends Model<VariationTypeValueTypes> {
   public variationType!: string;
@@ -37,6 +37,6 @@ VariationTypeValueModel.init(
   },
 );
 
-VariationTypeValueModel.belongsToMany(ProductVariation, {
-  through: 'ProductVariationDetails',
-});
+// VariationTypeValueModel.belongsToMany(ProductVariation, {
+//   through: 'ProductVariationDetails',
+// });

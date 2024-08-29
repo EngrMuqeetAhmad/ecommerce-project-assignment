@@ -1,30 +1,114 @@
-import { PaymentServices } from '../../services/payment/payment.services';
+import { Request, Response } from 'express';
+import { PaymentServices } from '../../services/payment/payment.service';
+import {
+  PaymentInput,
+  PaymentIntentInput,
+  PaymentIntentOutput,
+  PaymentOutput,
+} from '../../types';
 
 export class PaymentControllers {
-  public paymentServices: PaymentServices;
-
-  constructor() {
-    this.paymentServices = new PaymentServices();
+  public static async createPaymentIntent(req: Request, res: Response) {
+    const { stripeID } = req.body.user;
+    const { paymentMethodID, totalAmount } = req.body;
+    const payload: PaymentIntentInput = {
+      stripeID,
+      paymentMethodID,
+      totalAmount,
+    };
+    try {
+      const result: PaymentIntentOutput =
+        await PaymentServices.createPaymentIntent(payload);
+      res.json({
+        clientSecret: result.clientSecret,
+        totalAmount: result.totalAmount,
+      });
+    } catch (err: any) {
+      console.log('Error code is: ', err.code);
+    }
   }
-  public calculatePayment = async (req: any, res: any, next: any) => {
-    await this.paymentServices.calculatePayment(req, res, next);
-  };
-  public createPaymentIntent = async (req: any, res: any, next: any) => {
-    await this.paymentServices.createPaymentIntent(req, res, next);
-  };
 
-  public getAllPaymentMethods = async (req: any, res: any, next: any) => {
-    await this.paymentServices.getAllPaymentMethod(req, res, next);
-  };
-  public getPaymentMethod = async (req: any, res: any, next: any) => {
-    await this.paymentServices.getPaymentMethod(req, res, next);
-  };
+  public static async getAllPaymentMethods(req: Request, res: Response) {
+    const { userID } = req.params;
+    let ID;
+    try {
+      ID = Number(userID);
+    } catch (error) {
+      res.json({ error: 'Error - userID is not a number' });
+      return;
+    }
+    try {
+      const data: Array<PaymentOutput> =
+        await PaymentServices.getAllPaymentMethod(ID);
+      res.status(200).json({
+        data: data,
+      });
+      return;
+    } catch (error) {
+      res.json({ error: 'error finding payment method' });
+      return;
+    }
+  }
+  public static async getPaymentMethod(req: Request, res: Response) {
+    const { id } = req.body;
+    try {
+      const data: PaymentOutput | null =
+        await PaymentServices.getPaymentMethod(id);
+      res.status(200).json({
+        data: data,
+      });
+      return;
+    } catch (error) {
+      res.json({ error: 'error finding payment method' });
+      return;
+    }
+  }
 
-  public deletePaymentMethod = async (req: any, res: any, next: any) => {
-    await this.paymentServices.deletePaymentMethod(req, res, next);
-  };
+  public static async deletePaymentMethod(req: Request, res: Response) {
+    const { id } = req.params;
+    let ID;
+    try {
+      ID = Number(id);
+    } catch (error) {
+      res.json({ error: 'Error - id is not a number' });
+      return;
+    }
+    try {
+      await PaymentServices.deletePaymentMethod(ID);
+      res.status(200).json({ message: 'payment method deleted' });
 
-  public createPaymentMethod = async (req: any, res: any, next: any) => {
-    await this.paymentServices.createPaymentMethod(req, res, next);
-  };
+      return;
+    } catch (error) {
+      console.log(error);
+      res.json({ error: 'failed deleting payment method in stripe' });
+      return;
+    }
+  }
+
+  public static async createPaymentMethod(req: Request, res: Response) {
+    const { userID, cardNumber, fullName, expMonth, expYear, cvc } = req.body;
+    const s: string = cardNumber.toString();
+    const sliced: string = s.slice(12, 15);
+    const lastFour: number = Number(sliced);
+    try {
+      const payload: PaymentInput = {
+        userID,
+        cardNumber,
+        fullName,
+        expMonth,
+        expYear,
+        cvc,
+        lastFour,
+        paymentMethodID: '',
+      };
+
+      await PaymentServices.createPaymentMethod(payload);
+      res.json({ message: 'success creating payment method' });
+      return;
+    } catch (error) {
+      console.log(error);
+      res.json({ error: 'failed creating payment method' });
+      return;
+    }
+  }
 }

@@ -1,5 +1,7 @@
+import { NextFunction, Request, Response } from 'express';
+
 // middleware/apiKeyAuth.js
-function apiKeyAuth(req: any, res: any, next: any) {
+function apiKeyAuth(req: Request, res: Response, next: NextFunction) {
   const apiKey = req.headers['x-api-key']; // Use the 'x-api-key' header to pass the API key
   const validApiKey = process.env.API_KEY; // Store the valid API key in an environment variable
 

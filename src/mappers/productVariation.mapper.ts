@@ -12,9 +12,7 @@ export class ProductVariationMapper {
     };
   }
 
-  public static toDTOOutput(
-    model: any,
-  ): ProductVariationOutput {
+  public static toDTOOutput(model: any): ProductVariationOutput {
     return {
       ID: model.ID,
       productID: model.productID,

@@ -16,3 +16,15 @@ export interface PhoneInfoInput
 
 export interface PhoneInfoOutput
   extends Optional<PhoneInfoTypes, 'deletedAt' | 'updatedAt'> {}
+
+export interface PhoneInfoUpdate
+  extends Omit<
+    PhoneInfoTypes,
+    | 'ID'
+    | 'userID'
+    | 'createdAt'
+    | 'updatedAt'
+    | 'deletedAt'
+    | 'phoneNumber'
+    | 'countryCode'
+  > {}

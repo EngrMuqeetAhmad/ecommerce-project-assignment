@@ -1,8 +1,8 @@
 import { DataTypes, Model } from 'sequelize';
+import { WishProductJunction } from './junctionModels/WishProduct.model';
+import { Product } from './product.model';
 import { sequelize } from '../config/dbConnection';
 import { UserWishInput, UserWishTypes } from '../types';
-import { Product } from './product.model';
-import { WishProductJunction } from './junctionModels/WishProduct.model';
 
 export class UserWish extends Model<UserWishTypes, UserWishInput> {
   public ID!: number;

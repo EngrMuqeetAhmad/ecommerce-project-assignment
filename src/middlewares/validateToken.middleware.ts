@@ -1,7 +1,8 @@
+import { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
-import { Role } from '../types/userTypes';
+import { Role } from '../utils/enum.util';
 
-function validateToken(req: any, res: any, next: any) {
+function validateToken(req: Request, res: Response, next: NextFunction) {
   const token = req.header('Authorization');
 
   if (!token) {
@@ -13,14 +14,14 @@ function validateToken(req: any, res: any, next: any) {
       return res.status(403).json({ error: 'Forbidden' });
     }
 
-    req.user = user;
+    req.body.user = user;
     next();
   });
 }
 
 function authorizeRole(roles: Array<Role>) {
-  return (req: any, res: any, next: any) => {
-    if (!roles.includes(req?.user?.role)) {
+  return (req: Request, res: Response, next: NextFunction) => {
+    if (!roles.includes(req?.body.user?.role)) {
       res.status(403).json({ message: 'UnAuthorized' });
       return;
     }

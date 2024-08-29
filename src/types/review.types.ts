@@ -1,17 +1,10 @@
 import { Optional } from 'sequelize';
-
-export enum RATING {
-  ONE = 1,
-  TWO = 2,
-  THREE = 3,
-  FOUR = 4,
-  FIVE = 5,
-}
+// import { RATING } from '../utils/enum.util';
 
 export interface VariationReviewTypes {
   ID: number;
   message: string;
-  rating: RATING;
+  rating: number;
   variationID: number;
   userID: number;
   approved: boolean;

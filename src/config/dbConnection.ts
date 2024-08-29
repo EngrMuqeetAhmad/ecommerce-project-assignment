@@ -20,7 +20,7 @@ const sequelize: any = new Sequelize(
   `${process.env.PASSWORD}`,
   {
     host: process.env.SERVER_NAME,
-    port: parseInt(`${process.env.PORT}`, 10),
+    port: parseInt(`${process.env.DB_PORT}`, 10),
     dialect: 'mssql',
     pool: {
       max: 5,

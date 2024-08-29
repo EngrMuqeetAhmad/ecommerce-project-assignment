@@ -1,5 +1,4 @@
 // var createError = require("http-errors");
-import createError from 'http-errors';
 import express from 'express';
 import path from 'path';
 import cookieParser from 'cookie-parser';
@@ -7,13 +6,9 @@ import logger from 'morgan';
 import https from 'https';
 import fs from 'fs';
 import dotenv from 'dotenv';
-import { AppRouter } from './src/router';
+import { AppRouter } from './src/app.routes';
 import apiKeyAuth from './src/middlewares/ApiKeyAuth.middleware';
 import { sequelize } from './src/config/dbConnection';
-import {User} from './src/models/user.model';
-import {PhoneInfo} from './src/models/phoneInfo.model';
-import { ShippingAddress } from './src/models/shippingAddress.model';
-import { UserCart } from './src/models/userCart.model';
 
 ///
 dotenv.config();
@@ -21,35 +16,22 @@ dotenv.config();
 (async () => {
   try {
     await sequelize.authenticate();
+    await sequelize.sync({ force: true,alter: true });
     console.log('Connected to database successflly');
-  } catch (error) {
-    console.log('Error connecting to database');
+  } catch (error:any) {
+    console.log('Error connecting to database', error.parent.errors);
   }
 })();
 
-(async () => {
-  try {
-    await User.sync({ alter: true });
-    await PhoneInfo.sync({ alter: true });
-    await ShippingAddress.sync({alter: true})
-    await UserCart.sync({alter: true})
-
-    console.log('Database sync successful');
-  } catch (error) {
-    console.log('Error syncing database');
-  }
-})();
-
-const PORT = 3000;
+const PORT = process.env.SERVER_PORT || 3000;
 var app = express();
 
+const key: string = `${process.env.SERVER_KEY}`;
+const crt: string = `${process.env.SERVER_CRT}`;
+
 const sslOptions = {
-  key: fs.readFileSync(
-    path.resolve('C:\\Users\\muqeet.ahmad\\Desktop', 'server.key'),
-  ),
-  cert: fs.readFileSync(
-    path.resolve('C:\\Users\\muqeet.ahmad\\Desktop', 'server.crt'),
-  ),
+  key: fs.readFileSync(path.resolve(key)),
+  cert: fs.readFileSync(path.resolve(crt)),
 };
 
 // view engine setup
@@ -73,5 +55,3 @@ https.createServer(sslOptions, app).listen(PORT, (err: any) => {
     console.log(`Server is listening at port ${PORT}`);
   }
 });
-
-// module.exports = app;

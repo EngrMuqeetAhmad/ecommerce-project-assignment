@@ -1,22 +1,22 @@
 import dotenv from 'dotenv';
+import { Request, Response } from 'express';
+import jwt from 'jsonwebtoken';
+import nodemailer from 'nodemailer';
 import { UserMapper } from '../mappers';
 import { User } from '../models/user.model';
 import { UserOutput } from '../types';
-const jwt = require('jsonwebtoken');
-const nodemailer = require('nodemailer');
 
-async function emailForVerification(req: any, res: any, next: any) {
+async function emailForVerification(req: Request, res: Response) {
   dotenv.config();
   const { email, accessRoute } = req.body;
 
-  let user: UserOutput;
-  const result: any = await User.findOne({
+  let user: UserOutput | null = await User.findOne({
     attributes: ['ID', 'email'],
     where: {
       email: email,
     },
   });
-  user = UserMapper.toUserDTOOutput(result);
+  user = UserMapper.toUserDTOOutput(user);
 
   if (user.email == email) {
     const token = jwt.sign(
@@ -26,17 +26,17 @@ async function emailForVerification(req: any, res: any, next: any) {
     console.log(token);
 
     const transporter = nodemailer.createTransport({
-      service: 'Gmail',
-      port: 465, // or 465 for SSL
-      secure: false, // use true for SSL
-      auth: { user: process.env.EMAIL, pass: process.env.EMAIL_PASS },
-      tls: {
-        rejectUnauthorized: false, // Add this to ignore certificate errors
-      },
-      onnectionTimeout: 10000, // 10 seconds
-      greetingTimeout: 10000, // 10 seconds
-      logger: true, // Enable logging
-      debug: true, // Show debug output
+      // service: 'Gmail',
+      // port: 465, // or 465 for SSL
+      // secure: false, // use true for SSL
+      // auth: { user: process.env.EMAIL, pass: process.env.EMAIL_PASS },
+      // tls: {
+      //   rejectUnauthorized: false, // Add this to ignore certificate errors
+      // },
+      // onnectionTimeout: 10000, // 10 seconds
+      // greetingTimeout: 10000, // 10 seconds
+      // logger: true, // Enable logging
+      // debug: true, // Show debug output
     });
     let verificationLink: string = '';
     if (accessRoute == 'resetPassword') {

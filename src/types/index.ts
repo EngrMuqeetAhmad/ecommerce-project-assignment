@@ -1,44 +1,20 @@
-export { UserTypes, UserInput, UserOutput, UserUpdate } from './user.types';
-export { UserCartTypes, UserCartInput, UserCartOutput } from './userCart.types';
-export {
-  PhoneInfoTypes,
-  PhoneInfoInput,
-  PhoneInfoOutput,
-} from './phoneInfo.types';
+export * from './user.types';
+export * from './userCart.types';
+export * from './phoneInfo.types';
 
-export {
-  ShippingAddressTypes,
-  ShippingAddressInput,
-  ShippingAddressOutput,
-} from './shippingAddress.types';
+export * from './shippingAddress.types';
 
-export {
-  UserOrderTypes,
-  UserOrderInput,
-  UserOrderOutput,
-} from './userOrder.types';
+export * from './userOrder.types';
 
-export { UserWishInput, UserWishOutput, UserWishTypes } from './userWish.types';
+export * from './userWish.types';
 
-export { CategoryTypes, CategoryInput, CategoryOutput } from './category.types';
+export * from './category.types';
 
-export {
-  SubCategoryInput,
-  SubCategoryOutput,
-  SubCategoryTypes,
-} from './subCategory.types';
+export * from './subCategory.types';
 
-export {
-  BaseProductInput,
-  BaseProductOuput,
-  BaseProductTypes,
-} from './baseProduct.types';
+export * from './baseProduct.types';
 
-export {
-  ProductVariationInput,
-  ProductVariationOutput,
-  ProductVariationTypes,
-} from './productVariation.types';
+export * from './productVariation.types';
 
 export * from './productImages.types';
 export * from './review.types';
@@ -48,4 +24,6 @@ export * from './product.types';
 export * from './OrderProductJunction.types';
 export * from './CartProductJunction.types';
 export * from './WishProduct.types';
-export * from './payment.types'
+export * from './payment.types';
+
+export * from './review.types';

@@ -1,4 +1,7 @@
 import { Optional } from 'sequelize';
+import { OrderProductTypes } from './OrderProductJunction.types';
+import { ProductOuput } from './product.types';
+import { STATUS } from '../utils/enum.util';
 
 export interface UserOrderTypes {
   ID: number;
@@ -11,13 +14,8 @@ export interface UserOrderTypes {
   createdAt?: Date;
   updatedAt?: Date;
   deletedAt?: Date;
-}
 
-export enum STATUS {
-  PENDING = 'pending',
-  PROCESSING = 'processing',
-  SHIPPED = 'shipped',
-  DELIEVERED = 'delievered',
+  ///
 }
 
 export interface UserOrderInput
@@ -25,3 +23,14 @@ export interface UserOrderInput
 
 export interface UserOrderOutput
   extends Omit<UserOrderTypes, 'deletedAt' | 'paymentID'> {}
+
+export interface UserOrderAndProductOutput extends UserOrderOutput {
+  products: Array<{
+    price: number;
+    detials: string;
+    baseProductID: number;
+    info: {
+      quantity: number;
+    };
+  }>;
+}

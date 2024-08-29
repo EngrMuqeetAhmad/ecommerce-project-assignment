@@ -9,7 +9,6 @@ export class CategoryMapper {
 
   public static toCategoryDTOOutput(model: any): CategoryOutput {
     return {
-      ID: model.ID,
       category: model.category,
     };
   }

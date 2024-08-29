@@ -45,13 +45,13 @@ PhoneInfo.init(
         notEmpty: true,
       },
     },
-    primary : {
+    primary: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: false,
       validate: {
-        notEmpty: true
-      }
+        notEmpty: true,
+      },
     },
     phoneNumber: {
       type: DataTypes.STRING,

@@ -1,7 +1,7 @@
 import { DataTypes, Model } from 'sequelize';
-import { BaseProductInput, BaseProductTypes } from '../types';
-import { sequelize } from '../config/dbConnection';
 import { ProductVariation } from './productVariation.model';
+import { sequelize } from '../config/dbConnection';
+import { BaseProductInput, BaseProductTypes } from '../types';
 
 export class BaseProduct extends Model<BaseProductTypes, BaseProductInput> {
   public ID!: number;
@@ -63,7 +63,7 @@ BaseProduct.init(
   },
   {
     sequelize,
-    tableName: 'baseProductTable',
+    tableName: 'BaseProductTable',
     timestamps: true,
     paranoid: true,
   },
@@ -71,8 +71,6 @@ BaseProduct.init(
 
 BaseProduct.hasMany(ProductVariation, {
   foreignKey: 'productID',
-  as: 'variants',
+  as: 'variations',
   onDelete: 'CASCADE',
 });
-
-// BaseProduct.hasMany(ProductTy)

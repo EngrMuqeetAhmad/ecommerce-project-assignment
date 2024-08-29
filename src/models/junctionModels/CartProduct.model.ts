@@ -2,6 +2,7 @@ import { DataTypes, Model } from 'sequelize';
 import { sequelize } from '../../config/dbConnection';
 import { CartProduct, CartProductInput } from '../../types';
 export class CartProductJunction extends Model<CartProduct, CartProductInput> {
+  public ID!: number;
   public productID!: number;
   public cartID!: number;
   public userID!: number;

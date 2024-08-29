@@ -1,20 +1,15 @@
 import { Optional } from 'sequelize';
+import { MONTHS } from '../utils/enum.util';
 
-export enum MONTHS {
-  JAN = 1,
-  FEB,
-  MAR,
-  APR,
-  MAY,
-  JUN,
-  JUL,
-  AUG,
-  SEP,
-  OCT,
-  NOV,
-  DEC,
+export interface PaymentIntentInput {
+  stripeID: string;
+  paymentMethodID: string;
+  totalAmount: number;
 }
-
+export interface PaymentIntentOutput {
+  clientSecret: string;
+  totalAmount: number;
+}
 export interface PaymentTypes {
   ID: number;
   userID: number;

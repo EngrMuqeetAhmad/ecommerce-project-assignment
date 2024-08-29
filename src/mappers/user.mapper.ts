@@ -1,6 +1,5 @@
 import { UserInput, UserOutput, UserUpdate } from '../types/';
-
-import { Role } from '../types/user.types';
+import { Role } from '../utils/enum.util';
 
 export class UserMapper {
   public static toUserDTOInput(model: any): UserInput {
@@ -34,7 +33,7 @@ export class UserMapper {
       role: model.role,
       createdAt: new Date(`${model.createdAt}`),
       updatedAt: new Date(`${model.updatedAt}`),
-      deletedAt: new Date(`${model.deletedAt}`),
+
       stripeID: model.stripeID,
     };
   }

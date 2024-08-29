@@ -7,6 +7,12 @@ export class Payment extends Model<PaymentTypes, PaymentInput> {
   public ID!: number;
   public userID!: number;
   public paymentMethodID!: string;
+  public cardNumber!: number;
+  public fullName!: string;
+  public expMonth!: number;
+  public expYear!: number;
+  public lastFour!: number;
+  public cvc!: number;
 }
 
 Payment.init(

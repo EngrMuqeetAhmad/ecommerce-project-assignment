@@ -1,10 +1,10 @@
-import { DataTypes, Model } from 'sequelize';
+import { Association, DataTypes, Model } from 'sequelize';
+import { OrderProductJunction } from './junctionModels/OrderProduct.model';
+import { Product } from './product.model';
 import { User } from './user.model';
 import { sequelize } from '../config/dbConnection';
 import { UserOrderInput, UserOrderTypes } from '../types';
-import { STATUS } from '../types/userOrder.types';
-import { Product } from './product.model';
-import { OrderProductJunction } from './junctionModels/OrderProduct.model';
+import { STATUS } from '../utils/enum.util';
 
 export class UserOrder extends Model<UserOrderTypes, UserOrderInput> {
   public ID!: number;
@@ -16,6 +16,18 @@ export class UserOrder extends Model<UserOrderTypes, UserOrderInput> {
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
   public readonly deletedAt!: Date;
+
+  public products!: Array<{
+    price: number;
+    detials: string;
+    baseProductID: number;
+    info: {
+      quantity: number;
+    };
+  }>;
+  static associations: {
+    products: Association<UserOrder, Product>;
+  };
 }
 
 UserOrder.init(
@@ -83,7 +95,8 @@ UserOrder.init(
 
 UserOrder.belongsToMany(Product, {
   through: OrderProductJunction,
-  onDelete: "CASCADE"
+  as: 'products',
+  onDelete: 'CASCADE',
 });
 
 //for product model

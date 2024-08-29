@@ -1,22 +1,17 @@
 import { DataTypes, Model } from 'sequelize';
+import { SubCategory } from './subCategory.model';
 import { sequelize } from '../config/dbConnection';
 import { CategoryInput, CategoryTypes } from '../types';
-import { SubCategory } from './subCategory.model';
 export class Category extends Model<CategoryTypes, CategoryInput> {
-  public ID!: number;
   public category!: string;
 }
 
 Category.init(
   {
-    ID: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true,
-    },
     category: {
       type: DataTypes.STRING,
       allowNull: false,
+      primaryKey: true,
       unique: true,
       validate: {
         notEmpty: true,

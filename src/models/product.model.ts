@@ -7,7 +7,8 @@ export class Product extends Model<ProductTypes, ProductInput> {
   public ID!: number;
   public baseProductID!: number;
   public variationID!: number;
-  public details!: DETAILS;
+  public details!: string;
+  public price!: number;
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
   public readonly deletedAt!: Date;
@@ -61,12 +62,8 @@ Product.init(
   },
   {
     sequelize,
-    tableName: 'baseProductTable',
+    tableName: 'ProductTable',
     timestamps: true,
     paranoid: true,
   },
 );
-
-
-
-// BaseProduct.hasMany(ProductTy)

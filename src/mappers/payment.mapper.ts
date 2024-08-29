@@ -10,7 +10,7 @@ export class PaymentMapper {
       cardNumber: model.cardNumber,
       expMonth: model.expMonth,
       expYear: model.expYear,
-      cvc: model.cvc
+      cvc: model.cvc,
     };
   }
 

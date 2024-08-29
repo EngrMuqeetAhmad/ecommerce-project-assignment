@@ -4,9 +4,7 @@ import {
 } from '../types/variantTypeValue.types';
 
 export class VariationTypeValueMapper {
-  public static toDTOInput(
-    model: any,
-  ): VariationTypeValueInput {
+  public static toDTOInput(model: any): VariationTypeValueInput {
     return {
       variationTypeValue: model.variationTypeValue,
       variationType: model.variantType,

@@ -1,8 +1,8 @@
 import { DataTypes, Model } from 'sequelize';
 
+import { VariationTypeValueModel } from './variantTypeValue.model';
 import { sequelize } from '../config/dbConnection';
 import { VariationTypeTypes } from '../types/variantTypes.types';
-import { VariationTypeValueModel } from './variantTypeValue.model';
 export class VariationTypeModel extends Model<VariationTypeTypes> {
   public variationType!: string;
 }
