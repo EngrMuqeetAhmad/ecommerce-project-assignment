@@ -1,7 +1,6 @@
 import { Association, DataTypes, Model } from 'sequelize';
 import { OrderProductJunction } from './junctionModels/OrderProduct.model';
 import { Product } from './product.model';
-import { User } from './user.model';
 import { sequelize } from '../config/dbConnection';
 import { UserOrderInput, UserOrderTypes } from '../types';
 import { STATUS } from '../utils/enum.util';
@@ -92,12 +91,15 @@ UserOrder.init(
     paranoid: true,
   },
 );
-
-UserOrder.belongsToMany(Product, {
-  through: OrderProductJunction,
-  as: 'products',
-  onDelete: 'CASCADE',
+UserOrder.hasMany(OrderProductJunction, {
+  foreignKey: 'orderID',
 });
+
+// UserOrder.belongsToMany(Product, {
+//   through: OrderProductJunction,
+//   as: 'products',
+//   onDelete: 'CASCADE',
+// });
 
 //for product model
 // Copy code

@@ -39,10 +39,12 @@ UserWish.init(
     paranoid: true,
   },
 );
-
-UserWish.belongsToMany(Product, {
-  through: WishProductJunction,
+UserWish.hasMany(WishProductJunction, {
+  foreignKey: 'wishTableID',
 });
+// UserWish.belongsToMany(Product, {
+//   through: WishProductJunction,
+// });
 
 ///create specific variation product in database and then relate to cart
 

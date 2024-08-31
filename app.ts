@@ -9,6 +9,22 @@ import dotenv from 'dotenv';
 import { AppRouter } from './src/app.routes';
 import apiKeyAuth from './src/middlewares/ApiKeyAuth.middleware';
 import { sequelize } from './src/config/dbConnection';
+import { User } from './src/models/user.model';
+import { PhoneInfo } from './src/models/phoneInfo.model';
+import { ShippingAddress } from './src/models/shippingAddress.model';
+import { Payment } from './src/models/payment.model';
+import { UserWish } from './src/models/userWish.model';
+import { UserOrder } from './src/models/userOrder.model';
+import { UserCart } from './src/models/userCart.model';
+import { Reviews } from './src/models/review.model';
+import { Category } from './src/models/category.model';
+import { SubCategory } from './src/models/subCategory.model';
+import { Product } from './src/models/product.model';
+import { ProductVariation } from './src/models/productVariation.model';
+import { VariationImage } from './src/models/variationImage.model';
+import { VariationTypeModel } from './src/models/variantionType.models';
+import { VariationTypeValueModel } from './src/models/variantTypeValue.model';
+import { BaseProduct } from './src/models/baseProduct.model';
 
 ///
 dotenv.config();
@@ -16,10 +32,11 @@ dotenv.config();
 (async () => {
   try {
     await sequelize.authenticate();
-    await sequelize.sync({ force: true,alter: true });
+    await sequelize.sync();
     console.log('Connected to database successflly');
-  } catch (error:any) {
-    console.log('Error connecting to database', error.parent.errors);
+    console.log('Database sync successfully');
+  } catch (error: any) {
+    console.log('Error connecting to database', error);
   }
 })();
 

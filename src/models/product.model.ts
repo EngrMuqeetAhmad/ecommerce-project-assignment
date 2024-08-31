@@ -1,5 +1,8 @@
 import { DataTypes, Model } from 'sequelize';
 
+import { CartProductJunction } from './junctionModels/CartProduct.model';
+import { OrderProductJunction } from './junctionModels/OrderProduct.model';
+import { WishProductJunction } from './junctionModels/WishProduct.model';
 import { sequelize } from '../config/dbConnection';
 import { DETAILS, ProductInput, ProductTypes } from '../types';
 
@@ -67,3 +70,15 @@ Product.init(
     paranoid: true,
   },
 );
+
+Product.hasMany(CartProductJunction, {
+  foreignKey: 'productID',
+});
+
+Product.hasMany(OrderProductJunction, {
+  foreignKey: 'productID',
+});
+
+Product.hasMany(WishProductJunction, {
+  foreignKey: 'productID',
+});

@@ -1,5 +1,7 @@
 import { DataTypes, Model } from 'sequelize';
+import { ProductVariationDetails } from './junctionModels/ProductVariationDetails.model';
 import { Reviews } from './review.model';
+// import { VariationTypeValueModel } from './variantTypeValue.model';
 import { VariationTypeValueModel } from './variantTypeValue.model';
 import { VariationImage } from './variationImage.model';
 import { sequelize } from '../config/dbConnection';
@@ -56,12 +58,16 @@ ProductVariation.init(
   },
 );
 
-ProductVariation.belongsToMany(VariationTypeValueModel, {
-  through: 'ProductVariationDetails',
-});
-// VariationTypeValueModel.belongsToMany(ProductVariation, {
+// ProductVariation.belongsToMany(VariationTypeValueModel, {
 //   through: 'ProductVariationDetails',
 // });
+
+// ProductVariation.hasMany(ProductVariationDetails);
+// ProductVariationDetails.belongsTo(ProductVariation);
+
+ProductVariation.hasMany(ProductVariationDetails, {
+  foreignKey: 'variationID',
+});
 
 ProductVariation.hasMany(VariationImage, {
   foreignKey: 'variationID',

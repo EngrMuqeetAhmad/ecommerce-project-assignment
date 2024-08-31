@@ -8,7 +8,9 @@
     "prod-server": "tsc && node dist/app.js",
     "lint": "eslint src/**/*.{js,ts}",
     "lint:fix": "eslint src/**/*.{js,ts} --fix",
-    "format": "prettier --write src/**/*.{js,ts,json,md}"
+    "format": "prettier --write src/**/*.{js,ts,json,md}",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
@@ -43,8 +45,10 @@
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^5.2.1",
+    "eslint-plugin-storybook": "^0.8.0",
     "nodemon": "^3.1.4",
     "prettier": "^3.3.3",
+    "storybook": "^8.2.9",
     "ts-node": "^10.9.2",
     "typescript": "^5.5.4"
   }

@@ -11,7 +11,6 @@ VariationTypeModel.init(
   {
     variationType: {
       type: DataTypes.STRING,
-      unique: true,
       allowNull: false,
       primaryKey: true,
       validate: {
@@ -26,7 +25,10 @@ VariationTypeModel.init(
   },
 );
 
+// VariationTypeValueModel.belongsToMany(ProductVariation, {
+//   through: 'ProductVariationDetails',
+// });
+
 VariationTypeModel.hasMany(VariationTypeValueModel, {
   foreignKey: 'variationType',
-  as: 'values',
 });

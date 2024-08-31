@@ -40,6 +40,6 @@ UserCart.init(
   },
 );
 
-UserCart.belongsToMany(Product, {
-  through: CartProductJunction,
+UserCart.hasMany(CartProductJunction, {
+  foreignKey: 'cartID',
 });

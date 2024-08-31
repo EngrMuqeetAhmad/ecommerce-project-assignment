@@ -1,6 +1,8 @@
 import { DataTypes, Model } from 'sequelize';
 
+import { ProductVariationDetails } from './junctionModels/ProductVariationDetails.model';
 import { ProductVariation } from './productVariation.model';
+import { VariationTypeModel } from './variantionType.models';
 import { sequelize } from '../config/dbConnection';
 import { VariationTypeValueTypes } from '../types/variantTypeValue.types';
 
@@ -13,11 +15,8 @@ VariationTypeValueModel.init(
   {
     variationTypeValue: {
       type: DataTypes.STRING,
-
-      unique: true,
       allowNull: false,
       primaryKey: true,
-
       validate: {
         notEmpty: true,
       },
@@ -25,6 +24,7 @@ VariationTypeValueModel.init(
     variationType: {
       type: DataTypes.STRING,
       allowNull: false,
+
       validate: {
         notEmpty: true,
       },
@@ -33,10 +33,17 @@ VariationTypeValueModel.init(
 
   {
     sequelize,
-    tableName: 'VariationTypes',
+    tableName: 'VariationTypeValues',
   },
 );
+VariationTypeValueModel.hasMany(ProductVariationDetails, {
+  foreignKey: 'variationTypeValue',
+});
 
-// VariationTypeValueModel.belongsToMany(ProductVariation, {
-//   through: 'ProductVariationDetails',
+// VariationTypeValueModel.belongsTo(VariationTypeModel,{
+//   foreignKey: "variationType",
+
 // });
+
+// VariationTypeValueModel.hasMany(ProductVariationDetails);
+// ProductVariationDetails.belongsTo(VariationTypeValueModel);

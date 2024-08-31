@@ -27,3 +27,4 @@
 *.txt
 ecom-project.txt
 model-ecom.txt
+*storybook.log
