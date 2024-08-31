@@ -14,22 +14,22 @@ import {
 } from 'react-bootstrap';
 const NavBar = () => {
   return (
-    <Navbar expand="md" bg="dark" variant="dark" fixed="top">
-      <Container fluid>
+    <Navbar expand="md" bg="light" variant="light" fixed="top" className='shadow-sm'>
+      <Container fluid className='ps-4 pe-4 pt-3 pb-3' >
         <Col sm={6} md={4} className="d-flex justify-content-start">
-          <NavbarBrand>Ecommerce</NavbarBrand>
+          <NavbarBrand className='fw-semibold'>Ecommerce</NavbarBrand>
         </Col>
 
-        <Col sm={6} md={4} className="d-flex justify-content-end">
+        <Col sm={6} md={4} className="">
           <NavbarToggle aria-controls="offcanvasNavbar-expand" />
           <NavbarOffcanvas placement="end" id="offcanvasNavbar-expand">
             <OffcanvasHeader closeButton>
-              <OffcanvasTitle>Ecommerce - Menu</OffcanvasTitle>
+              <OffcanvasTitle >Ecommerce - Menu</OffcanvasTitle>
             </OffcanvasHeader>
 
             <OffcanvasBody>
-              <Nav className="fw-semibold text-uppercase d-flex w-100 justify-content-start align-items-center">
-                <NavLink href="/home" className=" w-20  ms-3">
+              <Nav className="fw-semibold text-uppercase text-primary d-flex w-100 justify-content-start align-items-center">
+                <NavLink href="/home" className=" w-20  ms-4">
                   Home
                 </NavLink>
                 <NavLink href="/home" className="w-20 ms-4">
@@ -37,7 +37,7 @@ const NavBar = () => {
                 </NavLink>
                 <NavLink
                   href="/login"
-                  className="d-block d-md-none w-auto text-primary ms-3"
+                  className="d-block d-md-none w-auto ms-4"
                 >
                   Login
                 </NavLink>
@@ -46,10 +46,19 @@ const NavBar = () => {
           </NavbarOffcanvas>
         </Col>
 
-        <Col md={4} className="d-none d-md-flex justify-content-end pe-4">
-          <Button className="text-uppercase " variant="primary">
-            Login
-          </Button>
+        <Col md={4} className="d-none d-md-flex">
+          <Container className='w-75 d-flex justify-content-end gap-3 text-uppercase'>
+            <Button href='/register' variant="link">
+              Register
+            </Button>
+           <div className='vr' >
+
+           </div>
+            <Button href='/login' className="ms-1 text-uppercase" variant="outline-primary">
+              Login
+            </Button>
+          </Container>
+
         </Col>
       </Container>
     </Navbar>
