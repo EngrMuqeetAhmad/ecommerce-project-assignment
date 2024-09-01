@@ -43,7 +43,7 @@ UserRouter.put(
 );
 UserRouter.post(
   '/resetPassword/:token',
-  validateEmail, //send email in body
+  validateEmail,
   UserControllers.resetPassword,
 );
 

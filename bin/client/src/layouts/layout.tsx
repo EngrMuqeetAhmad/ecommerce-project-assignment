@@ -5,19 +5,14 @@ import { NavBar } from '../components/Nav/NavBar';
 
 const Layout: FC<LayoutProps> = ({ children }) => {
   return (
-
     <ThemeProvider
       breakpoints={['xxl', 'xl', 'lg', 'md', 'sm', 'xs']}
       minBreakpoint="xs"
     >
       <NavBar />
-      <Container fluid style={{ marginTop: "100px" }}>
-
+      <Container fluid style={{ marginTop: '100px' }}>
         {children}
-
       </Container>
-
-
     </ThemeProvider>
   );
 };

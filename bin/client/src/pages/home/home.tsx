@@ -1,12 +1,6 @@
-import React, { FC } from "react";
-import { Container } from "react-bootstrap";
-
+import React, { FC } from 'react';
+import { Container } from 'react-bootstrap';
 
 export const Home: FC = () => {
-    return (
-
-        <Container fluid>
-            homes
-        </Container>
-    )
-}
+  return <Container fluid>homes</Container>;
+};

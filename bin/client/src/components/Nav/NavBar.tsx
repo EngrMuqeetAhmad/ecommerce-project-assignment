@@ -14,17 +14,23 @@ import {
 } from 'react-bootstrap';
 const NavBar = () => {
   return (
-    <Navbar expand="md" bg="light" variant="light" fixed="top" className='shadow-sm'>
-      <Container fluid className='ps-4 pe-4 pt-3 pb-3' >
+    <Navbar
+      expand="md"
+      bg="light"
+      variant="light"
+      fixed="top"
+      className="shadow-sm"
+    >
+      <Container fluid className="ps-4 pe-4 pt-3 pb-3">
         <Col sm={6} md={4} className="d-flex justify-content-start">
-          <NavbarBrand className='fw-semibold'>Ecommerce</NavbarBrand>
+          <NavbarBrand className="fw-semibold">Ecommerce</NavbarBrand>
         </Col>
 
         <Col sm={6} md={4} className="">
           <NavbarToggle aria-controls="offcanvasNavbar-expand" />
           <NavbarOffcanvas placement="end" id="offcanvasNavbar-expand">
             <OffcanvasHeader closeButton>
-              <OffcanvasTitle >Ecommerce - Menu</OffcanvasTitle>
+              <OffcanvasTitle>Ecommerce - Menu</OffcanvasTitle>
             </OffcanvasHeader>
 
             <OffcanvasBody>
@@ -47,18 +53,19 @@ const NavBar = () => {
         </Col>
 
         <Col md={4} className="d-none d-md-flex">
-          <Container className='w-75 d-flex justify-content-end gap-3 text-uppercase'>
-            <Button href='/register' variant="link">
+          <Container className="w-75 d-flex justify-content-end gap-3 text-uppercase">
+            <Button href="/register" variant="link">
               Register
             </Button>
-           <div className='vr' >
-
-           </div>
-            <Button href='/login' className="ms-1 text-uppercase" variant="outline-primary">
+            <div className="vr"></div>
+            <Button
+              href="/login"
+              className="ms-1 text-uppercase"
+              variant="outline-primary"
+            >
               Login
             </Button>
           </Container>
-
         </Col>
       </Container>
     </Navbar>

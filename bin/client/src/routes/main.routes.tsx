@@ -3,20 +3,30 @@ import { LogIn } from '../pages/login/login';
 import { FC } from 'react';
 import { Register } from '../pages/register/register';
 import { Home } from '../pages/home/home';
+import { VerificationEmail } from '../pages/reset/verificationEmail';
+import { ChangePassword } from '../pages/reset/changePassword';
 
 const mainRoutes: RouteObject[] = [
   {
-    path: "/",
+    path: '/',
     element: <Home />,
-    index: true
+    index: true,
   },
   {
     path: '/login',
     element: <LogIn />,
   },
   {
-    path: "/register",
-    element: <Register />
+    path: '/register',
+    element: <Register />,
+  },
+  {
+    path: '/reset',
+    element: <VerificationEmail />,
+  },
+  {
+    path: '/reset/:token',
+    element: <ChangePassword />,
   },
   {
     path: '*',
