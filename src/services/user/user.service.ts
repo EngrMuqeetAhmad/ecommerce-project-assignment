@@ -5,6 +5,8 @@ import { UserInput, UserOutput, UserUpdate } from '../../types/user.types';
 import { hashString } from '../../utils/passwordHashednSalated';
 
 class UserServices {
+  private static blacklistedTokens = new Set();
+
   public static async makeVerified(email: string): Promise<number> {
     const [affectedRows] = await User.update(
       {
@@ -62,6 +64,15 @@ class UserServices {
     return data;
   }
 
+  public static async tokenBlackList(token: string): Promise<boolean> {
+    try {
+      this.blacklistedTokens.add(token);
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
+
   public static async userLogin(
     email: string,
     password: string,
@@ -86,7 +97,7 @@ class UserServices {
       },
       raw: true,
     });
-
+   
     return user;
   }
 

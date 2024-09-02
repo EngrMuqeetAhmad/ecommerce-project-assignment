@@ -12,7 +12,11 @@ import {
   OffcanvasHeader,
   OffcanvasTitle,
 } from 'react-bootstrap';
-const NavBar = () => {
+import { FC, useContext } from 'react';
+import { UserContext } from '../../state/user/user.context';
+
+const NavBar: FC = () => {
+  const { state } = useContext(UserContext);
   return (
     <Navbar
       expand="md"
@@ -54,17 +58,23 @@ const NavBar = () => {
 
         <Col md={4} className="d-none d-md-flex">
           <Container className="w-75 d-flex justify-content-end gap-3 text-uppercase">
-            <Button href="/register" variant="link">
-              Register
-            </Button>
-            <div className="vr"></div>
-            <Button
-              href="/login"
-              className="ms-1 text-uppercase"
-              variant="outline-primary"
-            >
-              Login
-            </Button>
+            {state.isAuthenticated ? (
+              <p className="text-primary">Hello {state.user?.firstName}</p>
+            ) : (
+              <>
+                <Button href="/register" variant="link">
+                  Register
+                </Button>
+                <div className="vr"></div>
+                <Button
+                  href="/login"
+                  className="ms-1 text-uppercase"
+                  variant="outline-primary"
+                >
+                  Login
+                </Button>
+              </>
+            )}
           </Container>
         </Col>
       </Container>

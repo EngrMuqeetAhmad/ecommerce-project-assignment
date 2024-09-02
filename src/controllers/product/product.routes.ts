@@ -11,6 +11,7 @@ import {
   validateToken,
 } from '../../middlewares/validateToken.middleware';
 import { Role } from '../../utils/enum.util';
+import { checkBlacklist } from '../../middlewares/checkBlackListed.middleware';
 
 //routers
 export const ProductRouter = express.Router();
@@ -18,18 +19,21 @@ export const ProductRouter = express.Router();
 ///
 ProductRouter.delete(
   '/baseProduct/:id',
+  checkBlacklist,
   validateToken,
   authorizeRole([Role.ADMIN]),
   BaseProductControllers.deleteBaseProduct,
 );
 ProductRouter.put(
   '/baseProduct',
+  checkBlacklist,
   validateToken,
   authorizeRole([Role.ADMIN]),
   BaseProductControllers.addBaseProduct,
 );
 ProductRouter.get(
   '/baseProduct/:id',
+  checkBlacklist,
   validateToken,
   authorizeRole([Role.ADMIN, Role.USER]),
   BaseProductControllers.getBaseProduct,
@@ -38,6 +42,7 @@ ProductRouter.get(
 
 ProductRouter.get(
   '/product/all',
+  checkBlacklist,
   validateToken,
   authorizeRole([Role.ADMIN]),
   ProductControllers.getAllProducts,
@@ -45,6 +50,7 @@ ProductRouter.get(
 
 ProductRouter.get(
   '/product/:id',
+  checkBlacklist,
   validateToken,
   authorizeRole([Role.ADMIN, Role.USER]),
   ProductControllers.getProduct,
@@ -52,6 +58,7 @@ ProductRouter.get(
 
 ProductRouter.delete(
   '/product/:id',
+  checkBlacklist,
   validateToken,
   authorizeRole([Role.ADMIN]), //server
   ProductControllers.deleteProduct,
@@ -59,6 +66,7 @@ ProductRouter.delete(
 
 ProductRouter.put(
   '/product',
+  checkBlacklist,
   validateToken,
   authorizeRole([Role.USER]),
   ProductControllers.addProduct,
@@ -66,6 +74,7 @@ ProductRouter.put(
 ///
 ProductRouter.get(
   '/image/all',
+  checkBlacklist,
   validateToken,
   authorizeRole([Role.ADMIN, Role.USER]),
   ProductImageControllers.getAllVariationImages,
@@ -73,6 +82,7 @@ ProductRouter.get(
 
 ProductRouter.delete(
   '/image/:id',
+  checkBlacklist,
   validateToken,
   authorizeRole([Role.ADMIN]),
   ProductImageControllers.deleteImage,
@@ -80,6 +90,7 @@ ProductRouter.delete(
 
 ProductRouter.put(
   '/image',
+  checkBlacklist,
   validateToken,
   authorizeRole([Role.ADMIN]),
   ProductImageControllers.addImage,
@@ -87,6 +98,7 @@ ProductRouter.put(
 ///
 ProductRouter.get(
   '/review/approve/:id',
+  checkBlacklist,
   validateToken,
   authorizeRole([Role.ADMIN]),
   ReviewControllers.approveReview,
@@ -94,6 +106,7 @@ ProductRouter.get(
 
 ProductRouter.get(
   '/review/:variationID',
+  checkBlacklist,
   validateToken,
   authorizeRole([Role.ADMIN]),
   ReviewControllers.getAllProductReview,
@@ -101,6 +114,7 @@ ProductRouter.get(
 
 ProductRouter.delete(
   '/review/:id',
+  checkBlacklist,
   validateToken,
   authorizeRole([Role.ADMIN, Role.USER]),
   ReviewControllers.deleteReview,
@@ -108,6 +122,7 @@ ProductRouter.delete(
 
 ProductRouter.put(
   '/review',
+  checkBlacklist,
   validateToken,
   authorizeRole([Role.USER]),
   ReviewControllers.addReview,
@@ -116,6 +131,7 @@ ProductRouter.put(
 
 ProductRouter.get(
   '/variation/:baseProductID',
+  checkBlacklist,
   validateToken,
   authorizeRole([Role.ADMIN, Role.USER]),
   ProductVariationControllers.getProductVariations,
@@ -123,6 +139,7 @@ ProductRouter.get(
 
 ProductRouter.delete(
   '/variation/:id',
+  checkBlacklist,
   validateToken,
   authorizeRole([Role.ADMIN]),
   ProductVariationControllers.deleteProductVariation,
@@ -130,6 +147,7 @@ ProductRouter.delete(
 
 ProductRouter.put(
   '/variation',
+  checkBlacklist,
   validateToken,
   authorizeRole([Role.ADMIN]),
   ProductVariationControllers.addProductVariation,
@@ -139,6 +157,7 @@ ProductRouter.put(
 
 ProductRouter.get(
   '/variationType/all',
+  checkBlacklist,
   validateToken,
   authorizeRole([Role.ADMIN, Role.USER]),
   VariationTypeControllers.getAllVariationTypes,
@@ -146,6 +165,7 @@ ProductRouter.get(
 
 ProductRouter.delete(
   '/variationType/:type',
+  checkBlacklist,
   validateToken,
   authorizeRole([Role.ADMIN]),
   VariationTypeControllers.deleteVariationType,
@@ -153,6 +173,7 @@ ProductRouter.delete(
 
 ProductRouter.put(
   '/variationType',
+  checkBlacklist,
   validateToken,
   authorizeRole([Role.ADMIN]),
   VariationTypeControllers.addVariationType,
@@ -162,6 +183,7 @@ ProductRouter.put(
 
 ProductRouter.get(
   '/variationTypeValue/:type',
+  checkBlacklist,
   validateToken,
   authorizeRole([Role.ADMIN, Role.USER]),
   VariationTypeValueControllers.getAllVariationTypeValues,
@@ -169,6 +191,7 @@ ProductRouter.get(
 
 ProductRouter.delete(
   '/variationTypeValue/:value',
+  checkBlacklist,
   validateToken,
   authorizeRole([Role.ADMIN]),
   VariationTypeValueControllers.deleteVariationTypeValue,
@@ -176,6 +199,7 @@ ProductRouter.delete(
 
 ProductRouter.put(
   '/variationTypeValue',
+  checkBlacklist,
   validateToken,
   authorizeRole([Role.ADMIN]),
   VariationTypeValueControllers.addVariationTypeValue,

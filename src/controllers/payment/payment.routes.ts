@@ -6,11 +6,13 @@ import {
   validateToken,
 } from '../../middlewares/validateToken.middleware';
 import { Role } from '../../utils/enum.util';
+import { checkBlacklist } from '../../middlewares/checkBlackListed.middleware';
 
 export const PaymentRouter = express.Router();
 
 PaymentRouter.put(
   '/checkout',
+  checkBlacklist,
   validateToken,
   authorizeRole([Role.USER]),
   calculatePayment,
@@ -18,12 +20,14 @@ PaymentRouter.put(
 );
 PaymentRouter.get(
   '/:userID',
+  checkBlacklist,
   validateToken,
   authorizeRole([Role.USER]),
   PaymentControllers.getAllPaymentMethods,
 );
 PaymentRouter.get(
   '/:id',
+  checkBlacklist,
   validateToken,
   authorizeRole([Role.USER]),
   PaymentControllers.getPaymentMethod,
@@ -31,6 +35,7 @@ PaymentRouter.get(
 
 PaymentRouter.delete(
   '/:id',
+  checkBlacklist,
   validateToken,
   authorizeRole([Role.USER]),
   PaymentControllers.deletePaymentMethod,
@@ -38,6 +43,7 @@ PaymentRouter.delete(
 
 PaymentRouter.put(
   '/addMethod',
+  checkBlacklist,
   validateToken,
   authorizeRole([Role.USER]),
   PaymentControllers.createPaymentMethod,

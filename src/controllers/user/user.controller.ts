@@ -89,6 +89,22 @@ class UserControllers {
       return;
     }
   }
+
+  public static async userLogout(req: Request, res: Response) {
+    const token = req.headers['authorization']?.split(' ')[1]; // Assumes Bearer token
+
+    if (!token) {
+      return res.status(400).json({ message: 'Token required' });
+    }
+
+    if (await UserServices.tokenBlackList(token)) {
+      req.body.user = null;
+      res.json({ message: 'Logout successful' });
+    } else {
+      res.json({ error: 'Logout failed' });
+    }
+  }
+
   public static async userLogin(req: Request, res: Response) {
     const { email, password } = req.body;
 
@@ -96,10 +112,11 @@ class UserControllers {
       email,
       password,
     );
-
+ 
     if (user == null) {
       res.status(404).json({
-        message: 'Email or Password is Wrong',
+        error: 'Email or Password is Wrong',
+        token: '',
       });
       return;
     }
@@ -121,10 +138,7 @@ class UserControllers {
     req.body.user = user;
 
     res.status(200).json({
-      data: {
-        data: user,
-        token: token,
-      },
+      token: token,
     });
     return;
   }
@@ -141,7 +155,7 @@ class UserControllers {
       firstName,
       secondName,
       email,
-      password: hashString(password),
+      password: password,
       isVerified: false,
       role: Role.USER,
       stripeID,

@@ -1,5 +1,6 @@
 import express from 'express';
 import { SubCategoryControllers } from './subCategory.controller';
+import { checkBlacklist } from '../../middlewares/checkBlackListed.middleware';
 import {
   authorizeRole,
   validateToken,
@@ -10,6 +11,7 @@ export const SubCategoryRouter = express.Router();
 
 SubCategoryRouter.get(
   '/:category/all',
+  checkBlacklist,
   validateToken,
   authorizeRole([Role.USER, Role.ADMIN]),
   SubCategoryControllers.getAllSubCategories,
@@ -17,6 +19,7 @@ SubCategoryRouter.get(
 
 SubCategoryRouter.delete(
   '/:subCategory',
+  checkBlacklist,
   validateToken,
   authorizeRole([Role.ADMIN]),
   SubCategoryControllers.deleteSubCategory,
@@ -24,6 +27,7 @@ SubCategoryRouter.delete(
 
 SubCategoryRouter.put(
   '/',
+  checkBlacklist,
   validateToken,
   authorizeRole([Role.ADMIN]),
   SubCategoryControllers.addSubCategory,

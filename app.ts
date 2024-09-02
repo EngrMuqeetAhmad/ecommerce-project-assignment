@@ -25,8 +25,9 @@ import { VariationImage } from './src/models/variationImage.model';
 import { VariationTypeModel } from './src/models/variantionType.models';
 import { VariationTypeValueModel } from './src/models/variantTypeValue.model';
 import { BaseProduct } from './src/models/baseProduct.model';
-
+import cors from 'cors';
 ///
+
 dotenv.config();
 
 (async () => {
@@ -40,7 +41,7 @@ dotenv.config();
   }
 })();
 
-const PORT = process.env.SERVER_PORT || 3000;
+const PORT = process.env.SERVER_PORT || 3001;
 var app = express();
 
 const key: string = `${process.env.SERVER_KEY}`;
@@ -56,6 +57,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
 //middlewares
+app.use(cors());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -65,7 +67,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 //routes
 app.use('/api/v1/', apiKeyAuth, AppRouter);
 
-https.createServer(sslOptions, app).listen(PORT, (err: any) => {
+// https.createServer(sslOptions, app)
+app.listen(PORT, (err: any) => {
   if (err) {
     console.log(`there is an error ${err.message}`);
   } else {

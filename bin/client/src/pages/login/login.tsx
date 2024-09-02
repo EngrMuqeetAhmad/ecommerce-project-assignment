@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useContext } from 'react';
 import {
   Button,
   Col,
@@ -10,12 +10,17 @@ import {
   Row,
 } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
-import { UserLoginTypes } from '../../types';
+import { User, UserLoginTypes } from '../../types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { UserLoginSchema } from '../../schema';
 import Feedback from 'react-bootstrap/Feedback';
+import { UserContext } from '../../state/user/user.context';
+import { UserServices } from '../../services/user.service';
+import { ActionType } from '../../state/user/user.actions';
+import { error } from 'console';
 
 export const LogIn: FC = () => {
+  const { dispatch } = useContext(UserContext);
   const {
     register,
     reset,
@@ -23,15 +28,27 @@ export const LogIn: FC = () => {
     formState: { errors, touchedFields, isValid },
   } = useForm<UserLoginTypes>({
     resolver: zodResolver(UserLoginSchema),
-    mode: 'onChange',
+    mode: 'all',
   });
 
   const onSubmit = async (data: UserLoginTypes) => {
-    // if (data.firstName != "" || data.secondName != "" || data.email != "" || data.password != "") {
-    //     //
-    // }
-    console.log('success', data);
-    reset();
+    const { email, password } = data;
+
+    if (email != '' && password != '') {
+      await UserServices.Login(email, password)
+        .then(async () => {
+          const user: User | null = await UserServices.GetUser();
+          console.log(user);
+          dispatch({
+            type: ActionType.SetUser,
+            payload: {
+              user,
+            },
+          });
+        })
+        .then(() => reset())
+        .catch((error) => console.log(error));
+    }
   };
   return (
     <>
