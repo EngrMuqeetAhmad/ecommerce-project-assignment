@@ -17,7 +17,6 @@ import Feedback from 'react-bootstrap/Feedback';
 import { UserServices } from '../../services/user.service';
 import { ToastComponent } from '../../components/Toast/Toast';
 import { TYPE } from '../../types/toast.types';
-import { boolean } from 'zod';
 import { AxiosResponse } from 'axios';
 
 export const Register: FC = () => {

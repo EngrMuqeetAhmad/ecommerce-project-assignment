@@ -1,11 +1,11 @@
 import axios, { AxiosResponse } from 'axios';
 
 // import dotenv from 'dotenv';
-import { User, UserRegisterInput } from '../types';
+import { UserRegisterInput } from '../types';
 import { URL } from '../utils/globals';
 
 export class UserServices {
-  public static async red(token: string): Promise<AxiosResponse> {
+  public static async verifyResetToken(token: string): Promise<AxiosResponse> {
     const res: AxiosResponse = await axios.post(
       `${URL}/user/resetPassword/${token}`,
       {},

@@ -10,7 +10,7 @@ import {
   Row,
 } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
-import { User, UserLoginTypes, UserOutput } from '../../types';
+import { UserLoginTypes } from '../../types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { UserLoginSchema } from '../../schema';
 import Feedback from 'react-bootstrap/Feedback';
@@ -18,9 +18,11 @@ import { UserContext } from '../../state/user/user.context';
 import { UserServices } from '../../services/user.service';
 import { ActionType } from '../../state/user/user.actions';
 import { AxiosResponse } from 'axios';
-import { stat } from 'fs';
+
+import { useNavigate } from 'react-router-dom';
 
 export const LogIn: FC = () => {
+  const navigate = useNavigate();
   const { dispatch } = useContext(UserContext);
   const {
     register,
@@ -46,8 +48,10 @@ export const LogIn: FC = () => {
               user: user?.data?.data,
             },
           });
+          localStorage.setItem('user', JSON.stringify(user.data.data));
         })
         .then(() => reset())
+        .then(() => navigate('/home'))
         .catch((error) => console.log(error));
     }
   };
@@ -109,10 +113,10 @@ export const LogIn: FC = () => {
                 LogIn
               </Button>
               <hr />
-              
+
               <Button
                 variant="link"
-                href="/reset"
+                onClick={() => navigate('/reset')}
                 type="button"
                 className="p-0"
               >

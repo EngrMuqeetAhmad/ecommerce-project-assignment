@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useState } from 'react';
 import {
   Button,
   Col,
@@ -8,7 +8,6 @@ import {
   FormControl,
   FormGroup,
   Row,
-  Spinner,
 } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { ResetPasswordType } from '../../types';
@@ -56,7 +55,7 @@ export const ChangePassword: FC = () => {
           type: TYPE.SUCCESS,
           setOpen: () => !open,
         });
-
+        reset();
         return;
       } else {
         setToast({

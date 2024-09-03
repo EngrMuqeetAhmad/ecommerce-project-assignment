@@ -1,11 +1,10 @@
-import { string, z } from 'zod';
+import { z } from 'zod';
 import {
   EmailSchema,
   ResetPasswordSchema,
   UserLoginSchema,
   UserRegisterSchema,
 } from '../schema';
-import { Dispatch, ReactNode } from 'react';
 
 export type UserRegisterTypes = z.infer<typeof UserRegisterSchema>;
 

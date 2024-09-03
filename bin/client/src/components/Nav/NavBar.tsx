@@ -16,15 +16,24 @@ import { FC, useContext } from 'react';
 import { UserContext } from '../../state/user/user.context';
 import { UserServices } from '../../services/user.service';
 import { ActionType } from '../../state/user/user.actions';
+import { useNavigate } from 'react-router-dom';
+import { UserOutput } from '../../types';
 
 const NavBar: FC = () => {
-  const { state, dispatch } = useContext(UserContext);
+  const navigate = useNavigate();
+  const { dispatch } = useContext(UserContext);
+
+  const user: UserOutput | null = JSON.parse(
+    `${localStorage?.getItem('user')}`
+  );
 
   const Logout = () => {
     UserServices.Logout();
     dispatch({
       type: ActionType.LOGOUT,
     });
+    localStorage.removeItem('user');
+    localStorage.removeItem('jwtToken');
   };
 
   return (
@@ -49,14 +58,20 @@ const NavBar: FC = () => {
 
             <OffcanvasBody>
               <Nav className="fw-semibold text-uppercase text-primary d-flex w-100 justify-content-start align-items-center">
-                <NavLink href="/home" className=" w-20  ms-4">
+                <NavLink
+                  onClick={() => navigate('/home')}
+                  className=" w-20  ms-4"
+                >
                   Home
                 </NavLink>
-                <NavLink href="/home" className="w-20 ms-4">
+                <NavLink
+                  onClick={() => navigate('/cart')}
+                  className="w-20 ms-4"
+                >
                   Cart
                 </NavLink>
                 <NavLink
-                  href="/login"
+                  onClick={() => navigate('/login')}
                   className="d-block d-md-none w-auto ms-4"
                 >
                   Login
@@ -68,13 +83,16 @@ const NavBar: FC = () => {
 
         <Col md={4} className="d-none d-md-flex">
           <Container className="w-75 d-flex justify-content-end gap-3 text-uppercase">
-            {state.isAuthenticated ? (
+            {user != null ? (
               <>
-                <p className="text-primary">Hello {state.user?.firstName}</p>
+                <p className="text-primary">Hello {user?.firstName}</p>
                 <div className="vr"></div>
 
                 <Button
-                  onClick={Logout}
+                  onClick={() => {
+                    Logout();
+                    navigate('/home');
+                  }}
                   className="ms-1 text-uppercase"
                   variant="outline-primary"
                 >
@@ -83,13 +101,13 @@ const NavBar: FC = () => {
               </>
             ) : (
               <>
-                <Button href="/register" variant="link">
+                <Button onClick={() => navigate('/register')} variant="link">
                   Register
                 </Button>
                 <div className="vr"></div>
 
                 <Button
-                  href="/login"
+                  onClick={() => navigate('/login')}
                   className="ms-1 text-uppercase"
                   variant="outline-primary"
                 >

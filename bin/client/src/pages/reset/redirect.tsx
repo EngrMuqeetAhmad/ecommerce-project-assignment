@@ -1,7 +1,7 @@
 import { AxiosResponse } from 'axios';
 import { FC, useEffect } from 'react';
 import { UserServices } from '../../services/user.service';
-import { Navigate, redirect, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 export const Red: FC = () => {
   const { token = '' } = useParams();
@@ -9,7 +9,8 @@ export const Red: FC = () => {
   console.log('hello redirect');
   useEffect(() => {
     const fnc = async () => {
-      const response: AxiosResponse = await UserServices.red(token);
+      const response: AxiosResponse =
+        await UserServices.verifyResetToken(token);
       console.log(response);
       if (response.status == 200) {
         console.log('redirectin');
