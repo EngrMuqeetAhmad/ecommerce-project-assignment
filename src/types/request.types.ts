@@ -1,14 +1,7 @@
 import { Request } from 'express';
+import { RequestUser } from './user.types';
 
-interface USER {
-  ID: number;
-  email: string;
-  role: string;
-  stripeID: string;
-  cartID: number;
-  wishTableID: number;
-}
 
-export interface CustomRequest extends Request {
-  user: USER;
+ interface CustomRequest extends Request {
+  user: Partial<RequestUser>;
 }

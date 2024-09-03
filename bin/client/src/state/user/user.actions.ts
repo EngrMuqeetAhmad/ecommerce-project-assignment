@@ -1,4 +1,4 @@
-import { User } from '../../types';
+import { User, UserOutput } from '../../types';
 
 export enum ActionType {
   SetUser,
@@ -8,7 +8,7 @@ export enum ActionType {
 
 export interface SetUser {
   type: ActionType.SetUser;
-  payload: { user: User | null };
+  payload: { user: UserOutput | null };
 }
 
 export interface LOGOUT {

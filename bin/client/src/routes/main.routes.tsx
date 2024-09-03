@@ -5,6 +5,7 @@ import { Register } from '../pages/register/register';
 import { Home } from '../pages/home/home';
 import { VerificationEmail } from '../pages/reset/verificationEmail';
 import { ChangePassword } from '../pages/reset/changePassword';
+import { Red } from '../pages/reset/redirect';
 
 const mainRoutes: RouteObject[] = [
   {
@@ -26,6 +27,10 @@ const mainRoutes: RouteObject[] = [
   },
   {
     path: '/reset/:token',
+    element: <Red />,
+  },
+  {
+    path: '/reset/y/:token',
     element: <ChangePassword />,
   },
   {

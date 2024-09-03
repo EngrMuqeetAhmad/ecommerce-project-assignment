@@ -3,12 +3,10 @@ import jwt from 'jsonwebtoken';
 import UserServices from '../../services/user/user.service';
 import { UserInput, UserOutput, UserUpdate } from '../../types';
 import { Role } from '../../utils/enum.util';
-import { hashString } from '../../utils/passwordHashednSalated';
-class UserControllers {
-  private static userServices: UserServices;
 
+class UserControllers {
   public static async makeVerified(req: Request, res: Response) {
-    const email = req.body.email;
+    const { email } = req.body;
 
     try {
       const result: number = await UserServices.makeVerified(email);
@@ -25,41 +23,41 @@ class UserControllers {
   }
   public static async resetPassword(req: Request, res: Response) {
     const { password } = req.body;
-    const { token } = req.params;
-
-    if (token) {
-      jwt.verify(
-        token,
-        'MuqeetAhmad',
-        async (err: any, decodedData: any): Promise<void> => {
-          if (err) {
-            res.json({ error: 'unable to verify email' });
-            return;
-          }
-
-          try {
-            const result: number = await UserServices.resetPassword(
-              decodedData,
-              password,
-            );
-            if (result > 0) {
-              req.body.user = null;
-              res.json({ message: 'password updated succesfully' });
-              res.redirect('https://localhost:3000/login');
-              return;
-            } else {
-              throw new Error();
-            }
-          } catch (error) {
-            res.json({ error: 'Unable to update passwrod - try again' });
-            return;
-          }
-        },
-      );
+    const email = req.body.email;
+    console.log(email, password);
+    try {
+      const result: number = await UserServices.resetPassword(email, password);
+      console.log('update resilt', result);
+      if (result > 0) {
+        req.body.user = undefined;
+        res.status(200).json({ message: 'password updated succesfully' });
+        return;
+      } else {
+        throw new Error();
+      }
+    } catch (error) {
+      res.status(405).json({ error: 'Unable to update passwrod - try again' });
+      return;
     }
   }
-  public static async getUser(req: Request, res: Response) {
+  public static async getMe(req: Request, res: Response) {
     const { ID } = req.body.user;
+    console.log('user in body');
+    try {
+      const data: UserOutput | null = await UserServices.getUser(ID);
+      console.log('success data', data);
+      res.status(200).json({
+        data: data,
+      });
+      return;
+    } catch (error) {
+      res.json({
+        error: 'error getting user',
+      });
+    }
+  }
+  public static async getUserByID(req: Request, res: Response) {
+    const { ID } = req.body;
     try {
       const data: UserOutput | null = await UserServices.getUser(ID);
 
@@ -91,14 +89,14 @@ class UserControllers {
   }
 
   public static async userLogout(req: Request, res: Response) {
-    const token = req.headers['authorization']?.split(' ')[1]; // Assumes Bearer token
+    const token = req.header('Authorization'); // Assumes Bearer token
 
     if (!token) {
       return res.status(400).json({ message: 'Token required' });
     }
 
     if (await UserServices.tokenBlackList(token)) {
-      req.body.user = null;
+      req.body.user = undefined;
       res.json({ message: 'Logout successful' });
     } else {
       res.json({ error: 'Logout failed' });
@@ -112,7 +110,7 @@ class UserControllers {
       email,
       password,
     );
- 
+
     if (user == null) {
       res.status(404).json({
         error: 'Email or Password is Wrong',
@@ -136,7 +134,7 @@ class UserControllers {
     );
 
     req.body.user = user;
-
+    console.log('return token', token);
     res.status(200).json({
       token: token,
     });

@@ -17,24 +17,18 @@ import { ResetPasswordSchema } from '../../schema';
 import Feedback from 'react-bootstrap/Feedback';
 import { ToastComponent } from '../../components/Toast/Toast';
 import { TYPE } from '../../types/toast.types';
+import { useParams } from 'react-router-dom';
+import { AxiosResponse } from 'axios';
+import { UserServices } from '../../services/user.service';
 
 export const ChangePassword: FC = () => {
-  const [valid, setValid]: [valid: boolean | undefined, setValid: any] =
-    useState(undefined);
-  const [loading, setLoading]: [loading: boolean, setLoading: any] =
-    useState(true);
-  const [showToast, setShowToast]: [showToast: boolean, setShowToast: any] =
-    useState(false);
+  const { token = '' } = useParams();
 
-  useEffect(() => {
-    // setLoading(true);
-    console.log('first', valid);
-    setTimeout(() => {
-      console.log('wait');
-      setValid(false);
-      setLoading(false);
-    }, 5000);
-    console.log('last', valid);
+  const [toast, setToast] = useState({
+    message: '',
+    open: false,
+    setOpen: () => !open,
+    type: TYPE.ERROR,
   });
 
   const {
@@ -48,21 +42,39 @@ export const ChangePassword: FC = () => {
   });
 
   const onSubmit = async (data: ResetPasswordType) => {
-    // if (data.firstName != "" || data.secondName != "" || data.email != "" || data.confirm != "") {
-    //     //
-    // }
+    if (token != '' && data.password != '') {
+      console.log('rest token', token);
+      const response: AxiosResponse = await UserServices.resetPassword(
+        token,
+        data.password
+      );
 
-    setShowToast(true);
-    console.log('success', data);
-    reset();
+      if (response.status == 200) {
+        setToast({
+          message: 'Password Updated Successffully',
+          open: true,
+          type: TYPE.SUCCESS,
+          setOpen: () => !open,
+        });
+
+        return;
+      } else {
+        setToast({
+          message: 'unable to update password',
+          open: true,
+          type: TYPE.ERROR,
+          setOpen: () => !open,
+        });
+      }
+    }
   };
   return (
     <>
       <ToastComponent
-        isOpen={showToast}
-        setIsOpen={setShowToast}
-        type={TYPE.SUCCESS}
-        message="This is success message"
+        isOpen={toast.open}
+        setIsOpen={toast.setOpen}
+        type={toast.type}
+        message={toast.message}
       />
       <Container fluid>
         <Row className="justify-content-center mb-4 mt-3">
@@ -76,82 +88,56 @@ export const ChangePassword: FC = () => {
           md={{ span: 6, offset: 3 }}
           className="shadow p-5 border border-light rounded-4"
         >
-          {loading == true ? (
-            <>
-              <div className="d-flex w-100 justify-content-center align-items-center">
-                <Spinner animation="grow" variant="primary" />
-              </div>
-            </>
-          ) : (
-            <>
-              {valid == true ? (
-                <>
-                  <Form
-                    noValidate
-                    className="d-grid gap-5"
-                    onSubmit={handleSubmit(onSubmit)}
-                  >
-                    <FormGroup className="position-relative">
-                      <FloatingLabel label="Password">
-                        <FormControl
-                          type="password"
-                          isValid={touchedFields.password && !errors.password}
-                          isInvalid={
-                            touchedFields.password && !!errors.password
-                          }
-                          {...register('password')}
-                          className="border-black"
-                        />
-                        <Feedback type="invalid" tooltip>
-                          {errors.password?.message}
-                        </Feedback>
-                      </FloatingLabel>
-                    </FormGroup>
-                    <FormGroup className="position-relative">
-                      <FloatingLabel label="Confirm Password">
-                        <FormControl
-                          type="password"
-                          isValid={
-                            touchedFields.confirmPassword &&
-                            !errors.confirmPassword
-                          }
-                          isInvalid={
-                            touchedFields.confirmPassword &&
-                            !!errors.confirmPassword
-                          }
-                          {...register('confirmPassword')}
-                          className="border-black"
-                        />
-                        <Feedback type="invalid" tooltip>
-                          {errors.confirmPassword?.message}
-                        </Feedback>
-                      </FloatingLabel>
-                    </FormGroup>
+          <Form
+            noValidate
+            className="d-grid gap-5"
+            onSubmit={handleSubmit(onSubmit)}
+          >
+            <FormGroup className="position-relative">
+              <FloatingLabel label="Password">
+                <FormControl
+                  type="password"
+                  isValid={touchedFields.password && !errors.password}
+                  isInvalid={touchedFields.password && !!errors.password}
+                  {...register('password')}
+                  className="border-black"
+                />
+                <Feedback type="invalid" tooltip>
+                  {errors.password?.message}
+                </Feedback>
+              </FloatingLabel>
+            </FormGroup>
+            <FormGroup className="position-relative">
+              <FloatingLabel label="Confirm Password">
+                <FormControl
+                  type="password"
+                  isValid={
+                    touchedFields.confirmPassword && !errors.confirmPassword
+                  }
+                  isInvalid={
+                    touchedFields.confirmPassword && !!errors.confirmPassword
+                  }
+                  {...register('confirmPassword')}
+                  className="border-black"
+                />
+                <Feedback type="invalid" tooltip>
+                  {errors.confirmPassword?.message}
+                </Feedback>
+              </FloatingLabel>
+            </FormGroup>
 
-                    <div className="d-grid gap-3">
-                      <Button
-                        variant="primary"
-                        type="submit"
-                        size="lg"
-                        className="mt-2"
-                        disabled={!isValid}
-                      >
-                        Reset
-                      </Button>
-                    </div>
-                  </Form>
-                </>
-              ) : (
-                <>
-                  <div className="d-flex w-100 justify-content-center align-items-center">
-                    <span className="text-danger h4">
-                      Error Validating Link
-                    </span>
-                  </div>
-                </>
-              )}
-            </>
-          )}
+            <div className="d-grid gap-3">
+              <Button
+                variant="primary"
+                type="submit"
+                size="lg"
+                className="mt-2"
+                disabled={!isValid}
+              >
+                Reset
+              </Button>
+            </div>
+          </Form>
         </Col>
       </Container>
     </>

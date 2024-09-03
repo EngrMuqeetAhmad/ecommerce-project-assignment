@@ -15,6 +15,7 @@ import {
 import { checkBlacklist } from '../../middlewares/checkBlackListed.middleware';
 import { validateEmail } from '../../middlewares/verifyEmail.middleware';
 import { Role } from '../../utils/enum.util';
+import UserServices from '../../services/user/user.service';
 
 ///////
 
@@ -24,25 +25,25 @@ export const UserRouter = express.Router();
 
 UserRouter.get(
   '/:id',
-
   checkBlacklist,
   validateToken,
   authorizeRole([Role.ADMIN]),
-  UserControllers.getUser,
+  UserControllers.getUserByID,
 );
 UserRouter.get(
   '/',
   checkBlacklist,
   validateToken,
   authorizeRole([Role.USER]),
-  UserControllers.getUser,
+  UserControllers.getMe,
 );
 
 UserRouter.post('/login', UserControllers.userLogin);
 UserRouter.post(
   '/logout',
-  checkBlacklist,
+  // checkBlacklist,
   validateToken,
+  authorizeRole([Role.ADMIN, Role.USER]),
   UserControllers.userLogout,
 );
 UserRouter.post(
@@ -58,13 +59,16 @@ UserRouter.put(
   UserControllers.userRegister,
   emailForVerification,
 );
+UserRouter.post('/resetPassword/:token', validateEmail, (req, res) => {
+  res.status(200).json({ message: 'link verified' });
+});
+
 UserRouter.post(
-  '/resetPassword/:token',
+  '/resetPassword/y/:token',
   validateEmail,
   UserControllers.resetPassword,
 );
-
-UserRouter.get(
+UserRouter.post(
   '/resetPassword',
   emailForVerification, //send email in body
 );

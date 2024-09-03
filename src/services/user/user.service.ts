@@ -21,7 +21,7 @@ class UserServices {
     return affectedRows;
   }
   public static async resetPassword(
-    decodedData: Pick<any, 'email'>,
+    email: string,
     password: string,
   ): Promise<number> {
     const [affectedRows] = await User.update(
@@ -30,7 +30,7 @@ class UserServices {
       },
       {
         where: {
-          email: decodedData?.email,
+          email: email,
         },
       },
     );
@@ -59,6 +59,19 @@ class UserServices {
 
   public static async getUser(id: number): Promise<UserOutput | null> {
     const data: UserOutput | null = await User.findByPk(id, {
+      attributes: [
+        'ID',
+        'firstName',
+        'secondName',
+        'email',
+        'isVerified',
+        'role',
+        'cartID',
+        'wishTableID',
+        'stripeID',
+        'createdAt',
+        'updatedAt',
+      ],
       raw: true,
     });
     return data;
@@ -97,7 +110,7 @@ class UserServices {
       },
       raw: true,
     });
-   
+
     return user;
   }
 

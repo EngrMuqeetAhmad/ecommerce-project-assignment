@@ -30,11 +30,12 @@ export interface User {
   cartID?: number;
   wishTableID?: number;
 }
+export interface UserOutput extends Omit<User, 'password' | 'deletedAt'> {}
 
 export interface UserRegisterInput
   extends Pick<User, 'firstName' | 'secondName' | 'email' | 'password'> {}
 
 export interface UserState {
   isAuthenticated: boolean;
-  user: User | null;
+  user: Omit<User, 'password' | 'deletedAt' | 'stripeID'> | null;
 }

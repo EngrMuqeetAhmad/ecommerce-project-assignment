@@ -14,9 +14,19 @@ import {
 } from 'react-bootstrap';
 import { FC, useContext } from 'react';
 import { UserContext } from '../../state/user/user.context';
+import { UserServices } from '../../services/user.service';
+import { ActionType } from '../../state/user/user.actions';
 
 const NavBar: FC = () => {
-  const { state } = useContext(UserContext);
+  const { state, dispatch } = useContext(UserContext);
+
+  const Logout = () => {
+    UserServices.Logout();
+    dispatch({
+      type: ActionType.LOGOUT,
+    });
+  };
+
   return (
     <Navbar
       expand="md"
@@ -59,13 +69,25 @@ const NavBar: FC = () => {
         <Col md={4} className="d-none d-md-flex">
           <Container className="w-75 d-flex justify-content-end gap-3 text-uppercase">
             {state.isAuthenticated ? (
-              <p className="text-primary">Hello {state.user?.firstName}</p>
+              <>
+                <p className="text-primary">Hello {state.user?.firstName}</p>
+                <div className="vr"></div>
+
+                <Button
+                  onClick={Logout}
+                  className="ms-1 text-uppercase"
+                  variant="outline-primary"
+                >
+                  Logout
+                </Button>
+              </>
             ) : (
               <>
                 <Button href="/register" variant="link">
                   Register
                 </Button>
                 <div className="vr"></div>
+
                 <Button
                   href="/login"
                   className="ms-1 text-uppercase"

@@ -5,32 +5,71 @@ import { User, UserRegisterInput } from '../types';
 import { URL } from '../utils/globals';
 
 export class UserServices {
-  public static async RegisterUser(
-    data: UserRegisterInput
-  ): Promise<AxiosResponse> {
-    const res: AxiosResponse = await axios
-      .put(`${URL}/user/`, data)
-      .then((response) => {
-        return response;
-      })
-      .catch((error) => {
-        return error;
-      });
+  public static async red(token: string): Promise<AxiosResponse> {
+    const res: AxiosResponse = await axios.post(
+      `${URL}/user/resetPassword/${token}`,
+      {},
+      {
+        headers: {
+          'x-api-key': 'muqeetahmad',
+        },
+      }
+    );
     return res;
   }
 
-  public static async GetUser(): Promise<User | null> {
-    try {
-      const user: User | null = await axios.get(`${URL}/user/`, {
+  public static async resetPassword(
+    token: string,
+    password: string
+  ): Promise<AxiosResponse> {
+    const res: AxiosResponse = await axios.post(
+      `${URL}/user/resetPassword/y/${token}`,
+      {
+        password,
+      },
+      {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
+          'x-api-key': 'muqeetahmad',
         },
-      });
-      return user;
-    } catch (error) {
-      console.error('Error logging in:');
-      return null;
-    }
+      }
+    );
+    return res;
+  }
+
+  public static async EmailVerification(email: string): Promise<AxiosResponse> {
+    const res: AxiosResponse = await axios.post(
+      `${URL}/user/resetPassword`,
+      { email, accessRoute: 'resetPassword' },
+      {
+        headers: {
+          'x-api-key': 'muqeetahmad',
+        },
+      }
+    );
+    return res;
+  }
+  public static async RegisterUser(
+    data: UserRegisterInput
+  ): Promise<AxiosResponse> {
+    const res: AxiosResponse = await axios.put(`${URL}/user/`, data, {
+      headers: {
+        'x-api-key': 'muqeetahmad',
+      },
+    });
+
+    return res;
+  }
+
+  public static async GetUser(): Promise<AxiosResponse> {
+    console.log(localStorage.getItem('jwtToken'));
+
+    const user: AxiosResponse = await axios.get(`${URL}/user/`, {
+      headers: {
+        Authorization: `${localStorage.getItem('jwtToken')}`,
+        'x-api-key': 'muqeetahmad',
+      },
+    });
+    return user;
   }
 
   public static async Login(email: string, password: string): Promise<void> {
@@ -63,7 +102,8 @@ export class UserServices {
         {},
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
+            Authorization: `${localStorage.getItem('jwtToken')}`,
+            'x-api-key': 'muqeetahmad',
           },
         }
       );

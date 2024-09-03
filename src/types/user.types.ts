@@ -1,4 +1,5 @@
 import { Optional } from 'sequelize';
+import { Role } from '../utils/enum.util';
 
 export interface UserTypes {
   ID: number;
@@ -35,3 +36,15 @@ export interface UserUpdate
     | 'cartID'
     | 'wishTableID'
   > {}
+
+
+
+  export interface RequestUser {
+    ID: number;
+    email: string;
+    role: string;
+    stripeID: string;
+    cartID: number;
+    wishTableID: number;
+  }
+  

@@ -10,14 +10,15 @@ import {
   Row,
 } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
-import { User, UserLoginTypes } from '../../types';
+import { User, UserLoginTypes, UserOutput } from '../../types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { UserLoginSchema } from '../../schema';
 import Feedback from 'react-bootstrap/Feedback';
 import { UserContext } from '../../state/user/user.context';
 import { UserServices } from '../../services/user.service';
 import { ActionType } from '../../state/user/user.actions';
-import { error } from 'console';
+import { AxiosResponse } from 'axios';
+import { stat } from 'fs';
 
 export const LogIn: FC = () => {
   const { dispatch } = useContext(UserContext);
@@ -37,12 +38,12 @@ export const LogIn: FC = () => {
     if (email != '' && password != '') {
       await UserServices.Login(email, password)
         .then(async () => {
-          const user: User | null = await UserServices.GetUser();
-          console.log(user);
+          const user: AxiosResponse = await UserServices.GetUser();
+
           dispatch({
             type: ActionType.SetUser,
             payload: {
-              user,
+              user: user?.data?.data,
             },
           });
         })
@@ -108,6 +109,7 @@ export const LogIn: FC = () => {
                 LogIn
               </Button>
               <hr />
+              
               <Button
                 variant="link"
                 href="/reset"
