@@ -50,7 +50,9 @@ export const CartProduct: FC = () => {
             xs={12}
             md={3}
             className="d-flex justify-content-center align-items-center"
-          ></Col>
+          >
+            
+          </Col>
         </Row>
       </Card>
     </>
