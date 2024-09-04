@@ -61,38 +61,41 @@ export class UserServices {
   }
 
   public static async GetUser(): Promise<AxiosResponse> {
-    console.log(localStorage.getItem('jwtToken'));
-
-    const user: AxiosResponse = await axios.get(`${URL}/user/`, {
+    const res: AxiosResponse = await axios.get(`${URL}/user/`, {
       headers: {
         Authorization: `${localStorage.getItem('jwtToken')}`,
         'x-api-key': 'muqeetahmad',
       },
     });
-    return user;
+    return res;
   }
 
-  public static async Login(email: string, password: string): Promise<void> {
-    try {
-      const token: AxiosResponse = await axios.post(
-        `${URL}/user/login`,
-        {
-          email,
-          password,
+  public static async Login(
+    email: string,
+    password: string
+  ): Promise<AxiosResponse> {
+    const res: AxiosResponse = await axios.post(
+      `${URL}/user/login`,
+      {
+        email,
+        password,
+      },
+      {
+        headers: {
+          'x-api-key': 'muqeetahmad',
         },
-        {
-          headers: {
-            'x-api-key': 'muqeetahmad',
-          },
-        }
-      );
+      }
+    );
 
-      localStorage.setItem('jwtToken', token.data.token);
-    } catch (error) {
-      console.error('Error logging in:');
+    if (
+      res.data.token != undefined &&
+      res.data.token != null &&
+      res.data.token != ''
+    ) {
+      localStorage.setItem('jwtToken', res.data.token);
     }
 
-    return;
+    return res;
   }
 
   public static async Logout(): Promise<void> {

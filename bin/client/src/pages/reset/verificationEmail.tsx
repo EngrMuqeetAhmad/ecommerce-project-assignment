@@ -23,8 +23,8 @@ export const VerificationEmail: FC = () => {
   const [toast, setToast] = useState({
     message: '',
     open: false,
-    setOpen: () => !open,
-    type: TYPE.ERROR,
+    
+    type: TYPE.DANGER,
   });
 
   const {
@@ -47,15 +47,15 @@ export const VerificationEmail: FC = () => {
           message: 'Check your mail box',
           open: true,
           type: TYPE.SUCCESS,
-          setOpen: () => !open,
+          
         });
         reset();
       } else {
         setToast({
           message: 'error',
           open: true,
-          type: TYPE.ERROR,
-          setOpen: () => !open,
+          type: TYPE.DANGER,
+          
         });
       }
     }
@@ -64,7 +64,7 @@ export const VerificationEmail: FC = () => {
     <>
       <ToastComponent
         isOpen={toast.open}
-        setIsOpen={toast.setOpen}
+        setIsOpen={setToast}
         type={toast.type}
         message={toast.message}
       />

@@ -1,4 +1,4 @@
-import { FC, useContext } from 'react';
+import { FC, useContext, useState } from 'react';
 import {
   Button,
   Col,
@@ -17,11 +17,19 @@ import Feedback from 'react-bootstrap/Feedback';
 import { UserContext } from '../../state/user/user.context';
 import { UserServices } from '../../services/user.service';
 import { ActionType } from '../../state/user/user.actions';
-import { AxiosResponse } from 'axios';
 
 import { useNavigate } from 'react-router-dom';
 
+import { ToastComponent } from '../../components/Toast/Toast';
+import { TYPE } from '../../types/toast.types';
+
 export const LogIn: FC = () => {
+  const [toast, setToast] = useState({
+    message: '',
+    open: false,
+
+    type: TYPE.DANGER,
+  });
   const navigate = useNavigate();
   const { dispatch } = useContext(UserContext);
   const {
@@ -40,23 +48,67 @@ export const LogIn: FC = () => {
     if (email != '' && password != '') {
       await UserServices.Login(email, password)
         .then(async () => {
-          const user: AxiosResponse = await UserServices.GetUser();
-
-          dispatch({
-            type: ActionType.SetUser,
-            payload: {
-              user: user?.data?.data,
-            },
-          });
-          localStorage.setItem('user', JSON.stringify(user.data.data));
+          await UserServices.GetUser()
+            .then((response) => {
+              dispatch({
+                type: ActionType.SetUser,
+                payload: {
+                  user: response?.data?.data,
+                },
+              });
+              localStorage.setItem(
+                'user',
+                JSON.stringify(response?.data?.data)
+              );
+              setToast({
+                message: `User logged in`,
+                open: true,
+                type: TYPE.SUCCESS,
+              });
+              reset();
+              navigate('/');
+            })
+            .catch((error) => {
+              if (error.response) {
+                setToast({
+                  message: `${error?.response?.data?.error + error?.status}`,
+                  open: true,
+                  type: TYPE.DANGER,
+                });
+              } else if (error.request) {
+                setToast({
+                  message: `${error?.statusText + error.state}`,
+                  open: true,
+                  type: TYPE.DANGER,
+                });
+              }
+            });
         })
-        .then(() => reset())
-        .then(() => navigate('/home'))
-        .catch((error) => console.log(error));
+        .catch((error) => {
+          if (error.response) {
+            setToast({
+              message: `${error?.response?.data?.error}`,
+              open: true,
+              type: TYPE.DANGER,
+            });
+          } else if (error.request) {
+            setToast({
+              message: `${error?.response}`,
+              open: true,
+              type: TYPE.DANGER,
+            });
+          }
+        });
     }
   };
   return (
     <>
+      <ToastComponent
+        isOpen={toast.open}
+        setIsOpen={setToast}
+        type={toast.type}
+        message={toast.message}
+      />
       <Container fluid>
         <Row className="justify-content-center mb-4 mt-3">
           <Col xs="auto">

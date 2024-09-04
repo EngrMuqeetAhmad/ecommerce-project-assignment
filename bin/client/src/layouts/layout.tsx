@@ -10,7 +10,7 @@ const Layout: FC<LayoutProps> = ({ children }) => {
       minBreakpoint="xs"
     >
       <NavBar />
-      <Container fluid style={{ marginTop: '100px' }}>
+      <Container fluid className="p-0">
         {children}
       </Container>
     </ThemeProvider>

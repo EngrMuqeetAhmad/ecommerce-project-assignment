@@ -7,6 +7,7 @@ import { VerificationEmail } from '../pages/reset/verificationEmail';
 import { ChangePassword } from '../pages/reset/changePassword';
 import { Red } from '../pages/reset/redirect';
 import { Error } from '../components/Error/Error';
+import { Cart } from '../pages/cart/cart';
 
 const AppRoutes: FC = () => {
   const user = JSON.parse(`${localStorage.getItem('user')}`);
@@ -30,24 +31,68 @@ const AppRoutes: FC = () => {
         ),
     },
     {
+      path: '/cart',
+      element:
+        user != null ? (
+          <Cart />
+        ) : (
+          <Navigate
+            to="/error"
+            state={{ from: '/cart', message: 'Log In to access cart' }}
+          />
+        ),
+    },
+    {
       path: '/error',
       element: <Error />,
     },
     {
       path: '/register',
-      element: <Register />,
+      element:
+        user == null ? (
+          <Register />
+        ) : (
+          <Navigate
+            to="/error"
+            state={{ from: '/register', message: 'Logout to access register' }}
+          />
+        ),
     },
     {
       path: '/reset',
-      element: <VerificationEmail />,
+      element:
+        user == null ? (
+          <VerificationEmail />
+        ) : (
+          <Navigate
+            to="/error"
+            state={{ from: '/reset', message: 'unauthorized' }}
+          />
+        ),
     },
     {
       path: '/reset/:token',
-      element: <Red />,
+      element:
+        user == null ? (
+          <Red />
+        ) : (
+          <Navigate
+            to="/error"
+            state={{ from: '/reset', message: 'Unauthorized' }}
+          />
+        ),
     },
     {
       path: '/reset/y/:token',
-      element: <ChangePassword />,
+      element:
+        user == null ? (
+          <ChangePassword />
+        ) : (
+          <Navigate
+            to="/error"
+            state={{ from: '/reset', message: 'unauthorized' }}
+          />
+        ),
     },
     {
       path: '*',

@@ -26,8 +26,8 @@ export const ChangePassword: FC = () => {
   const [toast, setToast] = useState({
     message: '',
     open: false,
-    setOpen: () => !open,
-    type: TYPE.ERROR,
+
+    type: TYPE.DANGER,
   });
 
   const {
@@ -53,7 +53,6 @@ export const ChangePassword: FC = () => {
           message: 'Password Updated Successffully',
           open: true,
           type: TYPE.SUCCESS,
-          setOpen: () => !open,
         });
         reset();
         return;
@@ -61,8 +60,7 @@ export const ChangePassword: FC = () => {
         setToast({
           message: 'unable to update password',
           open: true,
-          type: TYPE.ERROR,
-          setOpen: () => !open,
+          type: TYPE.DANGER,
         });
       }
     }
@@ -71,7 +69,7 @@ export const ChangePassword: FC = () => {
     <>
       <ToastComponent
         isOpen={toast.open}
-        setIsOpen={toast.setOpen}
+        setIsOpen={setToast}
         type={toast.type}
         message={toast.message}
       />

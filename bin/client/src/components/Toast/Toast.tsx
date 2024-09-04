@@ -13,7 +13,7 @@ export const ToastComponent: FC<ToastTypes> = ({
       <ToastContainer position="bottom-end" className="p-3">
         <Toast
           show={isOpen}
-          onClose={() => setIsOpen(false)}
+          onClose={() => setIsOpen({ open: false, type: 'danger' })}
           bg={type.toLowerCase()}
           delay={3000}
           autohide

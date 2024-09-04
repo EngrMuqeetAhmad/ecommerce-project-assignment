@@ -7,5 +7,5 @@ export interface ToastTypes {
 
 export enum TYPE {
   SUCCESS = 'success',
-  ERROR = 'error',
+  DANGER = 'danger',
 }

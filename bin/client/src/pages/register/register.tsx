@@ -17,14 +17,12 @@ import Feedback from 'react-bootstrap/Feedback';
 import { UserServices } from '../../services/user.service';
 import { ToastComponent } from '../../components/Toast/Toast';
 import { TYPE } from '../../types/toast.types';
-import { AxiosResponse } from 'axios';
 
 export const Register: FC = () => {
   const [toast, setToast] = useState({
     message: '',
     open: false,
-    setOpen: () => !open,
-    type: TYPE.ERROR,
+    type: TYPE.DANGER,
   });
   const {
     register,
@@ -43,31 +41,37 @@ export const Register: FC = () => {
       data.email != '' &&
       data.password != ''
     ) {
-      const res: AxiosResponse = await UserServices.RegisterUser(data);
-      if (res.status == 200) {
-        setToast({
-          message: 'Check your mail box',
-          open: true,
-          type: TYPE.SUCCESS,
-          setOpen: () => !open,
+      await UserServices.RegisterUser(data)
+        .then(() => {
+          setToast({
+            message: `Verify your Email`,
+            open: true,
+            type: TYPE.SUCCESS,
+          });
+          reset();
+        })
+        .catch((error) => {
+          if (error.response) {
+            setToast({
+              message: `${error?.response?.data?.error}`,
+              open: true,
+              type: TYPE.DANGER,
+            });
+          } else if (error.request) {
+            setToast({
+              message: `${error?.response}`,
+              open: true,
+              type: TYPE.DANGER,
+            });
+          }
         });
-        reset();
-      } else {
-        setToast({
-          message: 'error',
-          open: true,
-          type: TYPE.ERROR,
-          setOpen: () => !open,
-        });
-      }
     }
-    console.log('success', data);
   };
   return (
     <>
       <ToastComponent
         isOpen={toast.open}
-        setIsOpen={toast.setOpen}
+        setIsOpen={setToast}
         type={toast.type}
         message={toast.message}
       />

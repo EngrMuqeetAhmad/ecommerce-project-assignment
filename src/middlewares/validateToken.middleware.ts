@@ -12,6 +12,7 @@ function validateToken(req: Request, res: Response, next: NextFunction) {
 
   jwt.verify(token, 'MuqeetAhmad', (err: any, user: any) => {
     if (err) {
+      console.log(err);
       return res.status(403).json({ error: 'Forbidden' });
     }
     const { ID, email, role, stripeID, cartID, wishTableID } = user;
