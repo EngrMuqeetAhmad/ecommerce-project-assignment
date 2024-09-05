@@ -6,3 +6,18 @@ export interface ProductTypes {
   category: string;
   subCategory: string;
 }
+
+
+export interface VariationType {
+  variations: Array<{
+    name: string;
+    values: Array<string>
+  }>
+
+
+}
+
+export interface ImageType {
+  images: Array<string>
+
+}

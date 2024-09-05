@@ -9,6 +9,7 @@ import { Red } from '../pages/reset/redirect';
 import { Error } from '../components/Error/Error';
 import { Cart } from '../pages/cart/cart';
 import { Wishes } from '../pages/wishes/wished';
+import { ProductDetails } from '../pages/product/productDetails';
 
 const AppRoutes: FC = () => {
   const user = JSON.parse(`${localStorage.getItem('user')}`);
@@ -30,6 +31,10 @@ const AppRoutes: FC = () => {
             state={{ from: '/login', message: 'You are already logged In' }}
           />
         ),
+    },
+    {
+      path: "/product/:category/:subCategory/:id",
+      element: <ProductDetails />
     },
     {
       path: '/cart',

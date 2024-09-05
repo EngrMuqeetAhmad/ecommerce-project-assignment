@@ -23,7 +23,7 @@ export const WishProductCard: FC<ProductTypes> = ({
       <Card.Body>
         <Card.Title
           onClick={() => navigate(`product/${category}/${subCategory}/${id}`)}
-          className="text-decoration-underline"
+         className='fs-5 fw-semibold'
           style={{ cursor: 'pointer' }}
         >
           {title}

@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
-import { Products } from '../../components/card/Products';
+import { Products } from '../../components/card/ProductList';
 import { WishProducts } from '../../components/card/WishProducts';
 
 export const Wishes: FC = () => {

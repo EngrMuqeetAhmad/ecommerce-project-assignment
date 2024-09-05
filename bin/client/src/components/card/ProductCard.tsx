@@ -22,17 +22,17 @@ export const ProductCard: FC<ProductTypes> = ({
       />
       <Card.Body>
         <Card.Title
-          className="text-decoration-underline"
+          className='fs-5 fw-semibold'
           onClick={() => navigate(`product/${category}/${subCategory}/${id}`)}
           style={{ cursor: 'pointer' }}
         >
           {title}
         </Card.Title>
-        <Card.Text>{description}</Card.Text>
+        <Card.Text className='text-muted'>{description}</Card.Text>
 
-        <Card.Link className="d-flex w-100" onClick={() => {}}>
+        <Card.Link className="d-flex w-100 text-decoration-none" onClick={() => {}}>
           <Stack direction="horizontal" className="w-100" gap={2}>
-            <Button variant="primary" className="w-100">
+            <Button variant="dark" className="w-100">
               Add to Cart
             </Button>
             <Button variant="outline-dark" className="">

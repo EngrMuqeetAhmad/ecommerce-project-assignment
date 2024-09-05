@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 
-import { UserMapper } from '../mappers';
 import { User } from '../models/user.model';
 import { UserOutput } from '../types';
 async function validateEmail(req: Request, res: Response, next: NextFunction) {

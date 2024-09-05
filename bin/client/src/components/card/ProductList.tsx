@@ -2,7 +2,7 @@ import { FC } from 'react';
 import { Button, Col, Container, Row } from 'react-bootstrap';
 import { ProductCard } from './ProductCard';
 import Test from '../../assets/images/test1.jpg';
-export const Products: FC = () => {
+export const ProductList: FC = () => {
   return (
     <>
       <Row xs={1} md={3} xl={4} className="g-2 mb-4">

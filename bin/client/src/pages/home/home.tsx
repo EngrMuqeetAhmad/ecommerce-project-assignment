@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
-import { Products } from '../../components/card/Products';
+import { ProductList } from '../../components/card/ProductList';
 import { Crousel } from '../../components/Slider/Carousel';
 
 export const Home: FC = () => {
@@ -17,7 +17,7 @@ export const Home: FC = () => {
       <Row className="justify-content-center">
         <Col xs={12}>
           <Container fluid="lg">
-            <Products />
+            <ProductList />
           </Container>
         </Col>
       </Row>
