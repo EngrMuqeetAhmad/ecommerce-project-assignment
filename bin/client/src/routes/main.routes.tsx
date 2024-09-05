@@ -8,6 +8,7 @@ import { ChangePassword } from '../pages/reset/changePassword';
 import { Red } from '../pages/reset/redirect';
 import { Error } from '../components/Error/Error';
 import { Cart } from '../pages/cart/cart';
+import { Wishes } from '../pages/wishes/wished';
 
 const AppRoutes: FC = () => {
   const user = JSON.parse(`${localStorage.getItem('user')}`);
@@ -35,6 +36,18 @@ const AppRoutes: FC = () => {
       element:
         user != null ? (
           <Cart />
+        ) : (
+          <Navigate
+            to="/error"
+            state={{ from: '/cart', message: 'Log In to access cart' }}
+          />
+        ),
+    },
+    {
+      path: '/wishes',
+      element:
+        user != null ? (
+          <Wishes />
         ) : (
           <Navigate
             to="/error"

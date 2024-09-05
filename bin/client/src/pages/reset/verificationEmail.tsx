@@ -100,7 +100,7 @@ export const VerificationEmail: FC = () => {
 
             <div className="d-grid gap-3">
               <Button
-                variant={'primary'}
+                variant={'dark'}
                 type="submit"
                 size="lg"
                 className="mt-2"

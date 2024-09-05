@@ -52,8 +52,8 @@ const NavBar: FC = () => {
   return (
     <Navbar
       expand="md"
-      bg="light"
-      variant="light"
+      bg="dark"
+      variant="dark"
       // fixed="sticky"
       className="shadow-sm"
     >
@@ -66,21 +66,23 @@ const NavBar: FC = () => {
           <NavbarToggle
             aria-controls="offcanvasNavbar-expand"
             onClick={handleShow}
+            className='text-light '
           />
           <NavbarOffcanvas
             show={show}
             onHide={handleClose}
             placement="end"
             id="offcanvasNavbar-expand"
+            className="bg-dark text-light"
           >
             <OffcanvasHeader closeButton>
-              <OffcanvasTitle className="text-capitalize">
-                Hello {user?.firstName}
+              <OffcanvasTitle className="text-capitalize text-light">
+                {user != null && <> Hello {user?.firstName}</>}
               </OffcanvasTitle>
             </OffcanvasHeader>
 
             <OffcanvasBody>
-              <Nav className="fw-semibold text-uppercase text-primary d-flex w-100 justify-content-start align-items-center">
+              <Nav className="fw-semibold text-uppercase text-light  d-flex w-100 justify-content-start align-items-center">
                 <NavLink onClick={() => Navigate('/')} className=" w-20 ">
                   Home
                 </NavLink>
@@ -122,19 +124,18 @@ const NavBar: FC = () => {
             {user != null ? (
               <>
                 <UserDropDown />
-               
               </>
             ) : (
               <>
-                <Button onClick={() => Navigate('/register')} variant="link">
+                <Button onClick={() => Navigate('/register')} variant="light">
                   Register
                 </Button>
-                <div className="vr"></div>
+                <div className="vr bg-light"></div>
 
                 <Button
                   onClick={() => Navigate('/login')}
                   className="ms-1 text-uppercase"
-                  variant="outline-primary"
+                  variant="outline-light"
                 >
                   Login
                 </Button>

@@ -1,14 +1,14 @@
 import { FC } from 'react';
-import { Button, Col, Container, Row } from 'react-bootstrap';
-import { ProductCard } from './ProductCard';
+import { Col, Row } from 'react-bootstrap';
 import Test from '../../assets/images/test1.jpg';
-export const Products: FC = () => {
+import { WishProductCard } from './WishProductCard';
+export const WishProducts: FC = () => {
   return (
     <>
-      <Row xs={1} md={3} xl={4} className="g-2 mb-4">
+      <Row xs={2} md={3} xl={4} className="g-2">
         {Array.from({ length: 8 }).map((_, i) => (
           <Col key={i}>
-            <ProductCard
+            <WishProductCard
               title="Men Dress Shirt"
               description="100% cottom Dress Shirt, hand Stiched"
               id={i}
@@ -18,13 +18,6 @@ export const Products: FC = () => {
             />
           </Col>
         ))}
-      </Row>
-      <Row>
-        <Container className="d-flex justify-content-center">
-          <Button variant="outline-dark" size="lg">
-            Load <i className="fas fa-plus"></i>
-          </Button>
-        </Container>
       </Row>
     </>
   );

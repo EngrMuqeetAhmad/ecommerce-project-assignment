@@ -151,7 +151,7 @@ export const Register: FC = () => {
             </FormGroup>
             <div className="d-grid">
               <Button
-                variant="primary"
+                variant="dark"
                 type="submit"
                 size="lg"
                 className="mt-2"

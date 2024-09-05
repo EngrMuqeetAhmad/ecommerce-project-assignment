@@ -1,9 +1,9 @@
 import { FC } from 'react';
-import { Button, Card, Stack } from 'react-bootstrap';
+import { Button, Card, Col, Stack } from 'react-bootstrap';
 import { ProductTypes } from '../../types/product.types';
 import { useNavigate } from 'react-router-dom';
 
-export const ProductCard: FC<ProductTypes> = ({
+export const WishProductCard: FC<ProductTypes> = ({
   image,
   title,
   description,
@@ -22,24 +22,24 @@ export const ProductCard: FC<ProductTypes> = ({
       />
       <Card.Body>
         <Card.Title
-          className="text-decoration-underline"
           onClick={() => navigate(`product/${category}/${subCategory}/${id}`)}
+          className="text-decoration-underline"
           style={{ cursor: 'pointer' }}
         >
           {title}
         </Card.Title>
-        <Card.Text>{description}</Card.Text>
+        <Card.Text className="text-muted">{description}</Card.Text>
 
-        <Card.Link className="d-flex w-100" onClick={() => {}}>
-          <Stack direction="horizontal" className="w-100" gap={2}>
-            <Button variant="primary" className="w-100">
-              Add to Cart
+        <Col className="" xs={12}>
+          <Stack direction="horizontal" className="justify-content-between">
+            <Button variant="outline-danger">
+              <i className="fas fa-trash-alt"></i>
             </Button>
-            <Button variant="outline-dark" className="">
-              <i className="far fa-heart"></i>
+            <Button variant="outline-dark">
+              <i className="fas fa-cart-plus"></i>
             </Button>
           </Stack>
-        </Card.Link>
+        </Col>
       </Card.Body>
     </Card>
   );

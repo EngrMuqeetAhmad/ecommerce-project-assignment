@@ -31,7 +31,9 @@ export const UserRegisterSchema = z.object({
 
 export const UserLoginSchema = z.object({
   email: z.string().email({ message: 'Please provide correct email' }),
-  password: z.string({ message: 'Please provide the password' }),
+  password: z
+    .string({ message: 'Please provide the password' })
+    .min(6, { message: 'min 6 characters' }),
 });
 
 export const EmailSchema = z.object({
