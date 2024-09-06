@@ -34,7 +34,7 @@ UserRouter.get(
   '/',
   checkBlacklist,
   validateToken,
-  authorizeRole([Role.USER]),
+  authorizeRole([Role.USER, Role.ADMIN]),
   UserControllers.getMe,
 );
 

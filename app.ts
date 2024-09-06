@@ -65,7 +65,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 //routes
-app.use('/api/v1/', apiKeyAuth, AppRouter);
+app.use('/api/v1/', 
+  apiKeyAuth,
+   AppRouter);
 
 // https.createServer(sslOptions, app)
 app.listen(PORT, (err: any) => {

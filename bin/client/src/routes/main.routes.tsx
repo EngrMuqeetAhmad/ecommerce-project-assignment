@@ -10,6 +10,7 @@ import { Error } from '../components/Error/Error';
 import { Cart } from '../pages/cart/cart';
 import { Wishes } from '../pages/wishes/wished';
 import { ProductDetails } from '../pages/product/productDetails';
+import { DashBoard } from '../pages/dashboard/dashboard';
 
 const AppRoutes: FC = () => {
   const user = JSON.parse(`${localStorage.getItem('user')}`);
@@ -33,8 +34,20 @@ const AppRoutes: FC = () => {
         ),
     },
     {
-      path: "/product/:category/:subCategory/:id",
-      element: <ProductDetails />
+      path: '/product/:category/:subCategory/:id',
+      element: <ProductDetails />,
+    },
+    {
+      path: '/dashboard',
+      element:
+        user != null && user.role == 'admin' ? (
+          <DashBoard />
+        ) : (
+          <Navigate
+            to="/error"
+            state={{ from: '/dasboard', message: 'Unauthorized' }}
+          />
+        ),
     },
     {
       path: '/cart',

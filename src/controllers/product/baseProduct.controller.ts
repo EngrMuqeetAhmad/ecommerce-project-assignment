@@ -56,6 +56,7 @@ export class BaseProductControllers {
       updatedAt: new Date(),
       deletedAt: undefined,
     };
+    console.log(payload)
     try {
       await BaseProductServices.addBaseProduct(payload);
       res.status(200).json({ message: 'created base product' });
