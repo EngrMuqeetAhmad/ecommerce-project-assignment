@@ -83,6 +83,9 @@ const NavBar: FC = () => {
 
             <OffcanvasBody>
               <Nav className="fw-semibold text-uppercase text-light  d-flex w-100 justify-content-start align-items-center">
+              <NavLink onClick={() => Navigate('/me')} className="w-20">
+                  Me
+                </NavLink>
                 <NavLink onClick={() => Navigate('/')} className=" w-20 ">
                   Home
                 </NavLink>

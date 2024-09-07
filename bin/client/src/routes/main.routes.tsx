@@ -11,6 +11,7 @@ import { Cart } from '../pages/cart/cart';
 import { Wishes } from '../pages/wishes/wished';
 import { ProductDetails } from '../pages/product/productDetails';
 import { DashBoard } from '../pages/dashboard/dashboard';
+import { Profile } from '../pages/profile/profile';
 
 const AppRoutes: FC = () => {
   const user = JSON.parse(`${localStorage.getItem('user')}`);
@@ -36,6 +37,17 @@ const AppRoutes: FC = () => {
     {
       path: '/product/:category/:subCategory/:id',
       element: <ProductDetails />,
+    },
+    {
+      path: "/me",
+      element:  user != null ? (
+        <Profile />
+      ) : (
+        <Navigate
+          to="/error"
+          state={{ from: '/login', message: 'Login to continue' }}
+        />
+      ),
     },
     {
       path: '/dashboard',
