@@ -20,6 +20,7 @@ export class UserMapper {
     return {
       firstName: model.firstName,
       secondName: model.secondName,
+      role: model.role,
       email: model.email,
     };
   }

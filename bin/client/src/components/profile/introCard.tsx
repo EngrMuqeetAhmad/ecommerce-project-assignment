@@ -6,7 +6,7 @@ export const IntroCard = () => {
   const user: UserOutput = JSON.parse(`${localStorage.getItem('user')}`);
   return (
     <>
-      <Container >
+      <Container>
         <Row className="mb-0">
           <Col className="p-4 justify-content-center align-items-center d-flex">
             <Image
@@ -25,9 +25,7 @@ export const IntroCard = () => {
               className=" justify-content-center align-items-center d-flex"
             >
               <span className="display-6 fs-3  text-capitalize">
-                {/* {user.firstName} {user.secondName}
-                 */}
-                Muqeet Ahmad
+                {user.firstName} {user.secondName}
               </span>
               <Stack
                 gap={0}

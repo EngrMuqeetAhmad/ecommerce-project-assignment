@@ -28,7 +28,21 @@ export const UserRegisterSchema = z.object({
       { message: 'Password must be alphanumeric, special chars' }
     ),
 });
-
+export const UserUpdateSchema = z.object({
+  firstName: z
+    .string()
+    .regex(/^[A-Za-z]+$/, { message: 'Only Alphabets are allowed' })
+    .min(3, { message: 'min characters 3' })
+    .max(255, { message: 'max characters 255' })
+    .toLowerCase(),
+  secondName: z
+    .string()
+    .regex(/^[A-Za-z]+$/, { message: 'Only Alphabets are allowed' })
+    .min(1, { message: 'min characters 1' })
+    .max(255, { message: 'max characters 255' })
+    .toLowerCase(),
+  role: z.string().toLowerCase(),
+});
 export const UserLoginSchema = z.object({
   email: z.string().email({ message: 'Please provide correct email' }),
   password: z

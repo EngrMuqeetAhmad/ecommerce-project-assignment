@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import { Col, Container, ListGroup, Nav, Row, Tab } from 'react-bootstrap';
 import { IntroCard } from '../../components/profile/introCard';
+import { UserContent } from './user';
 
 export const Profile: FC = () => {
   return (
@@ -42,8 +43,10 @@ export const Profile: FC = () => {
             </Col>
             <Col xs={12} md={8}>
               <Container>
-                <Tab.Content className="">
-                  <Tab.Pane eventKey="user">user here</Tab.Pane>
+                <Tab.Content className="d-flex justify-content-center">
+                  <Tab.Pane eventKey="user">
+                    <UserContent />
+                  </Tab.Pane>
                   <Tab.Pane eventKey="shippingAddress">
                     shippingAddress
                   </Tab.Pane>

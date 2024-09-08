@@ -27,7 +27,7 @@ export interface UserUpdate
     UserTypes,
     | 'ID'
     | 'password'
-    | 'role'
+   
     | 'isVerified'
     | 'stripeID'
     | 'createdAt'

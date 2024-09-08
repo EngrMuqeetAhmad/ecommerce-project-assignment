@@ -1,7 +1,7 @@
-import axios, { AxiosResponse } from 'axios';
+import axios, { AxiosError, AxiosResponse } from 'axios';
 
 // import dotenv from 'dotenv';
-import { UserRegisterInput } from '../types';
+import { UserRegisterInput, UserUpdate } from '../types';
 import { URL } from '../utils/globals';
 
 export class UserServices {
@@ -48,6 +48,23 @@ export class UserServices {
     );
     return res;
   }
+
+  public static async UpdateUser(
+    data: Partial<UserUpdate>
+  ): Promise<AxiosResponse | AxiosError> {
+    const res: AxiosResponse | AxiosError = await axios.post(
+      `${URL}/user/`,
+      data,
+      {
+        headers: {
+          'x-api-key': 'muqeetahmad',
+          Authorization: `${localStorage.getItem('jwtToken')}`,
+        },
+      }
+    );
+    return res;
+  }
+
   public static async RegisterUser(
     data: UserRegisterInput
   ): Promise<AxiosResponse> {

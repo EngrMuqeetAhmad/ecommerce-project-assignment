@@ -20,13 +20,14 @@ export function userReducer(state: UserState, action: UserActions): UserState {
         };
       }
       break;
+     
     case ActionType.LOGOUT:
       return {
         ...state,
         isAuthenticated: false,
         user: null,
       };
-
+break
     default:
       return { ...state };
   }
