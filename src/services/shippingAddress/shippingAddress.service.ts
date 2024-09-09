@@ -1,3 +1,4 @@
+import { Op } from 'sequelize';
 import { ShippingAddress } from '../../models/shippingAddress.model';
 import {
   ShippingAddressInput,
@@ -7,15 +8,24 @@ import {
 export class ShippigAddressServices {
   public static async updateShippingAddress(
     payload: Partial<
-      Omit<ShippingAddressInput, 'ID' | 'userID' | 'createdAt' | 'deletedAt'>
+      Omit<
+        ShippingAddressInput,
+        'ID' | 'userID' | 'createdAt' | 'deletedAt' | 'updatedAt'
+      >
     >,
     id: number,
   ): Promise<number> {
     if (payload && typeof payload === 'object' && !Array.isArray(payload)) {
       const keys: (keyof Partial<
-        Omit<ShippingAddressInput, 'ID' | 'userID' | 'createdAt' | 'deletedAt'>
+        Omit<
+          ShippingAddressInput,
+          'ID' | 'userID' | 'createdAt' | 'deletedAt' | 'updatedAt'
+        >
       >)[] = Object.keys(payload) as (keyof Partial<
-        Omit<ShippingAddressInput, 'ID' | 'userID' | 'createdAt' | 'deletedAt'>
+        Omit<
+          ShippingAddressInput,
+          'ID' | 'userID' | 'createdAt' | 'deletedAt' | 'updatedAt'
+        >
       >)[];
       const [affectedRows]: Array<any> = await ShippingAddress.update(payload, {
         where: {
@@ -30,11 +40,29 @@ export class ShippigAddressServices {
   public static async getAllShippingAddress(
     userID: number,
   ): Promise<Array<ShippingAddressOutput>> {
+    console.log('shiipig address service', userID);
     const result: Array<ShippingAddressOutput> = await ShippingAddress.findAll({
+      attributes: [
+        'ID',
+        'addressLine1',
+        'addressLine2',
+        'region',
+        'city',
+        'country',
+        'postalCode',
+        'userID',
+        'createdAt',
+        'updatedAt',
+      ],
+
       where: {
-        userID,
+        userID: {
+          [Op.eq]: userID,
+        },
       },
+      raw: true,
     });
+    console.log('shipping address service raw', result);
     return result;
   }
   public static async getShippingAddress(

@@ -28,6 +28,7 @@ UserRouter.get(
   checkBlacklist,
   validateToken,
   authorizeRole([Role.ADMIN]),
+
   UserControllers.getUserByID,
 );
 UserRouter.get(
@@ -35,6 +36,7 @@ UserRouter.get(
   checkBlacklist,
   validateToken,
   authorizeRole([Role.USER, Role.ADMIN]),
+
   UserControllers.getMe,
 );
 
@@ -80,6 +82,14 @@ UserRouter.get(
 );
 
 ///user Cart
+UserRouter.get(
+  '/cart/all',
+  checkBlacklist,
+  validateToken,
+  authorizeRole([Role.USER]),
+  UserCartControllers.getWholeCart,
+);
+
 
 UserRouter.delete(
   '/cart/:id',
@@ -96,13 +106,6 @@ UserRouter.post(
   UserCartControllers.updateQuantity,
 );
 
-UserRouter.get(
-  '/cart/all',
-  checkBlacklist,
-  validateToken,
-  authorizeRole([Role.USER]),
-  UserCartControllers.getWholeCart,
-);
 
 UserRouter.put(
   '/cart',
@@ -115,6 +118,13 @@ UserRouter.put(
 //user Order
 
 ///
+UserRouter.get(
+  '/order/all',
+  checkBlacklist,
+  validateToken,
+  authorizeRole([Role.ADMIN, Role.USER]),
+  UserOrderControllers.getAllOrders,
+);
 
 UserRouter.put(
   '/order',
@@ -139,17 +149,18 @@ UserRouter.get(
   authorizeRole([Role.ADMIN, Role.USER]),
   UserOrderControllers.getOrder,
 );
-UserRouter.get(
-  '/order/all',
-  checkBlacklist,
-  validateToken,
-  authorizeRole([Role.ADMIN, Role.USER]),
-  UserOrderControllers.getAllOrders,
-);
+
 
 //user Wish
 
 ///
+UserRouter.get(
+  '/wish/all',
+  checkBlacklist,
+  validateToken,
+  authorizeRole([Role.ADMIN, Role.USER]),
+  UserWishControllers.getWholeWish,
+);
 UserRouter.post(
   '/wish/:id',
   checkBlacklist,
@@ -158,13 +169,7 @@ UserRouter.post(
   UserWishControllers.deleteFromWish,
 );
 
-UserRouter.get(
-  '/wish/all',
-  checkBlacklist,
-  validateToken,
-  authorizeRole([Role.ADMIN, Role.USER]),
-  UserWishControllers.getWholeWish,
-);
+
 
 UserRouter.put(
   '/wish',
@@ -173,7 +178,16 @@ UserRouter.put(
   UserWishControllers.addToWish,
 );
 
-//shippig address
+// //shippig address
+
+UserRouter.get(
+  '/shippingAddress/all',
+  checkBlacklist,
+  validateToken,
+  authorizeRole([Role.USER, Role.ADMIN]),
+
+  ShippingAddressControllers.getAllShippingAddress,
+);
 
 UserRouter.get(
   '/shippingAddress/:id',
@@ -182,14 +196,6 @@ UserRouter.get(
   authorizeRole([Role.ADMIN, Role.USER]),
 
   ShippingAddressControllers.getShippingAddress,
-);
-
-UserRouter.get(
-  '/shippingAddress/all',
-  checkBlacklist,
-  validateToken,
-  authorizeRole([Role.ADMIN, Role.USER]),
-  ShippingAddressControllers.getAllShippingAddress,
 );
 
 UserRouter.put(
@@ -201,7 +207,7 @@ UserRouter.put(
 );
 
 UserRouter.post(
-  '/shippingAddress',
+  '/shippingAddress/:id',
   checkBlacklist,
   validateToken,
   authorizeRole([Role.USER]),

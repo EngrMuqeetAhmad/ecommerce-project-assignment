@@ -1,7 +1,9 @@
 import { FC } from 'react';
 import { Col, Container, ListGroup, Nav, Row, Tab } from 'react-bootstrap';
 import { IntroCard } from '../../components/profile/introCard';
-import { UserContent } from './user';
+import { UserContent } from '../../components/profile/user/user';
+import { ShippingAddressContent } from '../../components/profile/shippingAddress';
+import { PaymentMethodContent } from '../../components/profile/paymentMethods';
 
 export const Profile: FC = () => {
   return (
@@ -48,9 +50,11 @@ export const Profile: FC = () => {
                     <UserContent />
                   </Tab.Pane>
                   <Tab.Pane eventKey="shippingAddress">
-                    shippingAddress
+                    <ShippingAddressContent />
                   </Tab.Pane>
-                  <Tab.Pane eventKey="paymentMethod">payment methods</Tab.Pane>
+                  <Tab.Pane eventKey="paymentMethod">
+                    <PaymentMethodContent />
+                  </Tab.Pane>
                 </Tab.Content>
               </Container>
             </Col>

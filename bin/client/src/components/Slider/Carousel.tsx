@@ -6,8 +6,8 @@ export const Crousel: FC = () => {
   return (
     <>
       <Carousel variant="dark" className="d-none d-md-block ">
-        {Array.from({ length: 4 }).map(() => (
-          <Carousel.Item interval={1500}>
+        {Array.from({ length: 4 }).map((_, i) => (
+          <Carousel.Item key={i} interval={1500}>
             <img src={Test} className="d-block w-100" alt="" />
             <Carousel.Caption
               className="text-white rounded"

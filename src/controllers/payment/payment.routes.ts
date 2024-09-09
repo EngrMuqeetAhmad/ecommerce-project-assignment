@@ -10,6 +10,13 @@ import { checkBlacklist } from '../../middlewares/checkBlackListed.middleware';
 
 export const PaymentRouter = express.Router();
 
+PaymentRouter.get(
+  '/all',
+  checkBlacklist,
+  validateToken,
+  authorizeRole([Role.USER]),
+  PaymentControllers.getAllPaymentMethods,
+);
 PaymentRouter.put(
   '/checkout',
   checkBlacklist,
@@ -18,13 +25,7 @@ PaymentRouter.put(
   calculatePayment,
   PaymentControllers.createPaymentIntent,
 );
-PaymentRouter.get(
-  '/:userID',
-  checkBlacklist,
-  validateToken,
-  authorizeRole([Role.USER]),
-  PaymentControllers.getAllPaymentMethods,
-);
+
 PaymentRouter.get(
   '/:id',
   checkBlacklist,
@@ -42,7 +43,7 @@ PaymentRouter.delete(
 );
 
 PaymentRouter.put(
-  '/addMethod',
+  '/',
   checkBlacklist,
   validateToken,
   authorizeRole([Role.USER]),

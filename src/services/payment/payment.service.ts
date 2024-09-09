@@ -7,6 +7,7 @@ import {
   PaymentOutput,
   PaymentTypes,
 } from '../../types';
+import { Op } from 'sequelize';
 dotenv.config();
 export class PaymentServices {
   public static async createPaymentIntent(
@@ -36,8 +37,21 @@ export class PaymentServices {
     userID: number,
   ): Promise<Array<PaymentOutput>> {
     const result: Array<PaymentOutput> = await Payment.findAll({
+      attributes: [
+        'ID',
+        'userID',
+
+        'fullName',
+        'expMonth',
+        'expYear',
+
+        'lastFour',
+        'paymentMethodID',
+      ],
       where: {
-        userID: userID,
+        userID: {
+          [Op.eq]: userID,
+        },
       },
       raw: true,
     });
@@ -49,6 +63,17 @@ export class PaymentServices {
     id: number,
   ): Promise<PaymentOutput | null> {
     const result: PaymentOutput | null = await Payment.findByPk(id, {
+      attributes: [
+        'ID',
+        'userID',
+
+        'fullName',
+        'expMonth',
+        'expYear',
+
+        'lastFour',
+        'paymentMethodID',
+      ],
       raw: true,
     });
     return result;
@@ -94,24 +119,26 @@ export class PaymentServices {
   public static async createPaymentMethod(
     payload: PaymentInput,
   ): Promise<void> {
-    const stripe = require('stripe')(process.env.STRIPE_SECRETKEY);
-    await stripe.paymentMethods
-      .create({
-        type: 'card',
-        card: {
-          number: payload.cardNumber,
-          exp_month: payload.expMonth,
-          exp_year: payload.expYear,
-          cvc: payload.cvc,
-        },
-      })
-      .then(async (data: any) => {
-        payload.paymentMethodID = data.id;
-        await Payment.create(payload);
-      })
-      .catch(() => {
-        throw new Error();
-      });
+    console.log(process.env.STRIPE_SECRETKEY);
+    // const stripe = require('stripe')(process.env.STRIPE_SECRETKEY);
+    // await stripe.paymentMethods
+    //   .create({
+    //     type: 'card',
+    //     card: {
+    //       number: `${payload.cardNumber}`,
+    //       exp_month: payload.expMonth,
+    //       exp_year: payload.expYear,
+    //       cvc: payload.cvc,
+    //     },
+    //   })
+    //   .then(async (data: any) => {
+    payload.paymentMethodID = "fake_data.id";
+    await Payment.create(payload);
+    // })
+    // .catch((error: any) => {
+    //   console.log('error occured', error);
+    //   throw new Error();
+    // });
     return;
   }
 }

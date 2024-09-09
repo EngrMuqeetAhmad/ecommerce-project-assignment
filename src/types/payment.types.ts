@@ -22,7 +22,7 @@ export interface PaymentTypes {
   paymentMethodID: string; //in stripe
 }
 
-export interface PaymentInput extends Optional<PaymentTypes, 'ID'> {}
+export interface PaymentInput extends Optional<PaymentTypes, 'ID' | "userID"> {}
 
 export interface PaymentOutput
   extends Omit<PaymentTypes, 'cardNumber' | 'cvc'> {}

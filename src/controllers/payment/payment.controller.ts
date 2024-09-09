@@ -29,14 +29,8 @@ export class PaymentControllers {
   }
 
   public static async getAllPaymentMethods(req: Request, res: Response) {
-    const { userID } = req.params;
-    let ID;
-    try {
-      ID = Number(userID);
-    } catch (error) {
-      res.json({ error: 'Error - userID is not a number' });
-      return;
-    }
+    const { ID } = req.body.user;
+
     try {
       const data: Array<PaymentOutput> =
         await PaymentServices.getAllPaymentMethod(ID);
@@ -86,13 +80,16 @@ export class PaymentControllers {
   }
 
   public static async createPaymentMethod(req: Request, res: Response) {
-    const { userID, cardNumber, fullName, expMonth, expYear, cvc } = req.body;
+    const { cardNumber, fullName, expMonth, expYear, cvc } = req.body;
+    const { ID } = req.body.user;
     const s: string = cardNumber.toString();
-    const sliced: string = s.slice(12, 15);
+    const sliced: string = s.slice(12, 16);
+
     const lastFour: number = Number(sliced);
+    console.log(s, sliced, lastFour);
     try {
       const payload: PaymentInput = {
-        userID,
+        userID: ID,
         cardNumber,
         fullName,
         expMonth,

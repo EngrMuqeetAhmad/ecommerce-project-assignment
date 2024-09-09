@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
-import { Role } from '../utils/enum.util';
 import { RequestUser } from '../types';
 
 function validateToken(req: Request, res: Response, next: NextFunction) {
@@ -11,6 +10,7 @@ function validateToken(req: Request, res: Response, next: NextFunction) {
   }
 
   jwt.verify(token, 'MuqeetAhmad', (err: any, user: any) => {
+    console.log('inside jwt');
     if (err) {
       console.log(err);
       return res.status(403).json({ error: 'Forbidden' });
@@ -24,19 +24,23 @@ function validateToken(req: Request, res: Response, next: NextFunction) {
       cartID,
       wishTableID,
     };
-
+    console.log(reqUser);
     req.body.user = reqUser;
     next();
+    console.log('after valiate toke authorized');
   });
 }
 
 function authorizeRole(roles: Array<string | undefined>) {
   return (req: Request, res: Response, next: NextFunction) => {
+    console.log('roles', roles, 'req.body', req.body.user.role);
     if (!roles.includes(req.body.user?.role)) {
       res.status(403).json({ message: 'UnAuthorized' });
       return;
     }
+    console.log('role authorized');
     next();
+    console.log('after role authorized');
   };
 }
 

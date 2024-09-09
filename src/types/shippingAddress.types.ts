@@ -15,6 +15,6 @@ export interface ShippingAddressTypes {
 }
 
 export interface ShippingAddressInput
-  extends Optional<ShippingAddressTypes, 'ID' | 'deletedAt' | 'addressLine1'> {}
+  extends Optional<ShippingAddressTypes, 'ID' | 'deletedAt'> {}
 export interface ShippingAddressOutput
-  extends Optional<ShippingAddressTypes, 'deletedAt' | 'addressLine1'> {}
+  extends Optional<ShippingAddressTypes, 'deletedAt'> {}

@@ -42,8 +42,8 @@ Payment.init(
       validate: {
         notEmpty: true,
         isNumeric: true,
-        len: [16, 16],
-        isCreditCard: true,
+        // len: [16, 16],
+        // isCreditCard: true,
       },
     },
     fullName: {
@@ -77,7 +77,7 @@ Payment.init(
       validate: {
         notEmpty: true,
         isNumeric: true,
-        len: [4, 4],
+        // len: [4, 4],
       },
     },
     cvc: {

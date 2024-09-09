@@ -3,13 +3,13 @@ import { Button, Container, Form, Stack } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
-import { UserOutput, UserUpdate } from '../../types';
-import { UserUpdateSchema } from '../../schema';
-import { UserServices } from '../../services/user.service';
-import { UserContext } from '../../state/user/user.context';
-import { ActionType } from '../../state/user/user.actions';
-import { TYPE } from '../../types/toast.types';
-import { ToastComponent } from '../../components/Toast/Toast';
+import { UserOutput, UserUpdate } from '../../../types';
+import { UserUpdateSchema } from '../../../schema';
+import { UserServices } from '../../../services/user.service';
+import { UserContext } from '../../../state/user/user.context';
+import { ActionType } from '../../../state/user/user.actions';
+import { TYPE } from '../../../types/toast.types';
+import { ToastComponent } from '../../Toast/Toast';
 
 export const UserContent: FC = () => {
   const [toast, setToast] = useState({
@@ -28,19 +28,32 @@ export const UserContent: FC = () => {
     handleSubmit,
 
     formState: { errors, touchedFields },
-  } = useForm<UserUpdate>({
+  } = useForm<Partial<UserUpdate>>({
     resolver: zodResolver(UserUpdateSchema),
     mode: 'all',
   });
   const { dispatch } = useContext(UserContext);
-  const onSubmit = (data: UserUpdate) => {
+  const onSubmit = (data: Partial<UserUpdate>) => {
     const { firstName, secondName, role } = data;
+
+    let payload: Partial<UserUpdate> = {};
+
+    if (firstName != user.firstName) {
+      payload.firstName = firstName;
+    }
+    if (secondName != user.secondName) {
+      payload.secondName = secondName;
+    }
+    if (role != user.role) {
+      payload.role = role;
+    }
+
     if (
       firstName != user.firstName ||
       secondName != user.secondName ||
       role != user.role
     ) {
-      UserServices.UpdateUser(data)
+      UserServices.UpdateUser(payload)
         .then(async () => {
           UserServices.GetUser().then((response) => {
             dispatch({
@@ -116,7 +129,7 @@ export const UserContent: FC = () => {
           </Form.Group>
 
           <Form.Group className="position-relative">
-          <Form.Label>Second Name:</Form.Label>
+            <Form.Label>Second Name:</Form.Label>
             <Form.Control
               type="text"
               isValid={touchedFields.secondName && !errors.secondName}
@@ -134,7 +147,7 @@ export const UserContent: FC = () => {
           </Form.Group>
 
           <Form.Group className="position-relative">
-          <Form.Label>Role:</Form.Label>
+            <Form.Label>Role:</Form.Label>
             <Form.Select
               {...register('role')}
               disabled={isReadOnly}

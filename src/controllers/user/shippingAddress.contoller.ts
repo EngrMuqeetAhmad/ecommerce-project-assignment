@@ -4,13 +4,17 @@ import { ShippingAddressInput, ShippingAddressOutput } from '../../types';
 export class ShippingAddressControllers {
   public static async getAllShippingAddress(req: Request, res: Response) {
     const { ID } = req.body.user;
+    console.log('shiipig address Controller', "ID");
     try {
+     
       const data: Array<ShippingAddressOutput> =
         await ShippigAddressServices.getAllShippingAddress(ID);
+        console.log(data)
       res.status(200).json({ data: data });
+     
       return;
     } catch (error) {
-      res.json({ error: 'Error getting phone no' });
+      res.status(404).json({ error: 'Error getting shipping addresss' });
       return;
     }
   }
@@ -36,9 +40,20 @@ export class ShippingAddressControllers {
   public static async updateShippingAddress(req: Request, res: Response) {
     // const {addressLine1, addressLine2, region, city, country, postalCode} = req.body
     const payload: Partial<
-      Omit<ShippingAddressInput, 'ID' | 'userID' | 'createdAt' | 'deletedAt'>
+      Omit<
+        ShippingAddressInput,
+        'ID' | 'userID' | 'deletedAt' | 'createdAt' | 'updatedAt'
+      >
     > = req.body;
-    const { ID } = req.body;
+    const { id } = req.params;
+    let ID;
+    try {
+      ID = Number(id);
+    } catch (error) {
+      res.json({ error: 'Error - id is not a number' });
+      return;
+    }
+
     try {
       const result: number = await ShippigAddressServices.updateShippingAddress(
         payload,
