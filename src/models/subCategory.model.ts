@@ -36,8 +36,8 @@ SubCategory.init(
   },
 );
 
-SubCategory.hasMany(BaseProduct, {
-  foreignKey: 'subCategory',
-  as: 'products',
-  // onDelete: 'CASCADE',
-});
+// SubCategory.hasMany(BaseProduct, {
+//   foreignKey: 'subCategory',
+//   as: 'products',
+//   // onDelete: 'CASCADE',
+// });

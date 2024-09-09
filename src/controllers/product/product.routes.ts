@@ -17,6 +17,10 @@ import { checkBlacklist } from '../../middlewares/checkBlackListed.middleware';
 export const ProductRouter = express.Router();
 
 ///
+ProductRouter.get(
+  '/baseProduct/:category/:subCategory',
+  BaseProductControllers.getBaseProductsByCategory,
+);
 ProductRouter.delete(
   '/baseProduct/:id',
   checkBlacklist,

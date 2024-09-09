@@ -27,10 +27,10 @@ export class CategoryControllers {
     }
   }
   public static async addCategory(req: Request, res: Response) {
-    const body = req.body;
+    const { category } = req.body;
 
     const payload: CategoryInput = {
-      category: body.category,
+      category,
     };
 
     try {

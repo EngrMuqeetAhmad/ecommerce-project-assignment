@@ -11,9 +11,9 @@ export const SubCategoryRouter = express.Router();
 
 SubCategoryRouter.get(
   '/:category/all',
-  checkBlacklist,
-  validateToken,
-  authorizeRole([Role.USER, Role.ADMIN]),
+  // checkBlacklist,
+  // validateToken,
+  // authorizeRole([Role.USER, Role.ADMIN]),
   SubCategoryControllers.getAllSubCategories,
 );
 

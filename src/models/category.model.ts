@@ -27,11 +27,11 @@ Category.init(
   },
 );
 
-Category.hasMany(SubCategory, {
-  foreignKey: 'category',
-  as: 'subCategories',
-  // onDelete: 'CASCADE',
-});
+// Category.hasMany(SubCategory, {
+//   foreignKey: 'category',
+//   as: 'subCategories',
+//   // onDelete: 'CASCADE',
+// });
 
 ///create specific variation product in database and then relate to cart
 

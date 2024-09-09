@@ -33,7 +33,7 @@ dotenv.config();
 (async () => {
   try {
     await sequelize.authenticate();
-
+    await sequelize.sync();
     console.log('Connected to database successflly');
     console.log('Database sync successfully');
   } catch (error: any) {
@@ -65,9 +65,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 //routes
-app.use('/api/v1/', 
-  apiKeyAuth,
-   AppRouter);
+app.use('/api/v1/', apiKeyAuth, AppRouter);
 
 // https.createServer(sslOptions, app)
 app.listen(PORT, (err: any) => {

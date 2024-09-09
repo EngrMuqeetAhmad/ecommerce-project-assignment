@@ -2,6 +2,22 @@ import { Request, Response } from 'express';
 import { BaseProductServices } from '../../services/baseProduct/baseProduct.service';
 import { BaseProductInput, BaseProductOuput } from '../../types';
 export class BaseProductControllers {
+  public static async getBaseProductsByCategory(req: Request, res: Response) {
+    const { category, subCategory } = req.params;
+    try {
+      const data: any = await BaseProductServices.getBaseProductsByCategory(
+        category,
+        subCategory,
+      );
+
+      res.status(200).json({ data: data });
+      return;
+    } catch (error) {
+      res.json({ error: 'Error getting base productasdfsadfasdf' });
+      return;
+    }
+  }
+
   public static async getBaseProduct(req: Request, res: Response) {
     const { id } = req.params;
     let ID;
@@ -56,7 +72,7 @@ export class BaseProductControllers {
       updatedAt: new Date(),
       deletedAt: undefined,
     };
-    console.log(payload)
+    console.log(payload);
     try {
       await BaseProductServices.addBaseProduct(payload);
       res.status(200).json({ message: 'created base product' });
