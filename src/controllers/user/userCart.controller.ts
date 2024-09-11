@@ -1,6 +1,10 @@
 import { Request, Response } from 'express';
 import { UserCartServices } from '../../services/userCart/userCart.service';
-import { CartProduct, CartProductInput, UserCartOutput } from '../../types';
+import { UserCartOutput } from '../../types';
+import {
+  CartProduct,
+  CartProductInput,
+} from '../../types/CartProductJunction.types';
 
 export class UserCartControllers {
   public static async getWholeCart(req: Request, res: Response) {
@@ -19,7 +23,7 @@ export class UserCartControllers {
 
   public static async updateQuantity(req: Request, res: Response) {
     const { ID, quantity } = req.body;
-    const payload: Omit<CartProduct, 'ID' | 'productID' | 'userID' | 'cartID'> =
+    const payload: Omit<CartProduct, 'id' | 'productId' | 'userId' | 'cartId'> =
       {
         quantity: quantity,
       };
@@ -67,9 +71,9 @@ export class UserCartControllers {
     const { productID, quantity } = req.body;
 
     const payload: CartProductInput = {
-      userID: ID,
-      cartID: cartID,
-      productID: productID,
+      userId: ID,
+      cartId: cartID,
+      productId: productID,
       quantity: quantity,
     };
 

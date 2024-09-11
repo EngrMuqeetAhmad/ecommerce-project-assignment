@@ -1,24 +1,29 @@
 import { Op } from 'sequelize';
-import { CartProductJunction } from '../../models/junctionModels/CartProduct.model';
-import { OrderProductJunction } from '../../models/junctionModels/OrderProduct.model';
+
 import { Product } from '../../models/product.model';
 import { UserOrder } from '../../models/userOrder.model';
 
 import {
-  CartProductOuput,
-  OrderProductInput,
   UserOrderAndProductOutput,
   UserOrderInput,
+  UserOrderTypes,
 } from '../../types';
 import { STATUS } from '../../utils/enum.util';
+import {
+  CartProduct,
+  CartProductOuput,
+} from '../../types/CartProductJunction.types';
+import { OrderProductInput } from '../../types/OrderProductJunction.types';
+import { CartProductJunction } from '../../models/junctionModels/CartProduct.model';
+import { OrderProductJunction } from '../../models/junctionModels/OrderProduct.model';
 
 export class UserOrderServices {
   public static async getAllOrders(
-    userID: number,
+    userId: number,
   ): Promise<Array<UserOrderAndProductOutput>> {
     const result: Array<UserOrderAndProductOutput> = await UserOrder.findAll({
       where: {
-        userID,
+        userId,
       },
       raw: true,
       include: [
@@ -61,11 +66,11 @@ export class UserOrderServices {
   }
 
   public static async deleteOrderAndAssociatedProducts(
-    orderID: number,
+    orderId: number,
   ): Promise<number> {
     const result: number = await UserOrder.destroy({
       where: {
-        ID: orderID,
+        id: orderId,
         [Op.or]: [{ status: STATUS.PENDING }, { status: STATUS.PROCESSING }],
         // [Op.not]: [
         //   { status: { [Op.ne]: STATUS.SHIPPED } },
@@ -78,27 +83,27 @@ export class UserOrderServices {
 
   public static async createOrder(payload: UserOrderInput): Promise<void> {
     await UserOrder.create(payload)
-      .then(async (userOrder) => {
+      .then(async (userOrder: UserOrderTypes) => {
         const CartProduct: Array<CartProductOuput> =
           await CartProductJunction.findAll({
             where: {
-              userID: payload.userID,
+              userId: payload.userId,
             },
             raw: true,
           });
 
-        CartProduct.forEach(async (item) => {
+        CartProduct.forEach(async (item: CartProduct) => {
           const payload: OrderProductInput = {
-            productID: item.productID,
-            orderID: userOrder.ID,
-            userID: userOrder.userID,
+            productid: item.productId,
+            orderId: userOrder.id,
+            userId: userOrder.userId,
             quantity: item.quantity,
           };
           await OrderProductJunction.create(payload)
             .then(async () => {
               await CartProductJunction.destroy({
                 where: {
-                  ID: item.ID,
+                  id: item.id,
                 },
               });
             })

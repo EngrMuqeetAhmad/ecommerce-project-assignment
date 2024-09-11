@@ -10,7 +10,7 @@ export class ShippigAddressServices {
     payload: Partial<
       Omit<
         ShippingAddressInput,
-        'ID' | 'userID' | 'createdAt' | 'deletedAt' | 'updatedAt'
+        'id' | 'userId' | 'createdAt' | 'deletedAt' | 'updatedAt'
       >
     >,
     id: number,
@@ -19,17 +19,17 @@ export class ShippigAddressServices {
       const keys: (keyof Partial<
         Omit<
           ShippingAddressInput,
-          'ID' | 'userID' | 'createdAt' | 'deletedAt' | 'updatedAt'
+          'id' | 'userId' | 'createdAt' | 'deletedAt' | 'updatedAt'
         >
       >)[] = Object.keys(payload) as (keyof Partial<
         Omit<
           ShippingAddressInput,
-          'ID' | 'userID' | 'createdAt' | 'deletedAt' | 'updatedAt'
+          'id' | 'userId' | 'createdAt' | 'deletedAt' | 'updatedAt'
         >
       >)[];
       const [affectedRows]: Array<any> = await ShippingAddress.update(payload, {
         where: {
-          ID: id,
+          id: id,
         },
         fields: keys,
       });
@@ -38,26 +38,26 @@ export class ShippigAddressServices {
     return 0;
   }
   public static async getAllShippingAddress(
-    userID: number,
+    userId: number,
   ): Promise<Array<ShippingAddressOutput>> {
-    console.log('shiipig address service', userID);
+    console.log('shiipig address service', userId);
     const result: Array<ShippingAddressOutput> = await ShippingAddress.findAll({
       attributes: [
-        'ID',
+        'id',
         'addressLine1',
         'addressLine2',
         'region',
         'city',
         'country',
         'postalCode',
-        'userID',
+        'userId',
         'createdAt',
         'updatedAt',
       ],
 
       where: {
-        userID: {
-          [Op.eq]: userID,
+        userId: {
+          [Op.eq]: userId,
         },
       },
       raw: true,
@@ -70,7 +70,7 @@ export class ShippigAddressServices {
   ): Promise<ShippingAddressOutput | null> {
     const result: ShippingAddressOutput | null = await ShippingAddress.findOne({
       where: {
-        ID: id,
+        id: id,
       },
     });
     return result;
@@ -79,7 +79,7 @@ export class ShippigAddressServices {
   public static async deleteShippingAddress(id: number): Promise<number> {
     const result: number = await ShippingAddress.destroy({
       where: {
-        ID: id,
+        id: id,
       },
     });
     return result;

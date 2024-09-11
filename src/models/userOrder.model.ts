@@ -1,49 +1,17 @@
-import { Association, DataTypes, Model } from 'sequelize';
-import { OrderProductJunction } from './junctionModels/OrderProduct.model';
-import { Product } from './product.model';
+import { DataTypes } from 'sequelize';
 import { sequelize } from '../config/dbConnection';
-import { UserOrderInput, UserOrderTypes } from '../types';
 import { STATUS } from '../utils/enum.util';
+import { User } from './user.model';
 
-export class UserOrder extends Model<UserOrderTypes, UserOrderInput> {
-  public ID!: number;
-  public userID!: number;
-  public status!: string;
-  public paymentID!: string;
-  public shippingAddressID!: number;
-  public totalAmount!: number;
-  public readonly createdAt!: Date;
-  public readonly updatedAt!: Date;
-  public readonly deletedAt!: Date;
-
-  public products!: Array<{
-    price: number;
-    detials: string;
-    baseProductID: number;
-    info: {
-      quantity: number;
-    };
-  }>;
-  static associations: {
-    products: Association<UserOrder, Product>;
-  };
-}
-
-UserOrder.init(
+export const UserOrder = sequelize.define(
+  "UserOrder",
   {
-    ID: {
+    id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
     },
-    userID: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-
-      validate: {
-        notEmpty: true,
-      },
-    },
+  
     status: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -90,21 +58,17 @@ UserOrder.init(
     timestamps: true,
     paranoid: true,
   },
-);
-UserOrder.hasMany(OrderProductJunction, {
-  foreignKey: 'orderID',
+)
+
+User.hasMany(UserOrder, {
+  foreignKey: {
+    name: 'userId',
+    allowNull: false,
+  },
 });
-
-// UserOrder.belongsToMany(Product, {
-//   through: OrderProductJunction,
-//   as: 'products',
-//   onDelete: 'CASCADE',
-// });
-
-//for product model
-// Copy code
-// Cart.hasMany(Product, {
-//   foreignKey: 'cartId',
-//   as: 'products',
-//   onDelete: 'CASCADE', // This ensures that deleting a Cart deletes its Products
-// });
+UserOrder.belongsTo(User, {
+  foreignKey: {
+    name: 'userId',
+    allowNull: false,
+  },
+});

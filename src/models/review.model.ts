@@ -1,27 +1,13 @@
-import { DataTypes, Model } from 'sequelize';
+import { DataTypes } from 'sequelize';
 
 import { sequelize } from '../config/dbConnection';
-import {
-  VariationReviewInput,
-  VariationReviewTypes,
-} from '../types/review.types';
-import { RATING } from '../utils/enum.util';
+import { ProductVariation } from './productVariation.model';
+import { User } from './user.model';
 
-export class Reviews extends Model<VariationReviewTypes, VariationReviewInput> {
-  public ID!: number;
-  public message!: string;
-  public rating!: RATING;
-  public userID!: number;
-  public variationID!: number;
-
-  public readonly createdAt!: Date;
-  public readonly updatedAt!: Date;
-  public readonly deletedAt!: Date;
-}
-
-Reviews.init(
+export const Reviews = sequelize.define(
+  'Reviews',
   {
-    ID: {
+    id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
@@ -40,20 +26,7 @@ Reviews.init(
         notEmpty: true,
       },
     },
-    variationID: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      validate: {
-        notEmpty: true,
-      },
-    },
-    userID: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      validate: {
-        notEmpty: true,
-      },
-    },
+
     approved: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
@@ -69,3 +42,31 @@ Reviews.init(
     timestamps: true,
   },
 );
+/////
+Reviews.belongsTo(ProductVariation, {
+  foreignKey: {
+    name: 'variationId',
+    allowNull: false,
+  },
+});
+
+ProductVariation.hasMany(Reviews, {
+  foreignKey: {
+    name: 'variationId',
+    allowNull: false,
+  },
+});
+////
+Reviews.belongsTo(User, {
+  foreignKey: {
+    name: 'userId',
+    allowNull: false,
+  },
+});
+
+User.hasMany(Reviews, {
+  foreignKey: {
+    name: 'userId',
+    allowNull: false,
+  },
+});

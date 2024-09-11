@@ -1,15 +1,17 @@
 import { DataTypes, Model } from 'sequelize';
 
-import { CartProductJunction } from './junctionModels/CartProduct.model';
-import { OrderProductJunction } from './junctionModels/OrderProduct.model';
-import { WishProductJunction } from './junctionModels/WishProduct.model';
 import { sequelize } from '../config/dbConnection';
-import { DETAILS, ProductInput, ProductTypes } from '../types';
+import { ProductInput, ProductTypes } from '../types';
+import { UserCart } from './userCart.model';
+import { UserOrder } from './userOrder.model';
+import { UserWish } from './userWish.model';
+import { OrderProductJunction } from './junctionModels/OrderProduct.model';
+import { CartProductJunction } from './junctionModels/CartProduct.model';
 
 export class Product extends Model<ProductTypes, ProductInput> {
-  public ID!: number;
-  public baseProductID!: number;
-  public variationID!: number;
+  public id!: number;
+  public baseProductId!: number;
+  public variationId!: number;
   public details!: string;
   public price!: number;
   public readonly createdAt!: Date;
@@ -19,19 +21,19 @@ export class Product extends Model<ProductTypes, ProductInput> {
 
 Product.init(
   {
-    ID: {
+    id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
-    baseProductID: {
+    baseProductId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       validate: {
         notEmpty: true,
       },
     },
-    variationID: {
+    variationId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       validate: {
@@ -70,15 +72,48 @@ Product.init(
     paranoid: true,
   },
 );
-
-Product.hasMany(CartProductJunction, {
-  foreignKey: 'productID',
+////
+Product.belongsToMany(UserCart, {
+  through: CartProductJunction,
+  foreignKey: {
+    name: 'productId',
+  },
 });
 
-Product.hasMany(OrderProductJunction, {
-  foreignKey: 'productID',
+UserCart.belongsToMany(Product, {
+  through: CartProductJunction,
+  foreignKey: {
+    name: 'cartId',
+  },
+});
+////
+Product.belongsToMany(UserOrder, {
+  through: OrderProductJunction,
+  foreignKey: {
+    name: 'productId',
+    allowNull: false,
+  },
 });
 
-Product.hasMany(WishProductJunction, {
-  foreignKey: 'productID',
+UserOrder.belongsToMany(Product, {
+  through: OrderProductJunction,
+  foreignKey: {
+    name: 'orderId',
+    allowNull: false,
+  },
 });
+//////
+Product.belongsToMany(UserWish, {
+  through: 'WishProductJunction',
+  foreignKey: {
+    name: 'productId',
+  },
+});
+
+UserWish.belongsToMany(Product, {
+  through: 'WishProductJunction',
+  foreignKey: {
+    name: 'wishTableId',
+  },
+});
+/////

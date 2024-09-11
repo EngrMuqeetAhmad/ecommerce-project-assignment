@@ -1,8 +1,26 @@
 import { Request, Response } from 'express';
 import { CategoryServices } from '../../services/category/category.service';
-import { CategoryInput, CategoryOutput } from '../../types';
+import {
+  AssociatedSubCategory,
+  CategoryInput,
+  CategoryOutput,
+} from '../../types';
 
 export class CategoryControllers {
+  public static async getAssociatedSubCategories(req: Request, res: Response) {
+    const { category } = req.params;
+    try {
+      const data: AssociatedSubCategory =
+        await CategoryServices.getAssociatedSubCategories(category);
+      res.status(200).json({ data: data });
+      return;
+    } catch (error) {
+      console.log('errir', error);
+      res.json({ error: 'Error getting associated categories' });
+      return;
+    }
+  }
+
   public static async getAllCategories(req: Request, res: Response) {
     try {
       const data: Array<CategoryOutput> =
@@ -10,6 +28,7 @@ export class CategoryControllers {
       res.status(200).json({ data: data });
       return;
     } catch (error) {
+      console.log('errir', error);
       res.json({ error: 'Error getting categories' });
       return;
     }
@@ -30,7 +49,7 @@ export class CategoryControllers {
     const { category } = req.body;
 
     const payload: CategoryInput = {
-      category,
+      category: category,
     };
 
     try {

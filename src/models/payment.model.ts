@@ -1,35 +1,18 @@
-import { DataTypes, Model } from 'sequelize';
+import { DataTypes } from 'sequelize';
 
 import { sequelize } from '../config/dbConnection';
-import { PaymentInput, PaymentTypes } from '../types';
+import { User } from './user.model';
 
-export class Payment extends Model<PaymentTypes, PaymentInput> {
-  public ID!: number;
-  public userID!: number;
-  public paymentMethodID!: string;
-  public cardNumber!: number;
-  public fullName!: string;
-  public expMonth!: number;
-  public expYear!: number;
-  public lastFour!: number;
-  public cvc!: number;
-}
-
-Payment.init(
+export const Payment = sequelize.define(
+  'Payment',
   {
-    ID: {
+    id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
-    userID: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      validate: {
-        notEmpty: true,
-      },
-    },
-    paymentMethodID: {
+
+    paymentMethodId: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
@@ -97,3 +80,17 @@ Payment.init(
     paranoid: true,
   },
 );
+
+User.hasMany(Payment, {
+  foreignKey: {
+    name: 'userId',
+    allowNull: false,
+  },
+});
+
+Payment.belongsTo(User, {
+  foreignKey: {
+    name: 'userId',
+    allowNull: false,
+  },
+});

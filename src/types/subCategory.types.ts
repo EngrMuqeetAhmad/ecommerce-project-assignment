@@ -1,8 +1,9 @@
 export interface SubCategoryTypes {
+  id: number;
   subCategory: string;
-  category: string;
+  categoryId: number;
 }
 
-export interface SubCategoryInput extends Required<SubCategoryTypes> {}
+export interface SubCategoryInput extends Omit<SubCategoryTypes, 'id'> {}
 
 export interface SubCategoryOutput extends Required<SubCategoryTypes> {}

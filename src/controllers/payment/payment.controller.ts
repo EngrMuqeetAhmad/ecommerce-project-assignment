@@ -9,11 +9,11 @@ import {
 
 export class PaymentControllers {
   public static async createPaymentIntent(req: Request, res: Response) {
-    const { stripeID } = req.body.user;
-    const { paymentMethodID, totalAmount } = req.body;
+    const { stripeId } = req.body.user;
+    const { paymentMethodId, totalAmount } = req.body;
     const payload: PaymentIntentInput = {
-      stripeID,
-      paymentMethodID,
+      stripeId,
+      paymentMethodId,
       totalAmount,
     };
     try {
@@ -89,14 +89,14 @@ export class PaymentControllers {
     console.log(s, sliced, lastFour);
     try {
       const payload: PaymentInput = {
-        userID: ID,
+        userId: ID,
         cardNumber,
         fullName,
         expMonth,
         expYear,
         cvc,
         lastFour,
-        paymentMethodID: '',
+        paymentMethodId: '',
       };
 
       await PaymentServices.createPaymentMethod(payload);

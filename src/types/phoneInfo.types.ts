@@ -1,18 +1,17 @@
 import { Optional } from 'sequelize';
 
 export interface PhoneInfoTypes {
-  ID: number;
+  id: number;
   countryCode: number;
   phoneNumber: string;
-  userID: number;
+  userId: number;
   primary: boolean;
   createdAt?: Date;
   updatedAt?: Date;
   deletedAt?: Date;
 }
 
-export interface PhoneInfoInput
-  extends Optional<PhoneInfoTypes, 'ID' | 'deletedAt'> {}
+export interface PhoneInfoInput extends Omit<PhoneInfoTypes, 'id'> {}
 
 export interface PhoneInfoOutput
   extends Optional<PhoneInfoTypes, 'deletedAt' | 'updatedAt'> {}
@@ -20,8 +19,8 @@ export interface PhoneInfoOutput
 export interface PhoneInfoUpdate
   extends Omit<
     PhoneInfoTypes,
-    | 'ID'
-    | 'userID'
+    | 'id'
+    | 'userId'
     | 'createdAt'
     | 'updatedAt'
     | 'deletedAt'

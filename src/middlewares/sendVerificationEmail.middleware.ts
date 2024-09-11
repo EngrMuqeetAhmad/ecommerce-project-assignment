@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import nodemailer from 'nodemailer';
-import { UserMapper } from '../mappers';
+
 import { User } from '../models/user.model';
 import { UserOutput } from '../types';
 
@@ -11,14 +11,14 @@ async function emailForVerification(req: Request, res: Response) {
   const { email, accessRoute } = req.body;
 
   let user: UserOutput | null = await User.findOne({
-    attributes: ['ID', 'email'],
+    attributes: ['id', 'email'],
     where: {
       email: email,
     },
   });
-  user = UserMapper.toUserDTOOutput(user);
+  
 
-  if (user.email == email) {
+  if (user?.email == email) {
     const token = jwt.sign(
       { email: email }, // Payload
       'MuqeetAhmad', // Secret key

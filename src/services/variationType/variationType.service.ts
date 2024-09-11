@@ -1,12 +1,20 @@
 import { VariationTypeModel } from '../../models/variantionType.models';
-import { VariationTypeInput, VariationTypeOutput } from '../../types';
+import { VariationTypeValueModel } from '../../models/variantTypeValue.model';
+import {
+  TypesAndAssociatedValues,
+  VariationTypeInput,
+} from '../../types';
 
 export class VariationTypeServices {
   public static async getAllVariationTypes(): Promise<
-    Array<VariationTypeOutput>
+    Array<TypesAndAssociatedValues>
   > {
-    const result: Array<VariationTypeOutput> =
-      await VariationTypeModel.findAll();
+    const result: Array<TypesAndAssociatedValues> =
+      await VariationTypeModel.findAll({
+        include: {
+          model: VariationTypeValueModel,
+        },
+      });
     return result;
   }
 

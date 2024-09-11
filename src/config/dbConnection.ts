@@ -32,7 +32,7 @@ const sequelize: any = new Sequelize(
         encrypt: false, // necessary for Azure, etc.
       },
     },
-    // logging: console.log,
+    logging: console.log,
   },
 );
 

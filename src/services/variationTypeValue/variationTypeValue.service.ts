@@ -1,16 +1,22 @@
+import { VariationTypeModel } from '../../models/variantionType.models';
 import { VariationTypeValueModel } from '../../models/variantTypeValue.model';
-import { VariationTypeValueInput, VariationTypeValueOutput } from '../../types';
+import {
+  AssociatedVariationValues,
+  VariationTypeValueInput,
+} from '../../types';
 
 export class VariationTypeValueServices {
-  public static async getAllVariationTypeValues(
-    variationType: string,
-  ): Promise<Array<VariationTypeValueOutput>> {
-    const result: Array<VariationTypeValueOutput> =
-      await VariationTypeValueModel.findAll({
+  public static async getValuesByType(
+    typeId: number,
+  ): Promise<AssociatedVariationValues> {
+    const result: AssociatedVariationValues = await VariationTypeModel.findOne({
+      include: {
+        model: VariationTypeValueModel,
         where: {
-          variationType: variationType,
+          typeId: typeId,
         },
-      });
+      },
+    });
 
     return result;
   }

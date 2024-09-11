@@ -123,12 +123,12 @@ class UserControllers {
 
     const token = jwt.sign(
       {
-        ID: user?.ID,
+        ID: user?.id,
         email: user.email,
         role: user.role,
         stripeID: user.stripeID,
-        cartID: user.cartID,
-        wishTableID: user.wishTableID,
+        cartID: user.cartId,
+        wishTableID: user.wishTableId,
       },
       SECRET,
     );
@@ -160,8 +160,8 @@ class UserControllers {
       createdAt: new Date(),
       updatedAt: new Date(),
       deletedAt: undefined,
-      cartID: 0,
-      wishTableID: 0,
+      cartId: 0,
+      wishTableId: 0,
     };
 
     try {

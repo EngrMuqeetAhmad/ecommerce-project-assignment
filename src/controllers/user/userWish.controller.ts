@@ -38,13 +38,12 @@ export class UserWishControllers {
     }
   }
   public static async addToWish(req: Request, res: Response) {
-    const { ID, wishTableID } = req.body.user;
-    const { productID } = req.body;
+    const { wishTableID } = req.body.user;
+    const { productId } = req.body;
 
     const payload: WishProductInput = {
-      userID: ID,
-      wishTableID,
-      productID,
+      wishTableId: wishTableID,
+      productId,
     };
 
     try {

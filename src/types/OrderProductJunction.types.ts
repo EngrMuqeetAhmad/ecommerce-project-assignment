@@ -1,12 +1,12 @@
 import { Optional } from 'sequelize';
 
 export interface OrderProductTypes {
-  ID: number;
-  productID: number;
-  orderID: number;
-  userID: number;
+  id: number;
+  productid: number;
+  orderId: number;
+  userId: number;
   quantity: number;
 }
 
-export interface OrderProductInput extends Optional<OrderProductTypes, 'ID'> {}
+export interface OrderProductInput extends Omit<OrderProductTypes, 'id'> {}
 export interface OrderProductOuput extends Required<OrderProductTypes> {}

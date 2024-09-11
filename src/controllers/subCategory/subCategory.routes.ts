@@ -9,14 +9,6 @@ import { Role } from '../../utils/enum.util';
 
 export const SubCategoryRouter = express.Router();
 
-SubCategoryRouter.get(
-  '/:category/all',
-  // checkBlacklist,
-  // validateToken,
-  // authorizeRole([Role.USER, Role.ADMIN]),
-  SubCategoryControllers.getAllSubCategories,
-);
-
 SubCategoryRouter.delete(
   '/:subCategory',
   checkBlacklist,

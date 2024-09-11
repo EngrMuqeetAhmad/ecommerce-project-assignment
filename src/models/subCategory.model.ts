@@ -1,27 +1,20 @@
-import { DataTypes, Model } from 'sequelize';
-import { BaseProduct } from './baseProduct.model';
+import { DataTypes } from 'sequelize';
 import { sequelize } from '../config/dbConnection';
-import { SubCategoryInput, SubCategoryTypes } from '../types';
-export class SubCategory extends Model<SubCategoryTypes, SubCategoryInput> {
-  public subCategory!: string;
-  public category!: string;
-}
+import { Category } from './category.model';
 
-SubCategory.init(
+
+export const SubCategory = sequelize.define(
+  'SubCategory',
   {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
     subCategory: {
       type: DataTypes.STRING,
       allowNull: false,
-      primaryKey: true,
       unique: true,
-      validate: {
-        notEmpty: true,
-      },
-    },
-
-    category: {
-      type: DataTypes.STRING,
-      allowNull: false,
       validate: {
         notEmpty: true,
       },
@@ -35,9 +28,15 @@ SubCategory.init(
     paranoid: true,
   },
 );
-
-// SubCategory.hasMany(BaseProduct, {
-//   foreignKey: 'subCategory',
-//   as: 'products',
-//   // onDelete: 'CASCADE',
-// });
+Category.hasMany(SubCategory, {
+  foreignKey: {
+    allowNull: false,
+    name: 'categoryId',
+  },
+});
+SubCategory.belongsTo(Category, {
+  foreignKey: {
+    allowNull: false,
+    name: 'categoryId',
+  },
+});

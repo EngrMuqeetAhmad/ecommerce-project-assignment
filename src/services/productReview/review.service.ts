@@ -10,7 +10,7 @@ export class ProductReviewServices {
       },
       {
         where: {
-          ID: id,
+          id: id,
         },
       },
     );
@@ -19,11 +19,11 @@ export class ProductReviewServices {
   }
 
   public static async getAllReviews(
-    variationID: number,
+    variationId: number,
   ): Promise<Array<VariationReviewOutput>> {
     const result: Array<VariationReviewOutput> = await Reviews.findAll({
       where: {
-        variationID: variationID,
+        variationId: variationId,
       },
       raw: true,
     });
@@ -34,7 +34,7 @@ export class ProductReviewServices {
   public static async deleteReview(id: number): Promise<number> {
     const result: number = await Reviews.destroy({
       where: {
-        ID: id,
+        id: id,
       },
     });
 

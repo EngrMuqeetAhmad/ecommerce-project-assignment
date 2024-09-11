@@ -1,12 +1,14 @@
+
 import { CartProductJunction } from '../../models/junctionModels/CartProduct.model';
 import { UserCart } from '../../models/userCart.model';
-import { CartProduct, CartProductInput, UserCartOutput } from '../../types';
+import {  UserCartOutput } from '../../types';
+import { CartProduct, CartProductInput } from '../../types/CartProductJunction.types';
 
 export class UserCartServices {
   public static async getWholeCart(id: number): Promise<Array<UserCartOutput>> {
     const data: Array<UserCartOutput> = await UserCart.findAll({
       where: {
-        userID: id,
+        userId: id,
       },
     });
 
@@ -14,7 +16,7 @@ export class UserCartServices {
   }
 
   public static async updateItemQuantity(
-    payload: Omit<CartProduct, 'ID' | 'productID' | 'userID' | 'cartID'>,
+    payload: Omit<CartProduct, 'id' | 'productId' | 'userId' | 'cartId'>,
     id: number,
   ): Promise<number> {
     const [affectedRows] = await CartProductJunction.update(
@@ -23,7 +25,7 @@ export class UserCartServices {
       },
       {
         where: {
-          ID: id,
+          id: id,
         },
       },
     );
@@ -33,7 +35,7 @@ export class UserCartServices {
   public static async deleteItemFromCart(id: number): Promise<number> {
     const result: number = await CartProductJunction.destroy({
       where: {
-        ID: id,
+        id: id,
       },
     });
     return result;

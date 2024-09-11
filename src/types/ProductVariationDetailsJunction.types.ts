@@ -1,5 +1,5 @@
 export interface ProductVariationDetailsTypes {
-  ID: number;
-  variationID: number;
-  variationTypeValue: string;
+  id: number;
+  variationId: number;
+  typeValueId: number;
 }

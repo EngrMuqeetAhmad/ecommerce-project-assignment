@@ -1,12 +1,11 @@
-import { Optional } from 'sequelize';
 
 export interface ProductVariationImgTypes {
-  ID: number;
+  id: number;
   path: string;
-  variationID: number;
+  variationId: number;
 }
 
 export interface ProductVariationImgInput
-  extends Optional<ProductVariationImgTypes, 'ID'> {}
+  extends Omit<ProductVariationImgTypes, 'id'> {}
 export interface ProductVariationImgOutput
   extends Required<ProductVariationImgTypes> {}

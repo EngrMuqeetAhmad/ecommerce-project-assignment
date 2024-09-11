@@ -1,7 +1,32 @@
 import { Category } from '../../models/category.model';
-import { CategoryInput, CategoryOutput } from '../../types';
+import {
+  AssociatedSubCategory,
+  CategoryInput,
+  CategoryOutput,
+} from '../../types';
+import { Op } from 'sequelize';
+import { SubCategory } from '../../models/subCategory.model';
 
 export class CategoryServices {
+  public static async getAssociatedSubCategories(
+    category: string,
+  ): Promise<AssociatedSubCategory> {
+    const result: AssociatedSubCategory = await Category.findOne({
+      where: {
+        category: {
+          [Op.eq]: category,
+        },
+      },
+      include: [
+        {
+          model: SubCategory,
+        },
+      ],
+    });
+
+    return result;
+  }
+
   public static async getAllCategories(): Promise<Array<CategoryOutput>> {
     const result: Array<CategoryOutput> = await Category.findAll();
 

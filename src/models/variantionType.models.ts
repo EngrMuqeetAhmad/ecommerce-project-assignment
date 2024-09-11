@@ -1,14 +1,15 @@
-import { DataTypes, Model } from 'sequelize';
+import { DataTypes } from 'sequelize';
 
-import { VariationTypeValueModel } from './variantTypeValue.model';
 import { sequelize } from '../config/dbConnection';
-import { VariationTypeTypes } from '../types/variantTypes.types';
-export class VariationTypeModel extends Model<VariationTypeTypes> {
-  public variationType!: string;
-}
 
-VariationTypeModel.init(
+export const VariationTypeModel = sequelize.define(
+  'VariationTypeModel',
   {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
     variationType: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -24,11 +25,3 @@ VariationTypeModel.init(
     tableName: 'VariationTypes',
   },
 );
-
-// VariationTypeValueModel.belongsToMany(ProductVariation, {
-//   through: 'ProductVariationDetails',
-// });
-
-VariationTypeModel.hasMany(VariationTypeValueModel, {
-  foreignKey: 'variationType',
-});

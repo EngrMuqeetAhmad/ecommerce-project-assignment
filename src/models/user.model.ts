@@ -1,48 +1,11 @@
 import { DataTypes, Model } from 'sequelize';
-import { Payment } from './payment.model';
-import { PhoneInfo } from './phoneInfo.model';
-import { Reviews } from './review.model';
-import { ShippingAddress } from './shippingAddress.model';
-import { UserCart } from './userCart.model';
-import { UserOrder } from './userOrder.model';
-import { UserWish } from './userWish.model';
 import { sequelize } from '../config/dbConnection';
-import { UserInput, UserTypes } from '../types/user.types';
 import { hashString } from '../utils/passwordHashednSalated';
 
-export class User extends Model<UserTypes, UserInput> {
-  public ID!: number;
-  public firstName!: string;
-  public secondName!: string;
-  public email!: string;
-  public role!: string;
-  public isVerified!: boolean;
-  public stripeID!: string;
-  public cartID!: number;
-  public wishTableID!: number;
-  public readonly createdAt!: Date;
-  public readonly updatedAt!: Date;
-  public readonly deletedAt!: Date;
-
-  private password!: string;
-
-  //Associaiton
-
-  // public readonly phoneNumbers!: PhoneInfo[];
-  // public readonly userCart!: UserCart;
-  // public readonly shippingAdresses!: ShippingAddress[];
-  // public readonly userOrder!: UserOrder[];
-  // public static association: {
-  //   phoneNumbers: Association<User, PhoneInfo>;
-  //   userCart: Association<User, UserCart>;
-  //   shippingAdresses: Association<User, ShippingAddress>;
-  //   userOrder: Association<User, UserOrder>;
-  // };
-}
-
-User.init(
+export const User = sequelize.define(
+  'User',
   {
-    ID: {
+    id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
@@ -105,7 +68,7 @@ User.init(
         notEmpty: true,
       },
     },
-    cartID: {
+    cartId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       unique: true,
@@ -113,7 +76,7 @@ User.init(
         notEmpty: true,
       },
     },
-    wishTableID: {
+    wishTableId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       unique: true,
@@ -130,37 +93,3 @@ User.init(
     paranoid: true,
   },
 );
-
-User.hasMany(PhoneInfo, {
-  as: 'phoneNumbers',
-  foreignKey: 'userID',
-});
-
-User.hasOne(UserCart, {
-  as: 'userCart',
-  foreignKey: 'userID',
-});
-User.hasOne(UserWish, {
-  as: 'userWish',
-  foreignKey: 'userID',
-});
-
-User.hasMany(ShippingAddress, {
-  as: 'userAddresses',
-  foreignKey: 'userID',
-});
-
-User.hasMany(UserOrder, {
-  as: 'userOrder',
-  foreignKey: 'userID',
-});
-
-User.hasMany(Reviews, {
-  foreignKey: 'userID',
-  as: 'reviewsGiven',
-});
-
-User.hasMany(Payment, {
-  foreignKey: 'userID',
-  as: 'paymentMethods',
-});

@@ -1,12 +1,12 @@
 import { Optional } from 'sequelize';
 
 export interface CartProduct {
-  ID: number;
-  productID: number;
-  cartID: number;
-  userID: number;
+  id: number;
+  productId: number;
+  cartId: number;
+  userId: number;
   quantity: number;
 }
 
-export interface CartProductInput extends Optional<CartProduct, 'ID'> {}
+export interface CartProductInput extends Omit<CartProduct, 'id'> {}
 export interface CartProductOuput extends Required<CartProduct> {}

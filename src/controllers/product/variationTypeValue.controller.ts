@@ -1,13 +1,24 @@
 import { Request, Response } from 'express';
 import { VariationTypeValueServices } from '../../services/variationTypeValue/variationTypeValue.service';
-import { VariationTypeValueInput, VariationTypeValueOutput } from '../../types';
+import {
+  AssociatedVariationValues,
+  VariationTypeValueInput,
+  VariationTypeValueOutput,
+} from '../../types';
 
 export class VariationTypeValueControllers {
   public static async getAllVariationTypeValues(req: Request, res: Response) {
-    const { type } = req.params;
+    const { typeId } = req.params;
+    let ID;
     try {
-      const data: Array<VariationTypeValueOutput> =
-        await VariationTypeValueServices.getAllVariationTypeValues(type);
+      ID = Number(typeId);
+    } catch (error) {
+      res.json({ error: 'Error - id is not a number' });
+      return;
+    }
+    try {
+      const data: AssociatedVariationValues =
+        await VariationTypeValueServices.getValuesByType(ID);
       res.status(200).json({ data: data });
       return;
     } catch (error) {
@@ -33,11 +44,11 @@ export class VariationTypeValueControllers {
     }
   }
   public static async addVariationTypeValue(req: Request, res: Response) {
-    const { variationType, variationTypeValue } = req.body;
+    const { typeId, variationTypeValue } = req.body;
 
     const payload: VariationTypeValueInput = {
       variationTypeValue,
-      variationType,
+      typeId,
     };
     try {
       await VariationTypeValueServices.addVariationTypeValue(payload);

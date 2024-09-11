@@ -1,24 +1,11 @@
-import { DataTypes, Model } from 'sequelize';
-import { ProductVariation } from './productVariation.model';
+import { DataTypes } from 'sequelize';
 import { sequelize } from '../config/dbConnection';
-import { BaseProductInput, BaseProductTypes } from '../types';
+import { SubCategory } from './subCategory.model';
 
-export class BaseProduct extends Model<BaseProductTypes, BaseProductInput> {
-  public ID!: number;
-  public title!: string;
-  public description!: string;
-  public basePrice!: number;
-  public subCategory!: string;
-  public brand!: string;
-
-  public readonly createdAt!: Date;
-  public readonly updatedAt!: Date;
-  public readonly deletedAt!: Date;
-}
-
-BaseProduct.init(
+export const BaseProduct = sequelize.define(
+  'BaseProduct',
   {
-    ID: {
+    id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
@@ -45,13 +32,6 @@ BaseProduct.init(
         min: 1,
       },
     },
-    subCategory: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notEmpty: true,
-      },
-    },
 
     brand: {
       type: DataTypes.STRING,
@@ -69,8 +49,15 @@ BaseProduct.init(
   },
 );
 
-BaseProduct.hasMany(ProductVariation, {
-  foreignKey: 'productID',
-  as: 'variations',
-  onDelete: 'CASCADE',
+SubCategory.hasMany(BaseProduct, {
+  foreignKey: {
+    allowNull: false,
+    name: 'subCategoryId',
+  },
+});
+BaseProduct.belongsTo(SubCategory, {
+  foreignKey: {
+    allowNull: false,
+    name: 'subCategoryId',
+  },
 });

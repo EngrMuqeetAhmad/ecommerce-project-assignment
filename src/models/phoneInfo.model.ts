@@ -1,42 +1,16 @@
-import { Association, DataTypes, Model } from 'sequelize';
+import { DataTypes } from 'sequelize';
 import { User } from './user.model';
 import { sequelize } from '../config/dbConnection';
-import { PhoneInfoInput, PhoneInfoTypes } from '../types/phoneInfo.types';
-import { UserInput, UserTypes } from '../types/user.types';
-import { hashString } from '../utils/passwordHashednSalated';
 
-export class PhoneInfo extends Model<PhoneInfoTypes, PhoneInfoInput> {
-  public ID!: number;
-  public userID!: number;
-  public countryCode!: number;
-  public phoneNumber!: string;
-  public primary!: boolean;
-  public createdAt!: Date;
-  public updatedAt!: Date;
-  public deletedAt!: Date;
-
-  public readonly owner!: User;
-
-  public static association: {
-    owner: Association<PhoneInfo, User>;
-  };
-}
-
-PhoneInfo.init(
+export const PhoneInfo = sequelize.define(
+  'PhoneInfo',
   {
-    ID: {
+    id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       allowNull: false,
       unique: true,
       primaryKey: true,
-    },
-    userID: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      validate: {
-        notEmpty: true,
-      },
     },
     countryCode: {
       type: DataTypes.INTEGER,
@@ -69,3 +43,17 @@ PhoneInfo.init(
     paranoid: true,
   },
 );
+
+User.hasMany(PhoneInfo, {
+  foreignKey: {
+    name: 'userId',
+    allowNull: false,
+  },
+});
+
+PhoneInfo.belongsTo(User, {
+  foreignKey: {
+    name: 'userId',
+    allowNull: false,
+  },
+});

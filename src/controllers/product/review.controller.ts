@@ -22,10 +22,10 @@ export class ReviewControllers {
   }
 
   public static async getAllProductReview(req: Request, res: Response) {
-    const { variationID } = req.params;
+    const { variationId } = req.params;
     let ID;
     try {
-      ID = Number(variationID);
+      ID = Number(variationId);
     } catch (error) {
       res.json({ error: 'Error - variationID is not a number' });
       return;
@@ -65,13 +65,13 @@ export class ReviewControllers {
     }
   }
   public static async addReview(req: Request, res: Response) {
-    const { message, rating, variationID } = req.body;
+    const { message, rating, variationId } = req.body;
     const { ID } = req.body.user;
     const payload: VariationReviewInput = {
       message,
       rating,
-      variationID,
-      userID: ID,
+      variationId,
+      userId: ID,
       approved: false,
       createdAt: new Date(),
       updatedAt: new Date(),

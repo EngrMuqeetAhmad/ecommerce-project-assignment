@@ -1,11 +1,7 @@
-import { Optional } from 'sequelize';
-
 export interface WishProduct {
-  ID: number;
-  productID: number;
-  wishTableID: number;
-  userID: number;
+  productId: number;
+  wishTableId: number;
 }
 
-export interface WishProductInput extends Optional<WishProduct, 'ID'> {}
+export interface WishProductInput extends Omit<WishProduct, 'id'> {}
 export interface WishProductOuput extends Required<WishProduct> {}

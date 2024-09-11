@@ -1,39 +1,17 @@
-import { DataTypes, Model } from 'sequelize';
-import { ProductVariationDetails } from './junctionModels/ProductVariationDetails.model';
-import { Reviews } from './review.model';
-// import { VariationTypeValueModel } from './variantTypeValue.model';
-import { VariationTypeValueModel } from './variantTypeValue.model';
-import { VariationImage } from './variationImage.model';
+import { DataTypes } from 'sequelize';
+
 import { sequelize } from '../config/dbConnection';
-import { ProductVariationInput, ProductVariationTypes } from '../types';
-export class ProductVariation extends Model<
-  ProductVariationTypes,
-  ProductVariationInput
-> {
-  public ID!: number;
-  public productID!: number;
-  public stockQuantity!: number;
-  public additionPrice!: number;
+import { BaseProduct } from './baseProduct.model';
 
-  public readonly createdAt!: Date;
-  public readonly updatedAt!: Date;
-  public readonly deletedAt!: Date;
-}
-
-ProductVariation.init(
+export const ProductVariation = sequelize.define(
+  'ProductVariation',
   {
-    ID: {
+    id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
-    productID: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      validate: {
-        notEmpty: true,
-      },
-    },
+
     stockQuantity: {
       type: DataTypes.DECIMAL,
       allowNull: false,
@@ -58,23 +36,16 @@ ProductVariation.init(
   },
 );
 
-// ProductVariation.belongsToMany(VariationTypeValueModel, {
-//   through: 'ProductVariationDetails',
-// });
-
-// ProductVariation.hasMany(ProductVariationDetails);
-// ProductVariationDetails.belongsTo(ProductVariation);
-
-ProductVariation.hasMany(ProductVariationDetails, {
-  foreignKey: 'variationID',
+BaseProduct.hasMany(ProductVariation, {
+  foreignKey: {
+    allowNull: false,
+    name: 'productID',
+  },
 });
 
-ProductVariation.hasMany(VariationImage, {
-  foreignKey: 'variationID',
-  as: 'images',
-});
-
-ProductVariation.hasMany(Reviews, {
-  foreignKey: 'variationID',
-  as: 'reviews',
+ProductVariation.belongsTo(BaseProduct, {
+  foreignKey: {
+    allowNull: false,
+    name: 'productID',
+  },
 });

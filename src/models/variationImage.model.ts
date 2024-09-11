@@ -1,36 +1,18 @@
 import { DataTypes, Model } from 'sequelize';
 
 import { sequelize } from '../config/dbConnection';
-import {
-  ProductVariationImgInput,
-  ProductVariationImgTypes,
-} from '../types/productImages.types';
+import { ProductVariation } from './productVariation.model';
 
-export class VariationImage extends Model<
-  ProductVariationImgTypes,
-  ProductVariationImgInput
-> {
-  public ID!: number;
-  public path!: string;
-  public variationID!: number;
-}
-
-VariationImage.init(
+export const VariationImage = sequelize.define(
+  'VariationImage',
   {
-    ID: {
+    id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       unique: true,
     },
     path: {
       type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notEmpty: true,
-      },
-    },
-    variationID: {
-      type: DataTypes.INTEGER,
       allowNull: false,
       validate: {
         notEmpty: true,
@@ -44,3 +26,17 @@ VariationImage.init(
     timestamps: false,
   },
 );
+
+VariationImage.belongsTo(ProductVariation, {
+  foreignKey: {
+    name: 'variationId',
+    allowNull: false,
+  },
+});
+
+ProductVariation.hasMany(VariationImage, {
+  foreignKey: {
+    name: 'variationId',
+    allowNull: false,
+  },
+});

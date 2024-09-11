@@ -42,7 +42,7 @@ export class ShippingAddressControllers {
     const payload: Partial<
       Omit<
         ShippingAddressInput,
-        'ID' | 'userID' | 'deletedAt' | 'createdAt' | 'updatedAt'
+        'id' | 'userId' | 'deletedAt' | 'createdAt' | 'updatedAt'
       >
     > = req.body;
     const { id } = req.params;
@@ -107,7 +107,7 @@ export class ShippingAddressControllers {
       city,
       country,
       postalCode,
-      userID: ID,
+      userId: ID,
       createdAt: new Date(),
       updatedAt: new Date(),
       deletedAt: undefined,

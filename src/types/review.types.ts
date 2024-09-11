@@ -2,11 +2,11 @@ import { Optional } from 'sequelize';
 // import { RATING } from '../utils/enum.util';
 
 export interface VariationReviewTypes {
-  ID: number;
+  id: number;
   message: string;
   rating: number;
-  variationID: number;
-  userID: number;
+  variationId: number;
+  userId: number;
   approved: boolean;
   createdAt?: Date;
   updatedAt?: Date;
@@ -14,7 +14,7 @@ export interface VariationReviewTypes {
 }
 
 export interface VariationReviewInput
-  extends Optional<VariationReviewTypes, 'ID' | 'approved'> {}
+  extends Omit<VariationReviewTypes, 'id'> {}
 export interface VariationReviewOutput
   extends Omit<VariationReviewTypes, 'deletedAt' | 'updatedAt' | 'approved'> {}
 

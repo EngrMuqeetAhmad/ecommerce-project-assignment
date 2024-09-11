@@ -1,44 +1,36 @@
 import { DataTypes, Model } from 'sequelize';
 import { sequelize } from '../../config/dbConnection';
 import { WishProduct, WishProductInput } from '../../types';
-export class WishProductJunction extends Model<WishProduct, WishProductInput> {
-  public productID!: number;
-  public wishTableID!: number;
-  public userID!: number;
-}
 
-WishProductJunction.init(
+
+export const WishProductJuction  = sequelize.define(
+  "WishProductJuction",
   {
-    ID: {
+    id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       allowNull: false,
     },
-    productID: {
+    productId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       validate: {
         notEmpty: true,
       },
     },
-    wishTableID: {
+    wishTableId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       validate: {
         notEmpty: true,
       },
     },
-    userID: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      validate: {
-        notEmpty: true,
-      },
-    },
+   
   },
   {
     sequelize,
     tableName: 'WishProductJunction',
     timestamps: false,
   },
-);
+)
+

@@ -1,8 +1,8 @@
 import { Optional } from 'sequelize';
 
 export interface ProductVariationTypes {
-  ID: number;
-  productID: number;
+  id: number;
+  productId: number;
   stockQuantity: number;
   additionPrice: number;
   createdAt?: Date;
@@ -11,6 +11,6 @@ export interface ProductVariationTypes {
 }
 
 export interface ProductVariationInput
-  extends Optional<ProductVariationTypes, 'ID'> {}
+  extends Omit<ProductVariationTypes, 'id'> {}
 export interface ProductVariationOutput
   extends Optional<ProductVariationTypes, 'deletedAt'> {}

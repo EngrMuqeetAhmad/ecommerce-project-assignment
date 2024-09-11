@@ -1,3 +1,4 @@
+import { Op } from 'sequelize';
 import { PhoneInfo } from '../../models/phoneInfo.model';
 import {
   PhoneInfoInput,
@@ -12,18 +13,20 @@ export default class PhoneInfoServices {
   ): Promise<void> {
     await PhoneInfo.update(payload, {
       where: {
-        ID: id,
+        id: id,
       },
     });
     return;
   }
 
   public static async getAllPhoneInfos(
-    userID: number,
+    userId: number,
   ): Promise<Array<PhoneInfoOutput>> {
     const result: Array<PhoneInfoOutput> = await PhoneInfo.findAll({
       where: {
-        userID,
+        userId: {
+          [Op.eq] : userId
+        },
       },
     });
 
@@ -35,7 +38,7 @@ export default class PhoneInfoServices {
   ): Promise<PhoneInfoOutput | null> {
     const result: PhoneInfoOutput | null = await PhoneInfo.findOne({
       where: {
-        ID: id,
+        id: id,
       },
     });
 
@@ -45,7 +48,7 @@ export default class PhoneInfoServices {
   public static async deletePhoneInfo(id: number): Promise<number> {
     const result: number = await PhoneInfo.destroy({
       where: {
-        ID: id,
+        id: id,
       },
     });
     return result;

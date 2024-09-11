@@ -1,10 +1,13 @@
 import { Request, Response } from 'express';
 import { VariationTypeServices } from '../../services/variationType/variationType.service';
-import { VariationTypeInput, VariationTypeOutput } from '../../types';
+import {
+  TypesAndAssociatedValues,
+  VariationTypeInput,
+} from '../../types';
 export class VariationTypeControllers {
   public static async getAllVariationTypes(req: Request, res: Response) {
     try {
-      const data: Array<VariationTypeOutput> =
+      const data: Array<TypesAndAssociatedValues> =
         await VariationTypeServices.getAllVariationTypes();
       res.status(200).json({ data: data });
       return;

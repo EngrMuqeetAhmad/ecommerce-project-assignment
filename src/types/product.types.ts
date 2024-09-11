@@ -10,9 +10,9 @@ export type DETAILS = {
 };
 
 export interface ProductTypes {
-  ID: number;
-  baseProductID: number; //to get title, description, base price etc..
-  variationID: number; //  to get additional price, stockQuantity etc...
+  id: number;
+  baseProductId: number; //to get title, description, base price etc..
+  variationId: number; //  to get additional price, stockQuantity etc...
   details: string; // it will be selected by user and added here when user perform some saving action
   price: number;
   createdAt?: Date;
@@ -20,5 +20,5 @@ export interface ProductTypes {
   deletedAt?: Date;
 }
 
-export interface ProductInput extends Optional<ProductTypes, 'ID'> {}
+export interface ProductInput extends Omit<ProductTypes, 'id'> {}
 export interface ProductOuput extends Optional<ProductTypes, 'deletedAt'> {}

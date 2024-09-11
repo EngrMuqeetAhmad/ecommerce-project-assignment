@@ -6,12 +6,12 @@ import {
 
 export class VariationImageServices {
   public static async getAllVariationImages(
-    variationID: number,
+    variationId: number,
   ): Promise<Array<ProductVariationImgOutput>> {
     const result: Array<ProductVariationImgOutput> =
       await VariationImage.findAll({
         where: {
-          variationID: variationID,
+          variationId: variationId,
         },
         raw: true,
       });
@@ -21,7 +21,7 @@ export class VariationImageServices {
   public static async deleteImage(id: number): Promise<number> {
     const result: number = await VariationImage.destroy({
       where: {
-        ID: id,
+        id: id,
       },
     });
     return result;

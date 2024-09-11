@@ -78,7 +78,7 @@ export class UserOrderControllers {
       createdAt: new Date(),
       updatedAt: new Date(),
       deletedAt: undefined,
-      userID: ID,
+      userId: ID,
       status: STATUS.PENDING,
     };
 

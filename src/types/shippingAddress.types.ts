@@ -1,20 +1,20 @@
 import { Optional } from 'sequelize';
 
 export interface ShippingAddressTypes {
-  ID: number;
+  id: number;
   addressLine1?: string;
   addressLine2: string;
   region: string;
   city: string;
   country: string;
   postalCode: string;
-  userID: number;
+  userId: number;
   createdAt?: Date;
   updatedAt?: Date;
   deletedAt?: Date;
 }
 
 export interface ShippingAddressInput
-  extends Optional<ShippingAddressTypes, 'ID' | 'deletedAt'> {}
+  extends Omit<ShippingAddressTypes, 'id'> {}
 export interface ShippingAddressOutput
   extends Optional<ShippingAddressTypes, 'deletedAt'> {}

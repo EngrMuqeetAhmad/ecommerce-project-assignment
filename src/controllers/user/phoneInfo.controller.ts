@@ -88,7 +88,7 @@ export default class PhoneInfoController {
     const payload: PhoneInfoInput = {
       countryCode,
       phoneNumber,
-      userID: ID,
+      userId: ID,
       primary: false,
       createdAt: new Date(),
       updatedAt: new Date(),

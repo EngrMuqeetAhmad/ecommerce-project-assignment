@@ -3,19 +3,6 @@ import { SubCategoryServices } from '../../services/subCategory/subCategory.serv
 import { SubCategoryInput, SubCategoryOutput } from '../../types';
 
 export class SubCategoryControllers {
-  public static async getAllSubCategories(req: Request, res: Response) {
-    const { category } = req.params;
-    try {
-      const data: Array<SubCategoryOutput> =
-        await SubCategoryServices.getAllSubCategories(category);
-      res.status(200).json({ data: data });
-      return;
-    } catch (error) {
-      res.json({ error: 'Error getting categories' });
-      return;
-    }
-  }
-
   public static async deleteSubCategory(req: Request, res: Response) {
     const { subCategory } = req.params;
 
@@ -33,11 +20,11 @@ export class SubCategoryControllers {
     }
   }
   public static async addSubCategory(req: Request, res: Response) {
-    const { subCategory, category } = req.body;
+    const { subCategory, categoryId } = req.body;
 
     const payload: SubCategoryInput = {
       subCategory,
-      category,
+      categoryId,
     };
 
     try {

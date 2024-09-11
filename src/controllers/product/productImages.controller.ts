@@ -7,9 +7,9 @@ import {
 export class ProductImageControllers {
   public static async getAllVariationImages(req: Request, res: Response) {
     try {
-      const { variationID } = req.body;
+      const { variationId } = req.body;
       const data: Array<ProductVariationImgOutput> =
-        await VariationImageServices.getAllVariationImages(variationID);
+        await VariationImageServices.getAllVariationImages(variationId);
       res.status(200).json({ data: data });
       return;
     } catch (error) {
@@ -40,10 +40,10 @@ export class ProductImageControllers {
     }
   }
   public static async addImage(req: Request, res: Response) {
-    const body = req.body;
+    const { variationId, path } = req.body;
     const payload: ProductVariationImgInput = {
-      path: body.path,
-      variationID: body.variationID,
+      path,
+      variationId,
     };
 
     try {

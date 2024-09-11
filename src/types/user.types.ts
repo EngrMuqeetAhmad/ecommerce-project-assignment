@@ -1,8 +1,7 @@
 import { Optional } from 'sequelize';
-import { Role } from '../utils/enum.util';
 
 export interface UserTypes {
-  ID: number;
+  id: number;
   firstName: string;
   secondName: string;
   email: string;
@@ -13,12 +12,12 @@ export interface UserTypes {
   createdAt?: Date;
   updatedAt?: Date;
   deletedAt?: Date;
-  cartID?: number;
-  wishTableID?: number;
+  cartId?: number;
+  wishTableId?: number;
 }
 
 export interface UserInput
-  extends Optional<UserTypes, 'ID' | 'cartID' | 'wishTableID'> {}
+  extends Omit<Optional<UserTypes, 'cartId' | 'wishTableId'>, 'id'> {}
 
 export interface UserOutput extends Omit<UserTypes, 'password' | 'deletedAt'> {}
 
@@ -27,7 +26,6 @@ export interface UserUpdate
     UserTypes,
     | 'ID'
     | 'password'
-   
     | 'isVerified'
     | 'stripeID'
     | 'createdAt'
@@ -37,14 +35,11 @@ export interface UserUpdate
     | 'wishTableID'
   > {}
 
-
-
-  export interface RequestUser {
-    ID: number;
-    email: string;
-    role: string;
-    stripeID: string;
-    cartID: number;
-    wishTableID: number;
-  }
-  
+export interface RequestUser {
+  ID: number;
+  email: string;
+  role: string;
+  stripeID: string;
+  cartID: number;
+  wishTableID: number;
+}

@@ -21,9 +21,9 @@ export class PaymentServices {
       automatic_payment_methods: {
         enable: true,
       },
-      customer: payload.stripeID,
-      payment_method: payload.paymentMethodID,
-      return_url: 'https://localhost:3000/',
+      customer: payload.stripeId,
+      payment_method: payload.paymentMethodId,
+      return_url: 'https://localhost:5173/',
       off_session: true,
       confirm: true,
     });
@@ -34,23 +34,15 @@ export class PaymentServices {
   }
 
   public static async getAllPaymentMethod(
-    userID: number,
+    userId: number,
   ): Promise<Array<PaymentOutput>> {
     const result: Array<PaymentOutput> = await Payment.findAll({
-      attributes: [
-        'ID',
-        'userID',
-
-        'fullName',
-        'expMonth',
-        'expYear',
-
-        'lastFour',
-        'paymentMethodID',
-      ],
+      attributes: {
+        exclude: ['cardNumber', 'cvc'],
+      },
       where: {
-        userID: {
-          [Op.eq]: userID,
+        userId: {
+          [Op.eq]: userId,
         },
       },
       raw: true,
@@ -63,50 +55,33 @@ export class PaymentServices {
     id: number,
   ): Promise<PaymentOutput | null> {
     const result: PaymentOutput | null = await Payment.findByPk(id, {
-      attributes: [
-        'ID',
-        'userID',
-
-        'fullName',
-        'expMonth',
-        'expYear',
-
-        'lastFour',
-        'paymentMethodID',
-      ],
+      attributes: {
+        exclude: ['cardNumber', 'cvc'],
+      },
       raw: true,
     });
     return result;
   }
 
   public static async deletePaymentMethod(id: number): Promise<void> {
-    const paymentMethod: Omit<
-      PaymentTypes,
-      | 'ID'
-      | 'userID'
-      | 'cardNumber'
-      | 'fullName'
-      | 'expMonth'
-      | 'expYear'
-      | 'cvc'
-      | 'lastFour'
-    > | null = await Payment.findOne({
-      attributes: ['paymentMethodID'],
-      where: {
-        ID: id,
-      },
-      raw: true,
-    });
+    const paymentMethod: Pick<PaymentTypes, 'paymentMethodId'> | null =
+      await Payment.findOne({
+        attributes: ['paymentMethodId'],
+        where: {
+          id: id,
+        },
+        raw: true,
+      });
     if (paymentMethod == null) {
       throw new Error();
     }
     const stripe = require('stripe')(process.env.STRIPE_SECRETKEY);
     await stripe.paymentMethods
-      .detach(paymentMethod?.paymentMethodID)
+      .detach(paymentMethod?.paymentMethodId)
       .then(async () => {
         await Payment.destroy({
           where: {
-            ID: id,
+            id: id,
           },
         });
       })
@@ -132,7 +107,7 @@ export class PaymentServices {
     //     },
     //   })
     //   .then(async (data: any) => {
-    payload.paymentMethodID = "fake_data.id";
+    payload.paymentMethodId = 'fake_data.id';
     await Payment.create(payload);
     // })
     // .catch((error: any) => {

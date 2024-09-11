@@ -1,8 +1,14 @@
 import { User } from '../../models/user.model';
 import { UserCart } from '../../models/userCart.model';
 import { UserWish } from '../../models/userWish.model';
-import { UserInput, UserOutput, UserUpdate } from '../../types/user.types';
+import {
+  UserInput,
+  UserOutput,
+  UserTypes,
+  UserUpdate,
+} from '../../types/user.types';
 import { hashString } from '../../utils/passwordHashednSalated';
+import { UserCartTypes, UserWishTypes } from '../../types';
 
 class UserServices {
   private static blacklistedTokens = new Set();
@@ -48,7 +54,7 @@ class UserServices {
 
       const [affectedRows] = await User.update(payload, {
         where: {
-          ID: id,
+          id: id,
         },
         fields: keys,
       });
@@ -59,19 +65,9 @@ class UserServices {
 
   public static async getUser(id: number): Promise<UserOutput | null> {
     const data: UserOutput | null = await User.findByPk(id, {
-      attributes: [
-        'ID',
-        'firstName',
-        'secondName',
-        'email',
-        'isVerified',
-        'role',
-        'cartID',
-        'wishTableID',
-        'stripeID',
-        'createdAt',
-        'updatedAt',
-      ],
+      attributes: {
+        exclude: ['password', 'deletedAt'],
+      },
       raw: true,
     });
     return data;
@@ -91,19 +87,9 @@ class UserServices {
     password: string,
   ): Promise<UserOutput | null> {
     const user: UserOutput | null = await User.findOne({
-      attributes: [
-        'ID',
-        'firstName',
-        'secondName',
-        'email',
-        'isVerified',
-        'role',
-        'cartID',
-        'wishTableID',
-        'stripeID',
-        'createdAt',
-        'updatedAt',
-      ],
+      attributes: {
+        exclude: ['password', 'deletedAt'],
+      },
       where: {
         email: email,
         password: hashString(password),
@@ -115,31 +101,31 @@ class UserServices {
   }
 
   public static async userRegister(payload: UserInput): Promise<void> {
-    await User.create(payload).then(async (user) => {
+    await User.create(payload).then(async (user: Partial<UserTypes>) => {
       await UserCart.create({
-        userID: user.ID,
-      }).then(async (cart) => {
+        userId: user.id,
+      }).then(async (cart: Partial<UserCartTypes>) => {
         await User.update(
           {
-            cartID: cart.ID,
+            cartId: cart.id,
           },
           {
             where: {
-              ID: user.ID,
+              id: user.id,
             },
           },
         );
       });
       await UserWish.create({
-        userID: user.ID,
-      }).then(async (wish) => {
+        userId: user.id,
+      }).then(async (wish: Partial<UserWishTypes>) => {
         await User.update(
           {
-            wishTableID: wish.ID,
+            wishTableId: wish.id,
           },
           {
             where: {
-              ID: user.ID,
+              id: user.id,
             },
           },
         );

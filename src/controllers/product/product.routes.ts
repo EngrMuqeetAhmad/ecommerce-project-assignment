@@ -19,7 +19,7 @@ export const ProductRouter = express.Router();
 ///
 ProductRouter.get(
   '/baseProduct/:category/:subCategory',
-  BaseProductControllers.getBaseProductsByCategory,
+  BaseProductControllers.getBaseProductsBySubCategory,
 );
 ProductRouter.delete(
   '/baseProduct/:id',
@@ -134,11 +134,19 @@ ProductRouter.put(
 ////
 
 ProductRouter.get(
-  '/variation/:baseProductID',
+  '/variation/all/:baseProductID',
   checkBlacklist,
   validateToken,
   authorizeRole([Role.ADMIN, Role.USER]),
   ProductVariationControllers.getProductVariations,
+);
+
+ProductRouter.get(
+  '/variation/:id',
+  checkBlacklist,
+  validateToken,
+  authorizeRole([Role.ADMIN, Role.USER]),
+  ProductVariationControllers.getProduct,
 );
 
 ProductRouter.delete(

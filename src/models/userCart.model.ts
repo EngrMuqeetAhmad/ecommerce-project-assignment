@@ -1,34 +1,14 @@
-import { DataTypes, Model } from 'sequelize';
-import { CartProductJunction } from './junctionModels/CartProduct.model';
-import { Product } from './product.model';
+import { DataTypes } from 'sequelize';
 import { User } from './user.model';
 import { sequelize } from '../config/dbConnection';
-import { UserCartInput, UserCartTypes } from '../types';
-export class UserCart extends Model<UserCartTypes, UserCartInput> {
-  public ID!: number;
-  public userID!: number;
 
-  public readonly createdAt!: Date;
-  public readonly updatedAt!: Date;
-  public readonly deletedAt!: Date;
-
-  //association for products
-}
-
-UserCart.init(
+export const UserCart = sequelize.define(
+  'UserCart',
   {
     ID: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
-    },
-    userID: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      unique: true,
-      validate: {
-        notEmpty: true,
-      },
     },
   },
 
@@ -40,6 +20,15 @@ UserCart.init(
   },
 );
 
-UserCart.hasMany(CartProductJunction, {
-  foreignKey: 'cartID',
+User.hasOne(UserCart, {
+  foreignKey: {
+    name: 'userId',
+    allowNull: false,
+  },
+});
+UserCart.belongsTo(User, {
+  foreignKey: {
+    name: 'userId',
+    allowNull: false,
+  },
 });

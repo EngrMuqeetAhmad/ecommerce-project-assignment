@@ -2,11 +2,32 @@ import { Request, Response } from 'express';
 import { ProductVariationServices } from '../../services/productVariation/productVariation.service';
 import { ProductVariationInput, ProductVariationOutput } from '../../types';
 export class ProductVariationControllers {
-  public static async getProductVariations(req: Request, res: Response) {
-    const { baseProductID } = req.params;
+  public static async getProduct(req: Request, res: Response) {
+    const { id } = req.params;
     let ID;
     try {
-      ID = Number(baseProductID);
+      ID = Number(id);
+    } catch (error) {
+      res.json({ error: 'Error - id is not a number' });
+      return;
+    }
+    try {
+      const data: ProductVariationOutput | null =
+        await ProductVariationServices.getProduct(ID);
+
+      res.status(200).json({ data: data });
+      return;
+    } catch (error) {
+      res.json({ error: 'Error getting product vairaitons' });
+      return;
+    }
+  }
+
+  public static async getProductVariations(req: Request, res: Response) {
+    const { baseProductId } = req.params;
+    let ID;
+    try {
+      ID = Number(baseProductId);
     } catch (error) {
       res.json({ error: 'Error - baseProductID is not a number' });
       return;
@@ -46,12 +67,12 @@ export class ProductVariationControllers {
     }
   }
   public static async addProductVariation(req: Request, res: Response) {
-    const body = req.body;
+    const { productId, stockQuantity, additionPrice } = req.body;
 
     const payload: ProductVariationInput = {
-      productID: body.productID,
-      stockQuantity: body.stockQuantity,
-      additionPrice: body.stockQuantity,
+      productId,
+      stockQuantity,
+      additionPrice,
       createdAt: new Date(),
       updatedAt: new Date(),
       deletedAt: undefined,

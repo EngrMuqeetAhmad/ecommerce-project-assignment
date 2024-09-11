@@ -1,27 +1,18 @@
-import { DataTypes, Model } from 'sequelize';
+import { DataTypes } from 'sequelize';
 
-import { ProductVariationDetails } from './junctionModels/ProductVariationDetails.model';
-import { ProductVariation } from './productVariation.model';
 import { VariationTypeModel } from './variantionType.models';
 import { sequelize } from '../config/dbConnection';
-import { VariationTypeValueTypes } from '../types/variantTypeValue.types';
+import { ProductVariation } from './productVariation.model';
 
-export class VariationTypeValueModel extends Model<VariationTypeValueTypes> {
-  public variationType!: string;
-  public variationTypeValue!: string;
-}
-
-VariationTypeValueModel.init(
+export const VariationTypeValueModel = sequelize.define(
+  'VariationTypeValueModel',
   {
-    variationTypeValue: {
-      type: DataTypes.STRING,
-      allowNull: false,
+    id: {
+      type: DataTypes.INTEGER,
       primaryKey: true,
-      validate: {
-        notEmpty: true,
-      },
+      autoIncrement: true,
     },
-    variationType: {
+    variationTypeValue: {
       type: DataTypes.STRING,
       allowNull: false,
 
@@ -36,14 +27,32 @@ VariationTypeValueModel.init(
     tableName: 'VariationTypeValues',
   },
 );
-VariationTypeValueModel.hasMany(ProductVariationDetails, {
-  foreignKey: 'variationTypeValue',
+
+VariationTypeValueModel.belongsTo(VariationTypeModel, {
+  foreignKey: {
+    name: 'typeId',
+    allowNull: false,
+  },
+});
+VariationTypeModel.hasMany(VariationTypeValueModel, {
+  foreignKey: {
+    name: 'typeId',
+    allowNull: false,
+  },
+});
+//////
+VariationTypeValueModel.belongsToMany(ProductVariation, {
+  through: 'ProductVariationDetails',
+  foreignKey: {
+    name: 'typeValueId',
+    allowNull: false,
+  },
 });
 
-// VariationTypeValueModel.belongsTo(VariationTypeModel,{
-//   foreignKey: "variationType",
-
-// });
-
-// VariationTypeValueModel.hasMany(ProductVariationDetails);
-// ProductVariationDetails.belongsTo(VariationTypeValueModel);
+ProductVariation.belongsToMany(VariationTypeValueModel, {
+  through: 'ProductVariationDetails',
+  foreignKey: {
+    name: 'variationId',
+    allowNull: false,
+  },
+});

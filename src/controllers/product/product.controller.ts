@@ -4,23 +4,17 @@ import { ProductServices } from '../../services/product/product.service';
 import { ProductInput, ProductOuput } from '../../types';
 export class ProductControllers {
   public static async getAllProducts(req: Request, res: Response) {
-    const { baseProductID } = req.params;
+    const { baseProductId } = req.params;
     let ID;
     try {
-      ID = Number(baseProductID);
+      ID = Number(baseProductId);
     } catch (error) {
       res.json({ error: 'Error - baseProductID is not a number' });
       return;
     }
     try {
-      const data: Array<ProductOuput> = await Product.findAll({
-        where: {
-          baseProductID: baseProductID,
-        },
-        raw: true,
-      });
-
-      await ProductServices.getAllProducts(ID);
+      const data: Array<ProductOuput> =
+        await ProductServices.getAllProducts(ID);
       res.status(200).json({ data: data });
       return;
     } catch (error) {
@@ -70,10 +64,10 @@ export class ProductControllers {
     }
   }
   public static async addProduct(req: Request, res: Response) {
-    const { baseProductID, variationID, details, price } = req.body;
+    const { baseProductId, variationId, details, price } = req.body;
     const payload: ProductInput = {
-      baseProductID,
-      variationID,
+      baseProductId,
+      variationId,
       details, //json string
       price,
       createdAt: new Date(),

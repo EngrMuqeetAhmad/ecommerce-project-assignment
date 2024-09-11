@@ -10,10 +10,14 @@ import { checkBlacklist } from '../../middlewares/checkBlackListed.middleware';
 export const CategoryRouter = express.Router();
 
 CategoryRouter.get(
+  '/:category',
+
+  CategoryControllers.getAssociatedSubCategories,
+);
+
+CategoryRouter.get(
   '/all',
-  checkBlacklist,
-  validateToken,
-  authorizeRole([Role.USER, Role.ADMIN]),
+
   CategoryControllers.getAllCategories,
 );
 

@@ -1,49 +1,42 @@
-import { Op } from 'sequelize';
+import { Op, where } from 'sequelize';
 import { BaseProduct } from '../../models/baseProduct.model';
-import { BaseProductInput, BaseProductOuput } from '../../types';
+import {
+  BaseProductInput,
+  BaseProductOuput,
+  SubCategoryAssociatedProducts,
+} from '../../types';
 import { Category } from '../../models/category.model';
 import { SubCategory } from '../../models/subCategory.model';
 
 export class BaseProductServices {
-  public static async getBaseProductsByCategory(
+  public static async getBaseProductsBySubCategory(
     category: string,
     subCategory: string,
-  ): Promise<any> {
-    const result: any = await Category.findAll({
-      attributes: ['category'],
-      
-      include: [
-        {
+  ): Promise<SubCategoryAssociatedProducts | null> {
+    const result: SubCategoryAssociatedProducts | null = await Category.findOne(
+      {
+        where: {
+          category: {
+            [Op.eq]: category,
+          },
+        },
+        include: {
           model: SubCategory,
           attributes: ['subCategory'],
-          // where: {
-          //   category: {
-          //     [Op.eq]: category,
-          //   },
-          // },
+          where: {
+            subCategory: {
+              [Op.eq]: subCategory,
+            },
+          },
+          include: {
+            model: BaseProduct,
+            attributes: {
+              exclude: ['deletedAt'],
+            },
+          },
         },
-        // {
-        //   model: BaseProduct,
-        //   attributes: [
-        //     'ID',
-        //     'title',
-        //     'description',
-        //     'basePrice',
-        //     'subCategory',
-        //     'brand',
-        //     'createdAt',
-        //     'updatedAt',
-        //   ],
-        //   where: {
-        //     subCategory: {
-        //       [Op.eq]: subCategory,
-        //     },
-        //   },
-        // },
-      ],
-
-      raw: true,
-    });
+      },
+    );
 
     return result;
   }
