@@ -3,10 +3,11 @@ import { VariationTypeValueModel } from '../../models/variantTypeValue.model';
 import {
   TypesAndAssociatedValues,
   VariationTypeInput,
+  VariationTypeOutput,
 } from '../../types';
 
 export class VariationTypeServices {
-  public static async getAllVariationTypes(): Promise<
+  public static async getTypeWithAssociatedValues(): Promise<
     Array<TypesAndAssociatedValues>
   > {
     const result: Array<TypesAndAssociatedValues> =
@@ -17,7 +18,11 @@ export class VariationTypeServices {
       });
     return result;
   }
-
+  public static async getAllTypes(): Promise<Array<VariationTypeOutput>> {
+    const result: Array<VariationTypeOutput> =
+      await VariationTypeModel.findAll();
+    return result;
+  }
   public static async deleteVariationType(
     variationType: string,
   ): Promise<number> {

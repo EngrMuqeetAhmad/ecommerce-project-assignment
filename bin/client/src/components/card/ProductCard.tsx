@@ -8,8 +8,6 @@ export const ProductCard: FC<ProductTypes> = ({
   title,
   description,
   id,
-  category,
-  subCategory,
 }) => {
   const navigate = useNavigate();
   return (
@@ -17,13 +15,13 @@ export const ProductCard: FC<ProductTypes> = ({
       <Card.Img
         variant="top"
         src={image}
-        onClick={() => navigate(`product/${category}/${subCategory}/${id}`)}
+        onClick={() => navigate(`${id}`)}
         style={{ cursor: 'pointer' }}
       />
       <Card.Body>
         <Card.Title
           className="fs-5 fw-semibold"
-          onClick={() => navigate(`product/${category}/${subCategory}/${id}`)}
+          onClick={() => navigate(`${id}`)}
           style={{ cursor: 'pointer' }}
         >
           {title}
@@ -35,7 +33,7 @@ export const ProductCard: FC<ProductTypes> = ({
           onClick={() => {}}
         >
           <Stack direction="horizontal" className="w-100" gap={2}>
-            <Button variant="dark" className="w-100">
+            <Button variant="dark"  onClick={() => navigate(`${id}`)} className="w-100">
               Go To Product
             </Button>
           </Stack>

@@ -33,7 +33,7 @@ dotenv.config();
 (async () => {
   try {
     await sequelize.authenticate();
-    await sequelize.sync({force: true, alter: true});
+    await sequelize.sync({force: false, alter: false});
     console.log('Connected to database successflly');
     console.log('Database sync successfully');
   } catch (error: any) {

@@ -27,9 +27,13 @@ export class CategoryServices {
     return result;
   }
 
-  public static async getAllCategories(): Promise<Array<CategoryOutput>> {
-    const result: Array<CategoryOutput> = await Category.findAll();
-
+  public static async getAllCategories(): Promise<Array<AssociatedSubCategory>> {
+    const result: Array<AssociatedSubCategory> = await Category.findAll({
+      include: {
+        model: SubCategory,
+      },
+    });
+    console.log(result);
     return result;
   }
 

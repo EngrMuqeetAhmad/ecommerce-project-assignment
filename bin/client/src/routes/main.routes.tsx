@@ -12,6 +12,8 @@ import { Wishes } from '../pages/wishes/wished';
 import { ProductDetails } from '../pages/product/productDetails';
 import { DashBoard } from '../pages/dashboard/dashboard';
 import { Profile } from '../pages/profile/profile';
+import { VerifyUser } from '../pages/verify/verify';
+import { ProductListPage } from '../pages/product/productListPage';
 
 const AppRoutes: FC = () => {
   const user = JSON.parse(`${localStorage.getItem('user')}`);
@@ -21,6 +23,10 @@ const AppRoutes: FC = () => {
       path: '/',
       element: <Home />,
       index: true,
+    },
+    {
+      path: '/:category/:subCategory/p',
+      element: <ProductListPage />,
     },
     {
       path: '/login',
@@ -35,19 +41,20 @@ const AppRoutes: FC = () => {
         ),
     },
     {
-      path: '/product/:category/:subCategory/:id',
+      path: '/:category/:subCategory/p/:id',
       element: <ProductDetails />,
     },
     {
-      path: "/me",
-      element:  user != null ? (
-        <Profile />
-      ) : (
-        <Navigate
-          to="/error"
-          state={{ from: '/login', message: 'Login to continue' }}
-        />
-      ),
+      path: '/me',
+      element:
+        user != null ? (
+          <Profile />
+        ) : (
+          <Navigate
+            to="/error"
+            state={{ from: '/login', message: 'Login to continue' }}
+          />
+        ),
     },
     {
       path: '/dashboard',
@@ -134,6 +141,18 @@ const AppRoutes: FC = () => {
           <Navigate
             to="/error"
             state={{ from: '/reset', message: 'unauthorized' }}
+          />
+        ),
+    },
+    {
+      path: '/verify-user/:token',
+      element:
+        user == null ? (
+          <VerifyUser />
+        ) : (
+          <Navigate
+            to="/error"
+            state={{ from: '/verify-user', message: 'Unauthorized' }}
           />
         ),
     },

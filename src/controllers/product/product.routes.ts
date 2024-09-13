@@ -18,6 +18,17 @@ export const ProductRouter = express.Router();
 
 ///
 ProductRouter.get(
+  '/baseProduct/all',
+  BaseProductControllers.getAllBaseProducts,
+);
+ProductRouter.put(
+  '/baseProduct',
+  checkBlacklist,
+  validateToken,
+  authorizeRole([Role.ADMIN]),
+  BaseProductControllers.addBaseProduct,
+);
+ProductRouter.get(
   '/baseProduct/:category/:subCategory',
   BaseProductControllers.getBaseProductsBySubCategory,
 );
@@ -28,13 +39,7 @@ ProductRouter.delete(
   authorizeRole([Role.ADMIN]),
   BaseProductControllers.deleteBaseProduct,
 );
-ProductRouter.put(
-  '/baseProduct',
-  checkBlacklist,
-  validateToken,
-  authorizeRole([Role.ADMIN]),
-  BaseProductControllers.addBaseProduct,
-);
+
 ProductRouter.get(
   '/baseProduct/:id',
   checkBlacklist,
@@ -172,7 +177,14 @@ ProductRouter.get(
   checkBlacklist,
   validateToken,
   authorizeRole([Role.ADMIN, Role.USER]),
-  VariationTypeControllers.getAllVariationTypes,
+  VariationTypeControllers.getAllTypes,
+);
+ProductRouter.get(
+  '/variationType/associated/all',
+  checkBlacklist,
+  validateToken,
+  authorizeRole([Role.ADMIN, Role.USER]),
+  VariationTypeControllers.getTypeWithAssociatedValues,
 );
 
 ProductRouter.delete(

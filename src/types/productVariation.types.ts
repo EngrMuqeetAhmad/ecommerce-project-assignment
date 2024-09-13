@@ -11,6 +11,8 @@ export interface ProductVariationTypes {
 }
 
 export interface ProductVariationInput
-  extends Omit<ProductVariationTypes, 'id'> {}
+  extends Omit<ProductVariationTypes, 'id'> {
+  variationTypeValueIds: Array<number>;
+}
 export interface ProductVariationOutput
   extends Optional<ProductVariationTypes, 'deletedAt'> {}

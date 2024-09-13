@@ -65,6 +65,17 @@ export class UserServices {
     return res;
   }
 
+  public static async VerifyUser(
+    token: string
+  ): Promise<AxiosResponse | AxiosError> {
+    const res = await axios.get(`${URL}/user/verify-email/${token}`, {
+      headers: {
+        'x-api-key': 'muqeetahmad',
+      },
+    });
+    return res;
+  }
+
   public static async RegisterUser(
     data: UserRegisterInput
   ): Promise<AxiosResponse> {

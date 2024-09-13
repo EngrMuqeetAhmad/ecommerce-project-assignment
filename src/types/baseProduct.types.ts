@@ -15,7 +15,7 @@ export interface BaseProductTypes {
 
 export interface BaseProductInput extends Omit<BaseProductTypes, 'id'> {}
 export interface BaseProductOuput
-  extends Optional<BaseProductTypes, 'deletedAt'> {}
+  extends Omit<BaseProductTypes, 'deletedAt'> {}
 
 export interface SubCategoryAssociatedProducts extends AssociatedSubCategory {
   BaseProducts: Array<BaseProductOuput>;

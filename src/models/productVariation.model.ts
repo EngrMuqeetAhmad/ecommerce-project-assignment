@@ -39,13 +39,13 @@ export const ProductVariation = sequelize.define(
 BaseProduct.hasMany(ProductVariation, {
   foreignKey: {
     allowNull: false,
-    name: 'productID',
+    name: 'productId',
   },
 });
 
 ProductVariation.belongsTo(BaseProduct, {
   foreignKey: {
     allowNull: false,
-    name: 'productID',
+    name: 'productId',
   },
 });

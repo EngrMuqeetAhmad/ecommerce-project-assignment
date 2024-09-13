@@ -19,7 +19,7 @@ export const PaymentMethodList: FC = () => {
     <>
       <Container>
         {data?.map((item: PaymentMethodOutputTypes) => (
-          <PaymentMethod key={item.ID} data={item} />
+          <PaymentMethod key={item.id} data={item} />
         ))}
         <hr />
       </Container>

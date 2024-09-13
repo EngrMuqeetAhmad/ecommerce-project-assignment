@@ -9,8 +9,8 @@ export const PaymentMethodSchema = z.object({
 });
 
 export const PaymentMethodOutputSchema = z.object({
-  ID: z.number(),
-  userID: z.number(),
+  id: z.number(),
+  userid: z.number(),
   fullName: z.string(),
   expMonth: z.number(),
   expYear: z.number(),

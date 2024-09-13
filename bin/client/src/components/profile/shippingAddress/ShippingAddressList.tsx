@@ -19,7 +19,7 @@ export const ShippingAddressList: FC = () => {
     <>
       <Container>
         {data?.map((item: ShippingAddressTypes) => (
-          <ShippingAddress key={item.ID} data={item} />
+          <ShippingAddress key={item.id} data={item} />
         ))}
         <hr />
       </Container>

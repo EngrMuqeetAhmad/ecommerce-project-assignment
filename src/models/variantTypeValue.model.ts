@@ -3,6 +3,7 @@ import { DataTypes } from 'sequelize';
 import { VariationTypeModel } from './variantionType.models';
 import { sequelize } from '../config/dbConnection';
 import { ProductVariation } from './productVariation.model';
+import { ProductVariationDetails } from './junctionModels/ProductVariationDetails.model';
 
 export const VariationTypeValueModel = sequelize.define(
   'VariationTypeValueModel',
@@ -42,7 +43,7 @@ VariationTypeModel.hasMany(VariationTypeValueModel, {
 });
 //////
 VariationTypeValueModel.belongsToMany(ProductVariation, {
-  through: 'ProductVariationDetails',
+  through: ProductVariationDetails,
   foreignKey: {
     name: 'typeValueId',
     allowNull: false,
@@ -50,7 +51,7 @@ VariationTypeValueModel.belongsToMany(ProductVariation, {
 });
 
 ProductVariation.belongsToMany(VariationTypeValueModel, {
-  through: 'ProductVariationDetails',
+  through: ProductVariationDetails,
   foreignKey: {
     name: 'variationId',
     allowNull: false,

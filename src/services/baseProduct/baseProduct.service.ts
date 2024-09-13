@@ -9,6 +9,15 @@ import { Category } from '../../models/category.model';
 import { SubCategory } from '../../models/subCategory.model';
 
 export class BaseProductServices {
+  public static async getAllBaseProducts(): Promise<Array<BaseProductOuput>> {
+    const result: Array<BaseProductOuput> = await BaseProduct.findAll({
+      attributes: {
+        exclude: ['deletedAt'],
+      },
+    });
+
+    return result;
+  }
   public static async getBaseProductsBySubCategory(
     category: string,
     subCategory: string,

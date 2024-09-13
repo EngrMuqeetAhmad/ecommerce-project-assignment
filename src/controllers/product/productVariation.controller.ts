@@ -24,22 +24,24 @@ export class ProductVariationControllers {
   }
 
   public static async getProductVariations(req: Request, res: Response) {
-    const { baseProductId } = req.params;
-    let ID;
+    const { baseProductId  } = req.params;
+
+    // let ID;
+    // try {
+    //   ID = Number(baseProductId);
+    //   console.log(ID, "Ssfsd")
+    // } catch (error) {
+    //   res.json({ error: 'Error - baseProductID is not a number' });
+    //   return;
+    // }
     try {
-      ID = Number(baseProductId);
-    } catch (error) {
-      res.json({ error: 'Error - baseProductID is not a number' });
-      return;
-    }
-    try {
-      const data: Array<ProductVariationOutput> =
-        await ProductVariationServices.getProductVariations(ID);
+      const data: Array<any> =
+        await ProductVariationServices.getProductVariations(baseProductId);
 
       res.status(200).json({ data: data });
       return;
     } catch (error) {
-      res.json({ error: 'Error getting p vairaitons' });
+      res.json({ error: 'Error getting p vairaitonsdfdfs' });
       return;
     }
   }
@@ -67,12 +69,14 @@ export class ProductVariationControllers {
     }
   }
   public static async addProductVariation(req: Request, res: Response) {
-    const { productId, stockQuantity, additionPrice } = req.body;
+    const { productId, stockQuantity, additionPrice, variationTypeValueIds } =
+      req.body;
 
     const payload: ProductVariationInput = {
       productId,
       stockQuantity,
       additionPrice,
+      variationTypeValueIds,
       createdAt: new Date(),
       updatedAt: new Date(),
       deletedAt: undefined,

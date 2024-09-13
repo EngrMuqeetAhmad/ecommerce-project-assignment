@@ -6,7 +6,7 @@ import { VariationTypeValueModel } from '../variantTypeValue.model';
 export const ProductVariationDetails = sequelize.define(
   'ProductVariationDetails',
   {
-    ID: {
+    id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,

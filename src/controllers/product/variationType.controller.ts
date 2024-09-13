@@ -3,12 +3,25 @@ import { VariationTypeServices } from '../../services/variationType/variationTyp
 import {
   TypesAndAssociatedValues,
   VariationTypeInput,
+  VariationTypeOutput,
 } from '../../types';
 export class VariationTypeControllers {
-  public static async getAllVariationTypes(req: Request, res: Response) {
+  public static async getAllTypes(req: Request, res: Response) {
+    try {
+      const data: Array<VariationTypeOutput> =
+        await VariationTypeServices.getAllTypes();
+      res.status(200).json({ data: data });
+      return;
+    } catch (error) {
+      res.json({ error: 'Error getting v types' });
+      return;
+    }
+  }
+
+  public static async getTypeWithAssociatedValues(req: Request, res: Response) {
     try {
       const data: Array<TypesAndAssociatedValues> =
-        await VariationTypeServices.getAllVariationTypes();
+        await VariationTypeServices.getTypeWithAssociatedValues();
       res.status(200).json({ data: data });
       return;
     } catch (error) {

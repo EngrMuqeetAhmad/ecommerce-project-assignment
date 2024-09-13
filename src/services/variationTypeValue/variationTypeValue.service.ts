@@ -10,11 +10,11 @@ export class VariationTypeValueServices {
     typeId: number,
   ): Promise<AssociatedVariationValues> {
     const result: AssociatedVariationValues = await VariationTypeModel.findOne({
+      where: {
+        typeId: typeId,
+      },
       include: {
         model: VariationTypeValueModel,
-        where: {
-          typeId: typeId,
-        },
       },
     });
 

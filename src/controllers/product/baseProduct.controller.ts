@@ -6,6 +6,19 @@ import {
   SubCategoryAssociatedProducts,
 } from '../../types';
 export class BaseProductControllers {
+  public static async getAllBaseProducts(req: Request, res: Response) {
+    try {
+      const data: Array<BaseProductOuput> =
+        await BaseProductServices.getAllBaseProducts();
+
+      res.status(200).json({ data: data });
+      return;
+    } catch (error) {
+      console.log(error);
+      res.json({ error: 'Error getting base products' });
+      return;
+    }
+  }
   public static async getBaseProductsBySubCategory(
     req: Request,
     res: Response,

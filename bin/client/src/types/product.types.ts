@@ -6,8 +6,6 @@ export interface ProductTypes {
   description: string;
   id: number;
   image: string;
-  category: string;
-  subCategory: string;
 }
 
 export interface VariationType {

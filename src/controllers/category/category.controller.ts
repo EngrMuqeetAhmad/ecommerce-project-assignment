@@ -23,8 +23,8 @@ export class CategoryControllers {
 
   public static async getAllCategories(req: Request, res: Response) {
     try {
-      const data: Array<CategoryOutput> =
-        await CategoryServices.getAllCategories();
+      const data: Array<AssociatedSubCategory> = await CategoryServices.getAllCategories();
+      console.log('data category', data);
       res.status(200).json({ data: data });
       return;
     } catch (error) {

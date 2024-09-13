@@ -11,6 +11,7 @@ export class PaymentMethodServices {
         Authorization: `${localStorage.getItem('jwtToken')}`,
       },
     });
+    console.log(res);
     return res;
   }
 
